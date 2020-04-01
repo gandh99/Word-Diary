@@ -1,0 +1,9 @@
+:root {
+    /* Background */
+    --primary-background-color: #0b73b0;
+    --primary-background-color-light: #0a9dd1;
+    --primary-background-color-dark: #0d3983;
+
+    /* Text */
+    --primary-text-color: #ffffff;
+}

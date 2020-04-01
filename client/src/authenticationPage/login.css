@@ -1,0 +1,21 @@
+@import url('../styles.css');
+.login-container {
+    background-color: var(--primary-text-color);
+    padding: 1rem 2rem 2rem;
+    margin-top: 200px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 10px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 600px) {
+    .login-container {
+        margin-left: 8rem;
+        margin-right: 8rem;
+    }
+}
