@@ -1,19 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 const authentication = require('./routes/api/authentication')
+const connectDB = require('./config/db')
+
+// Init
 const app = express()
+dotenv.config({ path: './config/config.env' })
+
+// Connect to DB
+connectDB()
 
 // Bodyparser
 app.use(bodyParser.json())
-
-// DB config
-const db = require('./config/keys').mongoURI
-
-// Connect to DB (MongoDB)
-mongoose.connect(db)
-    .then(() => console.log('MongoDB connected...'))
-    .catch(err => console.log(err))
 
 // Routes
 app.use('/authentication', authentication)    
