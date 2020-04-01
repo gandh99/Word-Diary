@@ -1,4 +1,4 @@
-import { LOGIN_USER } from '../actionTypes'
+import { LOGIN_USER, REGISTER_USER } from '../actionTypes'
 
 const initialState = {
     
@@ -7,6 +7,10 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case LOGIN_USER:
+            return {
+                ...state,
+            }
+        case REGISTER_USER:
             return {
                 ...state,
             }

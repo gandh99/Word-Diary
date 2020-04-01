@@ -21,7 +21,9 @@ export default function Header() {
                         <Link to='/login'>
                             <Button className={classes.button}>Login</Button>
                         </Link>
-                        <Button className={classes.button}>Register</Button>
+                        <Link to='/register'>
+                            <Button className={classes.button}>Register</Button>
+                        </Link>
                     </div>
                 </Toolbar>
             </AppBar>

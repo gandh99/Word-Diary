@@ -8,6 +8,7 @@ import {
 import Header from './Header'
 import Banner from './Banner'
 import Login from './Login'
+import Register from './Register'
 
 export default function AuthenticationPage() {
     return (
@@ -18,6 +19,9 @@ export default function AuthenticationPage() {
                 <Redirect from="/" exact to="/login" />
                 <Route path='/login'>
                     <Login />
+                </Route>
+                <Route path='/register'>
+                    <Register />
                 </Route>
             </Switch>
         </Router>
