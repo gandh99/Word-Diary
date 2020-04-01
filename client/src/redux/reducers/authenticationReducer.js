@@ -11,6 +11,7 @@ export default function (state = initialState, action) {
                 ...state,
             }
         case REGISTER_USER:
+            console.log(action.payload)
             return {
                 ...state,
             }
