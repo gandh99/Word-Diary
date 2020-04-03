@@ -9,7 +9,7 @@ module.exports.register = (req, res, done) => {
         User.findOne({ username }, (err, existingUser) => {
             if (err) throw err
             if (existingUser) {
-                res.status(400).json({
+                res.status(200).json({
                     success: false,
                     data: 'Username already exists.'
                 })
