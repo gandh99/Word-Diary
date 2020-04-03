@@ -3,17 +3,17 @@ import './login.css'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
 import { useDispatch } from 'react-redux'
 import { registerUserAction } from '../redux/actions/authenticationActions'
+import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function Register() {
     const classes = useStyles()
 
-    // Variables to handle Snackbar
+    // Variables to handle Snackbar for displaying registration success/failure
     const [showSnackbar, setShowSnackbar] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [severity, setSeverity] = useState('')
 
     // Variables to handle input
     const [username, setUsername] = useState('')
@@ -32,12 +32,14 @@ export default function Register() {
         registerUser({ username, password },
             // successCallback
             message => {
-                console.log(message)
+                setSnackbarMessage(message)
+                setSeverity('success')
+                setShowSnackbar(true)
             },
             // errorCallback
             message => {
-                console.log(message)
                 setSnackbarMessage(message)
+                setSeverity('error')
                 setShowSnackbar(true)
             }
         )
@@ -66,11 +68,12 @@ export default function Register() {
 
     return (
         <div className='login-container'>
-            <Snackbar open={showSnackbar} autoHideDuration={6000}>
-                <Alert severity="success">
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
+            <CustomSnackbar 
+                message={snackbarMessage}
+                show={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+                severity={severity}
+            />
             <form onSubmit={onSubmit}>
                 <div className='input-container'>
                     <TextField
@@ -101,10 +104,6 @@ export default function Register() {
             </form>
         </div>
     )
-}
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
 const useStyles = makeStyles((theme) => ({

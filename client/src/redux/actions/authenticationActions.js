@@ -9,7 +9,7 @@ export const loginUserAction = userData => ({
 export const registerUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios.post('/authentication/register', userData)
         .then(res => {
-            const {success} = res.data.success
+            const { success } = res.data
 
             // Return callback
             if (success) {
