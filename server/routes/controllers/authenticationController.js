@@ -11,7 +11,7 @@ module.exports.register = (req, res, done) => {
         User.findOne({ username }, (err, existingUser) => {
             if (err) throw err
             if (existingUser) {
-                res.status(200).json({
+                res.status(400).json({
                     success: false,
                     data: 'Username already exists.'
                 })
@@ -53,7 +53,7 @@ module.exports.login = (req, res, done) => {
                 id: user.id,
                 username: user.username
             }
-            
+
             // Create the access token and refresh token
             const accessToken = jwt.sign({ tokenData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
             const refreshToken = jwt.sign({ tokenData }, process.env.REFRESH_TOKEN_SECRET)

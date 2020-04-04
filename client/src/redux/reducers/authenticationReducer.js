@@ -7,7 +7,7 @@ import {
     REGISTER_FAIL,
     AUTH_ERROR,
     LOGOUT_SUCCESS,
-    REGISTER_USER
+    REGISTER_SUCCESS
 } from '../actionTypes'
 
 const initialState = {

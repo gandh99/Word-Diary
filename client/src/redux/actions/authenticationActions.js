@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_USER } from '../actionTypes'
+import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL } from '../actionTypes'
 import axios from 'axios'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
@@ -23,19 +23,18 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
 export const registerUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios.post('/authentication/register', userData)
         .then(res => {
-            const { success } = res.data
-
-            // Return callback
-            if (success) {
-                successCallback('Registration successful.')
-            } else {
-                const errorMessage = res.data.data
-                errorCallback(errorMessage)
-            }
-
+            successCallback('Registration successful.')
             dispatch({
                 type: REGISTER_SUCCESS,
                 payload: res.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+            errorCallback(errorMessage)
+            dispatch({
+                type: REGISTER_FAIL,
+                payload: err.response.data
             })
         })
 }
