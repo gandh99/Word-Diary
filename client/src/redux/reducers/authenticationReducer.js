@@ -6,7 +6,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     AUTH_ERROR,
-    LOGOUT,
+    LOGOUT_SUCCESS,
     REGISTER_USER
 } from '../actionTypes'
 
@@ -20,6 +20,18 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case USER_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case USER_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                isLoading: false,
+                user: action.payload
+            };
         case LOGIN_SUCCESS:
             const { accessToken, refreshToken, tokenData } = action.payload.data
             localStorage.setItem('accessToken', accessToken)
@@ -31,9 +43,24 @@ export default function (state = initialState, action) {
                 isAuthenticated: true,
                 isLoading: false
             }
-        case REGISTER_USER:
+        case REGISTER_SUCCESS:
             return {
                 ...state,
+            }
+        case AUTH_ERROR:
+        case LOGIN_FAIL:
+        case LOGOUT_SUCCESS:
+        case REGISTER_FAIL:
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+
+            return {
+                ...state,
+                accessToken: null,
+                refreshToken: null,
+                user: null,
+                isAuthenticated: false,
+                isLoading: false
             }
         default:
             return state

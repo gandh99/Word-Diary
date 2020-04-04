@@ -34,7 +34,7 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
             }
 
             dispatch({
-                type: REGISTER_USER,
+                type: REGISTER_SUCCESS,
                 payload: res.data
             })
         })
