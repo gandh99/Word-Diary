@@ -1,9 +1,10 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL } from '../actionTypes'
+import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADING, USER_LOADED, AUTH_ERROR } from '../actionTypes'
 import axios from 'axios'
 import { returnErrors } from './errorActions'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
-    axios.post('/authentication/login', userData)
+    axios
+        .post('/authentication/login', userData)
         .then(res => {
             successCallback('Login successful.')
             dispatch({
@@ -26,7 +27,8 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
 }
 
 export const registerUserAction = (userData, successCallback, errorCallback) => dispatch => {
-    axios.post('/authentication/register', userData)
+    axios
+        .post('/authentication/register', userData)
         .then(res => {
             successCallback('Registration successful.')
             dispatch({
@@ -46,4 +48,44 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
                 payload: err.response.data
             })
         })
+}
+
+//TODO
+export const loadUserAction = () => (dispatch, getState) => {
+    dispatch({
+        type: USER_LOADING
+    })
+    
+    axios
+        .get('/authentication/user', tokenConfig(getState))
+        .then(res => {
+            console.log('success')
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+            dispatch(returnErrors(err.response.status, err.response.status, errorMessage))
+            dispatch({
+                type: AUTH_ERROR
+            })
+        })
+}
+
+export const tokenConfig = (getState) => {
+    // Get access token from the state in authenticationReducer
+    const accessToken = getState().authentication.accessToken
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+    if (accessToken) {
+        config.headers['authorization'] = accessToken
+    }
+    
+    return config
 }
