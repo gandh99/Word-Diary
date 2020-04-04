@@ -1,5 +1,6 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL } from '../actionTypes'
 import axios from 'axios'
+import { returnErrors } from './errorActions'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios.post('/authentication/login', userData)
@@ -12,7 +13,11 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
         })
         .catch(err => {
             const errorMessage = err.response.data.data
+
             errorCallback(errorMessage)
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
             dispatch({
                 type: LOGIN_FAIL,
                 payload: err.response.data
@@ -31,7 +36,11 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
         })
         .catch(err => {
             const errorMessage = err.response.data.data
+
             errorCallback(errorMessage)
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
             dispatch({
                 type: REGISTER_FAIL,
                 payload: err.response.data
