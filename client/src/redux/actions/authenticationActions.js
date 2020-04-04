@@ -4,24 +4,19 @@ import axios from 'axios'
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios.post('/authentication/login', userData)
         .then(res => {
-            const { success } = res.data
-
-            // Return callback
-            if (success) {
-                successCallback('Login successful.')
-                dispatch({
-                    type: LOGIN_SUCCESS,
-                    payload: res.data
-                })
-            } else {
-                const errorMessage = res.data.data
-                errorCallback(errorMessage)
-                dispatch({
-                    type: LOGIN_FAIL,
-                    payload: res.data
-                })
-            }
-
+            successCallback('Login successful.')
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+            errorCallback(errorMessage)
+            dispatch({
+                type: LOGIN_FAIL,
+                payload: err.response.data
+            })
         })
 }
 

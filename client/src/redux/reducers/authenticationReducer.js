@@ -12,6 +12,7 @@ import {
 
 const initialState = {
     accessToken: localStorage.getItem('accessToken'),
+    refreshToken: localStorage.getItem('refreshToken'),
     isAuthenticated: null,
     isLoading: false,
     user: null
@@ -23,10 +24,10 @@ export default function (state = initialState, action) {
             const { accessToken, refreshToken, tokenData } = action.payload.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
-            
+
             return {
                 ...state,
-                ...action.payload,
+                user: tokenData,
                 isAuthenticated: true,
                 isLoading: false
             }

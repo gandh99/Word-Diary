@@ -44,7 +44,7 @@ module.exports.login = (req, res, done) => {
         if (err) throw err
 
         if (!user) {
-            res.status(200).json({
+            res.status(400).json({
                 success: false,
                 data: message
             })
@@ -53,6 +53,7 @@ module.exports.login = (req, res, done) => {
                 id: user.id,
                 username: user.username
             }
+            
             // Create the access token and refresh token
             const accessToken = jwt.sign({ tokenData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
             const refreshToken = jwt.sign({ tokenData }, process.env.REFRESH_TOKEN_SECRET)
@@ -60,7 +61,7 @@ module.exports.login = (req, res, done) => {
             // Store the refresh token in Redis cache
             // redisClient.set(username, refreshToken)
 
-            // Send the 2 tokens back
+            // Send the tokens back
             res.status(200).json({
                 success: true,
                 data: {
