@@ -1,10 +1,15 @@
 import { LOGIN_USER, REGISTER_USER } from '../actionTypes'
 import axios from 'axios'
 
-export const loginUserAction = userData => ({
-    type: LOGIN_USER,
-    payload: userData
-})
+export const loginUserAction = userData => dispatch => {
+    axios.post('/authentication/login', userData)
+        .then(res => {
+            dispatch({
+                type: LOGIN_USER,
+                payload: res.data
+            })
+        })
+}
 
 export const registerUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios.post('/authentication/register', userData)
