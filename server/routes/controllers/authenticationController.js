@@ -42,12 +42,13 @@ module.exports.register = (req, res, done) => {
 module.exports.login = (req, res, done) => {
     const { username, password } = req.body
 
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', (err, user, message) => {
         if (err) throw err
+
         if (!user) {
-            res.status(401).json({
+            res.status(200).json({
                 success: false,
-                data: 'Invalid username/password'
+                data: message
             })
         } else {
             let tokenData = {

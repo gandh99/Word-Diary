@@ -5,15 +5,23 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { loginUserAction } from '../redux/actions/authenticationActions'
+import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function Login() {
     const classes = useStyles()
+
+    // Variables to handle Snackbar for displaying login success/failure
+    const [showSnackbar, setShowSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [severity, setSeverity] = useState('')
+
+    // Variables to handle input
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [usernameError, setUsernameError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const dispatch = useDispatch()
-    const loginUser = (userData) => dispatch(loginUserAction(userData))
+    const loginUser = (userData, successCallback, errorCallback) => dispatch(loginUserAction(userData, successCallback, errorCallback))
 
     const onSubmit = event => {
         event.preventDefault()
@@ -21,7 +29,22 @@ export default function Login() {
         if (hasErrors()) {
             return
         }
-        loginUser({ username, password })
+
+        loginUser({ username, password },
+            // successCallback
+            message => {
+                setSnackbarMessage(message)
+                setSeverity('success')
+                setShowSnackbar(true)
+            },
+            // errorCallback
+            message => {
+                setSnackbarMessage(message)
+                setSeverity('error')
+                setShowSnackbar(true)
+            }
+        )
+
         clearFormData()
     }
 
@@ -47,6 +70,12 @@ export default function Login() {
 
     return (
         <div className='login-container'>
+            <CustomSnackbar
+                message={snackbarMessage}
+                show={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+                severity={severity}
+            />
             <form onSubmit={onSubmit}>
                 <div className='input-container'>
                     <TextField
@@ -66,7 +95,7 @@ export default function Login() {
                         type='password' />
                     <Button
                         type='submit'
-                        style={{marginTop: '2rem'}}
+                        style={{ marginTop: '2rem' }}
                         className={classes.button}
                         variant="contained"
                         color="primary"

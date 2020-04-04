@@ -13,34 +13,16 @@ function initialize(passport) {
         User.findOne({ username })
             .then(user => {
                 if (!user) {
-                    // Create new User
-                    const newUser = new User({ username, password })
-
-                    // Hash password before saving in database
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
-                            if (err) throw err
-                            newUser.password = hash
-                            newUser
-                                .save()
-                                .then(user => {
-                                    return done(null, user)
-                                })
-                                .catch(err => {
-                                    return done(null, false, { message: err })
-                                })
-
-                        })
-                    })
+                    return done(null, false, 'Invalid username/password.')
                 } else {
                     // Match password
                     bcrypt.compare(password, user.password, (err, isMatch) => {
                         if (err) throw err
 
                         if (isMatch) {
-                            return done(null, user)
+                            return done(null, user, 'Login successful.')
                         } else {
-                            return done(null, false, { message: 'Invalid username/password' })
+                            return done(null, false, 'Invalid username/password.')
                         }
                     })
                 }
