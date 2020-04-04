@@ -1,4 +1,4 @@
-import { LOGIN_USER, REGISTER_USER } from '../actionTypes'
+import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_USER } from '../actionTypes'
 import axios from 'axios'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
@@ -9,15 +9,19 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
             // Return callback
             if (success) {
                 successCallback('Login successful.')
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    payload: res.data
+                })
             } else {
                 const errorMessage = res.data.data
                 errorCallback(errorMessage)
+                dispatch({
+                    type: LOGIN_FAIL,
+                    payload: res.data
+                })
             }
 
-            dispatch({
-                type: LOGIN_USER,
-                payload: res.data
-            })
         })
 }
 

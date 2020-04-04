@@ -15,7 +15,7 @@ module.exports.register = (req, res, done) => {
                     success: false,
                     data: 'Username already exists.'
                 })
-                reject('Username already exists')
+                reject('Username already exists.')
             }
             resolve()
         })
@@ -40,8 +40,6 @@ module.exports.register = (req, res, done) => {
 }
 
 module.exports.login = (req, res, done) => {
-    const { username, password } = req.body
-
     passport.authenticate('local', (err, user, message) => {
         if (err) throw err
 
@@ -53,7 +51,7 @@ module.exports.login = (req, res, done) => {
         } else {
             let tokenData = {
                 id: user.id,
-                username
+                username: user.username
             }
             // Create the access token and refresh token
             const accessToken = jwt.sign({ tokenData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
