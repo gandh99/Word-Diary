@@ -1,5 +1,7 @@
 const bcrypt = require("bcrypt")
 const User = require('../../models/User')
+const passport = require('passport')
+const jwt = require('jsonwebtoken')
 
 module.exports.register = (req, res, done) => {
     const { username, password } = req.body
@@ -39,5 +41,33 @@ module.exports.register = (req, res, done) => {
 
 module.exports.login = (req, res, done) => {
     const { username, password } = req.body
-    res.status(200).send(`Logging in with username: ${username} and password: ${password}`)
+
+    passport.authenticate('local', (err, user, info) => {
+        if (err) throw err
+        if (!user) {
+            res.status(401).json({
+                success: false,
+                data: 'Invalid username/password'
+            })
+        } else {
+            let tokenData = {
+                id: user.id,
+                username
+            }
+            // Create the access token and refresh token
+            const accessToken = jwt.sign({ tokenData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+            const refreshToken = jwt.sign({ tokenData }, process.env.REFRESH_TOKEN_SECRET)
+
+            // Store the refresh token in Redis cache
+            // redisClient.set(username, refreshToken)
+
+            // Send the 2 tokens back
+            res.status(200).json({
+                success: true,
+                data: {
+                    accessToken, refreshToken, tokenData
+                }
+            })
+        }
+    })(req, res, done)
 }
