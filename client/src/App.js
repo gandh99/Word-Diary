@@ -1,24 +1,29 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import AuthenticationPage from './authenticationPage/AuthenticationPage';
-import UserPage from './userPage/UserPage';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme'
 import { Provider } from 'react-redux'
 import store from './redux/store'
-import { loadUserAction } from './redux/actions/authenticationActions';
+import { Switch, Route, Router, BrowserRouter, Redirect } from 'react-router-dom';
+import HomePage from './homePage/HomePage';
+import Login from './authenticationPage/Login';
+import Register from './authenticationPage/Register';
 
 function App() {
-  useEffect(() => {
-    // store.dispatch(loadUserAction())
-  })
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <div className="App">
-          <AuthenticationPage />
-        </div>
+        <BrowserRouter>
+          <div className="App">
+            <Switch>
+              <Route path='/login' component={Login} />
+              <Route path='/register' component={Register} />
+              <Route exact path='/' component={HomePage} />
+              <Redirect from='*' to='/' />
+            </Switch>
+          </div>
+        </BrowserRouter>
       </ThemeProvider>
     </Provider>
   );

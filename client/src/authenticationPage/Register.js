@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { registerUserAction } from '../redux/actions/authenticationActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import Header from './Header';
+import Banner from './Banner';
 
 export default function Register() {
     const classes = useStyles()
@@ -67,42 +69,46 @@ export default function Register() {
     }
 
     return (
-        <div className='login-container'>
-            <CustomSnackbar 
-                message={snackbarMessage}
-                show={showSnackbar}
-                setShowSnackbar={setShowSnackbar}
-                severity={severity}
-            />
-            <form onSubmit={onSubmit}>
-                <div className='input-container'>
-                    <TextField
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={classes.textField}
-                        required
-                        error={usernameError}
-                        id="standard-basic"
-                        label="Username" />
-                    <TextField
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={classes.textField}
-                        required
-                        error={passwordError}
-                        id="standard-basic"
-                        label="Password"
-                        type='password' />
-                    <Button
-                        type='submit'
-                        style={{ marginTop: '2rem' }}
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        disableElevation >
-                        Register
+        <>
+            <Header />
+            <Banner />
+            <div className='login-container'>
+                <CustomSnackbar
+                    message={snackbarMessage}
+                    show={showSnackbar}
+                    setShowSnackbar={setShowSnackbar}
+                    severity={severity}
+                />
+                <form onSubmit={onSubmit}>
+                    <div className='input-container'>
+                        <TextField
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={classes.textField}
+                            required
+                            error={usernameError}
+                            id="standard-basic"
+                            label="Username" />
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={classes.textField}
+                            required
+                            error={passwordError}
+                            id="standard-basic"
+                            label="Password"
+                            type='password' />
+                        <Button
+                            type='submit'
+                            style={{ marginTop: '2rem' }}
+                            className={classes.button}
+                            variant="contained"
+                            color="primary"
+                            disableElevation >
+                            Register
                     </Button>
-                </div>
-            </form>
-        </div>
+                    </div>
+                </form>
+            </div>
+        </>
     )
 }
 

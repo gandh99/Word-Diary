@@ -16,7 +16,7 @@ export default function AuthenticationPage() {
             <Header />
             <Banner />
             <Switch>
-                <Redirect from="/" exact to="/login" />
+                <Redirect from="/" to="/login" />
                 <Route path='/login'>
                     <Login />
                 </Route>

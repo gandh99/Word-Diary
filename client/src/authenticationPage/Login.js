@@ -6,6 +6,9 @@ import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { loginUserAction } from '../redux/actions/authenticationActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { useHistory } from 'react-router-dom';
+import Header from './Header';
+import Banner from './Banner';
 
 export default function Login() {
     const classes = useStyles()
@@ -21,6 +24,7 @@ export default function Login() {
     const [usernameError, setUsernameError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const dispatch = useDispatch()
+    const history = useHistory()
     const loginUser = (userData, successCallback, errorCallback) => dispatch(loginUserAction(userData, successCallback, errorCallback))
 
     const onSubmit = event => {
@@ -36,6 +40,7 @@ export default function Login() {
                 setSnackbarMessage(message)
                 setSeverity('success')
                 setShowSnackbar(true)
+                history.push('/')
             },
             // errorCallback
             message => {
@@ -69,42 +74,46 @@ export default function Login() {
     }
 
     return (
-        <div className='login-container'>
-            <CustomSnackbar
-                message={snackbarMessage}
-                show={showSnackbar}
-                setShowSnackbar={setShowSnackbar}
-                severity={severity}
-            />
-            <form onSubmit={onSubmit}>
-                <div className='input-container'>
-                    <TextField
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={classes.textField}
-                        required
-                        error={usernameError}
-                        id="standard-basic"
-                        label="Username" />
-                    <TextField
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={classes.textField}
-                        required
-                        error={passwordError}
-                        id="standard-basic"
-                        label="Password"
-                        type='password' />
-                    <Button
-                        type='submit'
-                        style={{ marginTop: '2rem' }}
-                        className={classes.button}
-                        variant="contained"
-                        color="primary"
-                        disableElevation >
-                        Login
+        <>
+            <Header />
+            <Banner />
+            <div className='login-container'>
+                <CustomSnackbar
+                    message={snackbarMessage}
+                    show={showSnackbar}
+                    setShowSnackbar={setShowSnackbar}
+                    severity={severity}
+                />
+                <form onSubmit={onSubmit}>
+                    <div className='input-container'>
+                        <TextField
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={classes.textField}
+                            required
+                            error={usernameError}
+                            id="standard-basic"
+                            label="Username" />
+                        <TextField
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={classes.textField}
+                            required
+                            error={passwordError}
+                            id="standard-basic"
+                            label="Password"
+                            type='password' />
+                        <Button
+                            type='submit'
+                            style={{ marginTop: '2rem' }}
+                            className={classes.button}
+                            variant="contained"
+                            color="primary"
+                            disableElevation >
+                            Login
                     </Button>
-                </div>
-            </form>
-        </div>
+                    </div>
+                </form>
+            </div>
+        </>
     )
 }
 
