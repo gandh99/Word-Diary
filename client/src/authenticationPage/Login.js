@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import './login.css'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { loginUserAction } from '../redux/actions/authenticationActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
-import { useHistory } from 'react-router-dom';
-import Header from './Header';
-import Banner from './Banner';
+import { useHistory } from 'react-router-dom'
+import Header from './Header'
+import Banner from './Banner'
 
 export default function Login() {
     const classes = useStyles()
@@ -90,6 +90,7 @@ export default function Login() {
                             onChange={(e) => setUsername(e.target.value)}
                             className={classes.textField}
                             required
+                            value={username}
                             error={usernameError}
                             id="standard-basic"
                             label="Username" />
@@ -97,6 +98,7 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             className={classes.textField}
                             required
+                            value={password}
                             error={passwordError}
                             id="standard-basic"
                             label="Password"

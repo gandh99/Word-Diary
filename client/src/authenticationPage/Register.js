@@ -85,6 +85,7 @@ export default function Register() {
                             onChange={(e) => setUsername(e.target.value)}
                             className={classes.textField}
                             required
+                            value={username}
                             error={usernameError}
                             id="standard-basic"
                             label="Username" />
@@ -92,6 +93,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             className={classes.textField}
                             required
+                            value={password}
                             error={passwordError}
                             id="standard-basic"
                             label="Password"
