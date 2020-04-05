@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button'
 import { useDispatch } from 'react-redux'
 import { loginUserAction } from '../redux/actions/authenticationActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
-import { useHistory } from 'react-router-dom'
 import Header from './Header'
 import Banner from './Banner'
 
@@ -24,7 +23,6 @@ export default function Login() {
     const [usernameError, setUsernameError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
     const dispatch = useDispatch()
-    const history = useHistory()
     const loginUser = (userData, successCallback, errorCallback) => dispatch(loginUserAction(userData, successCallback, errorCallback))
 
     const onSubmit = event => {
@@ -40,7 +38,6 @@ export default function Login() {
                 setSnackbarMessage(message)
                 setSeverity('success')
                 setShowSnackbar(true)
-                history.push('/')
             },
             // errorCallback
             message => {

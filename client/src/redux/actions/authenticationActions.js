@@ -1,6 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADING, USER_LOADED, AUTH_ERROR } from '../actionTypes'
 import axios from 'axios'
 import { returnErrors } from './errorActions'
+import { history } from '../../history'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios
@@ -11,6 +12,7 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
                 type: LOGIN_SUCCESS,
                 payload: res.data
             })
+            history.push('/')
         })
         .catch(err => {
             const errorMessage = err.response.data.data
@@ -55,7 +57,7 @@ export const loadUserAction = () => (dispatch, getState) => {
     dispatch({
         type: USER_LOADING
     })
-    
+
     axios
         .get('/authentication/user', tokenConfig(getState))
         .then(res => {
@@ -86,6 +88,6 @@ export const tokenConfig = (getState) => {
     if (accessToken) {
         config.headers['authorization'] = accessToken
     }
-    
+
     return config
 }

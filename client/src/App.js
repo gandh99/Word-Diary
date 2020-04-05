@@ -1,20 +1,21 @@
-import React from 'react';
-import './App.css';
-import { ThemeProvider } from '@material-ui/core/styles';
+import React from 'react'
+import './App.css'
+import { ThemeProvider } from '@material-ui/core/styles'
 import theme from './theme'
 import { Provider } from 'react-redux'
 import store from './redux/store'
-import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
-import HomePage from './homePage/HomePage';
-import Login from './authenticationPage/Login';
-import Register from './authenticationPage/Register';
-import { PrivateRoute } from './reusableComponents/PrivateRoute';
+import { Switch, Route, Redirect, Router } from 'react-router-dom'
+import HomePage from './homePage/HomePage'
+import Login from './authenticationPage/Login'
+import Register from './authenticationPage/Register'
+import { PrivateRoute } from './reusableComponents/PrivateRoute'
+import { history } from './history'
 
 function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
+        <Router history={history}>
           <div className="App">
             <Switch>
               <Route path='/login' component={Login} />
@@ -23,7 +24,7 @@ function App() {
               <Redirect from='*' to='/' />
             </Switch>
           </div>
-        </BrowserRouter>
+        </Router>
       </ThemeProvider>
     </Provider>
   );
