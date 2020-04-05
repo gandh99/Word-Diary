@@ -7,13 +7,15 @@ import { Typography } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
+import MenuBookIcon from '@material-ui/icons/MenuBook'
 
-export default function Header() {
+export default function Header(props) {
     const classes = useStyles()
-    const [value, setValue] = React.useState(0)
+    const [selectedTabIndex, setSelectedTabIndex] = React.useState(0)
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setSelectedTabIndex(newValue)
+        props.setTabContentIndex(newValue)
     }
 
     return (
@@ -23,12 +25,13 @@ export default function Header() {
             </Typography>
             <Paper className={classes.root}>
                 <Tabs
-                    value={value}
+                    value={selectedTabIndex}
                     onChange={handleChange}
                     indicatorColor="primary"
                     textColor="primary"
                     centered >
                     <Tab icon={<HomeIcon />} />
+                    <Tab icon={<MenuBookIcon />} />
                     <Tab icon={<NotificationsIcon />} />
                     <Tab icon={<PeopleAltIcon />} />
                 </Tabs>
