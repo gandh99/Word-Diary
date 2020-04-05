@@ -46,4 +46,4 @@ const useStyles = makeStyles((theme) => ({
     button: {
         color: theme.palette.primary.contrastText
     }
-}));  
+}))
