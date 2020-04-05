@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Header from './Header'
-import Overview from './Overview'
-import Diary from './Diary'
-import Notifications from './Notifications'
-import Friends from './Friends'
+import Overview from '../overview/Overview'
+import Diary from '../diary/Diary'
+import Notifications from '../notifications/Notifications'
+import Friends from '../friends/Friends'
 
 export default function HomePage(props) {
     const [tabContentIndex, setTabContentIndex] = useState(1)
