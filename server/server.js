@@ -20,7 +20,8 @@ app.use(passport.session())
 app.use(bodyParser.json())
 
 // Routes
-app.use('/authentication', require('./routes/api/authentication'))    
+app.use('/authentication', require('./routes/api/authentication'))
+app.use('/translate', require('./routes/api/translate'))    
 
 // Start the server
 const port = process.env.PORT || 5000

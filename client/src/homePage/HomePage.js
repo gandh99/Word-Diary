@@ -6,7 +6,7 @@ import Notifications from '../notifications/Notifications'
 import Friends from '../friends/Friends'
 
 export default function HomePage(props) {
-    const [tabContentIndex, setTabContentIndex] = useState(1)
+    const [tabContentIndex, setTabContentIndex] = useState(0)
     const tabContent = [
         <Overview />,
         <Diary />,

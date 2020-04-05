@@ -12,3 +12,7 @@ export const AUTH_ERROR = 'AUTH_ERROR'
 // Errors
 export const GET_ERRORS = 'GET_ERRORS'
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
+
+// Translate
+export const TRANSLATE_PHRASE = 'TRANSLATE_PHRASE'
+export const TRANSLATE_SUCCESS = 'TRANSLATE_SUCCESS'
