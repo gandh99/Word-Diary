@@ -31,7 +31,10 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
     axios
         .post('/diary/add-post', postData, tokenConfig(getState))
         .then(res => {
-            //TODO
+            dispatch({
+                type: ADD_DIARY_POST_SUCCESS,
+                payload: res.data.data
+            })
         })
         .catch(err => {
             const errorMessage = err.response.data.data

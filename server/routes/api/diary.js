@@ -11,6 +11,6 @@ router.post('/translate', auth, diaryController.translate)
 // @route   POST /diary/add-post
 // @desc    For add a new diary post
 // @access  Private
-router.post('/add-post', diaryController.addPost)
+router.post('/add-post', auth, diaryController.addPost)
 
 module.exports = router

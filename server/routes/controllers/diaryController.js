@@ -1,9 +1,9 @@
 const translate = require('@vitalets/google-translate-api')
+const DiaryPost = require('../../models/DiaryPost')
 
 module.exports.translate = (req, res, done) => {
-    const { userData } = req.tokenData
     const { phrase } = req.body
-    
+
     // Translate the phrase to English (default)
     translate(phrase, { to: 'en' })
         .then(result => {
@@ -22,8 +22,23 @@ module.exports.translate = (req, res, done) => {
 }
 
 module.exports.addPost = (req, res, done) => {
+    const { userData } = req.tokenData
+    const username = userData.username
     const { phrase, translatedPhrase, note } = req.body
 
     // Save this post to the user's diary
-    //TODO
+    new DiaryPost({ username, phrase, translatedPhrase, note })
+        .save()
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            })
+        })
+        .catch(err => {
+            res.status(400).json({
+                success: false,
+                data: 'Error adding diary post.'
+            })
+        })
 }
