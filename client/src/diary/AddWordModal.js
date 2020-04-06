@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Modal, Button, Form } from 'react-bootstrap'
 import GTranslateIcon from '@material-ui/icons/GTranslate'
 import { Tooltip } from '@material-ui/core'
+import { translateAction } from '../redux/actions/diaryActions'
 
 export default function AddWordModal(props) {
     const classes = useStyles()
-    const [word, setWord] = useState('')
-    const [translatedWord, setTranslatedWord] = useState('')
+    const dispatch = useDispatch()
+    const [phrase, setPhrase] = useState('')
+    const [translatedPhrase, setTranslatedPhrase] = useState('')
     const [note, setNote] = useState('')
+    const translatePhrase = (phrase) => dispatch(translateAction(phrase))
+
+    const fetchTranslation = (event) => {
+        translatePhrase({ phrase })
+    }
 
     const onSubmit = (event) => {
         event.preventDefault()
@@ -33,7 +41,7 @@ export default function AddWordModal(props) {
                             className='form-text-input'
                             type="text"
                             placeholder='Enter a word or phrase'
-                            onChange={(e) => { setWord(e.target.value) }}
+                            onChange={(e) => { setPhrase(e.target.value) }}
                         />
                     </Form.Group>
                     <Form.Group controlId={'translation'}>
@@ -42,10 +50,14 @@ export default function AddWordModal(props) {
                             className='form-text-input'
                             type="text"
                             placeholder='Enter translated meaning'
-                            onChange={(e) => { setTranslatedWord(e.target.value) }}
+                            onChange={(e) => { setTranslatedPhrase(e.target.value) }}
                         />
                         <Tooltip title='Fetch translation'>
-                            <GTranslateIcon color='primary' style={translateButtonStyle} />
+                            <GTranslateIcon
+                                color='primary'
+                                style={translateButtonStyle}
+                                onClick={() => { fetchTranslation() }}
+                            />
                         </Tooltip>
                     </Form.Group>
                     <Form.Group controlId={'note'}>
