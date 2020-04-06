@@ -6,7 +6,7 @@ const auth = require('../../middleware/auth')
 // @route   POST /diary/translate
 // @desc    For translating text
 // @access  Private
-router.post('/translate', diaryController.translate)
+router.post('/translate', auth, diaryController.translate)
 
 // @route   POST /diary/add-post
 // @desc    For add a new diary post

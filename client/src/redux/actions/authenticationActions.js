@@ -61,6 +61,8 @@ export const tokenConfig = (getState) => {
             'Content-type': 'application/json'
         }
     }
+
+    // Add the access token to the header
     if (accessToken) {
         config.headers['authorization'] = accessToken
     }

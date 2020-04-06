@@ -14,7 +14,7 @@ const initialState = {
     refreshToken: localStorage.getItem('refreshToken'),
     isAuthenticated: false,
     isLoading: false,
-    user: null
+    userData: null
 }
 
 export default function (state = initialState, action) {
@@ -29,16 +29,16 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
-                user: action.payload
+                userData: action.payload
             };
         case LOGIN_SUCCESS:
-            const { accessToken, refreshToken, tokenData } = action.payload.data
+            const { accessToken, refreshToken, userData } = action.payload.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
             
             return {
                 ...state,
-                user: tokenData,
+                userData: userData,
                 isAuthenticated: true,
                 isLoading: false
             }
@@ -57,7 +57,7 @@ export default function (state = initialState, action) {
                 ...state,
                 accessToken: null,
                 refreshToken: null,
-                user: null,
+                userData: null,
                 isAuthenticated: false,
                 isLoading: false
             }

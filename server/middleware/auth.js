@@ -10,13 +10,16 @@ module.exports = (req, res, done) => {
         })
     }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, tokenData) => {
         if (err) {
             return res.status(401).json({
                 success: false,
                 data: 'Invalid token provided.'
             })
         }
+
+        // Add the token data to the request. It contains userData: {id, username}
+        req.tokenData = tokenData
         done()
     })
 }
