@@ -52,34 +52,10 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
         })
 }
 
-//TODO
-export const loadUserAction = () => (dispatch, getState) => {
-    dispatch({
-        type: USER_LOADING
-    })
-
-    axios
-        .get('/authentication/user', tokenConfig(getState))
-        .then(res => {
-            console.log('success')
-            dispatch({
-                type: USER_LOADED,
-                payload: res.data
-            })
-        })
-        .catch(err => {
-            const errorMessage = err.response.data.data
-            dispatch(returnErrors(err.response.status, err.response.status, errorMessage))
-            dispatch({
-                type: AUTH_ERROR
-            })
-        })
-}
-
 export const tokenConfig = (getState) => {
     // Get access token from the state in authenticationReducer
     const accessToken = getState().authentication.accessToken
-
+    
     const config = {
         headers: {
             'Content-type': 'application/json'
@@ -88,6 +64,6 @@ export const tokenConfig = (getState) => {
     if (accessToken) {
         config.headers['authorization'] = accessToken
     }
-
+    
     return config
 }

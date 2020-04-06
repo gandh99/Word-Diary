@@ -13,9 +13,4 @@ router.post('/register', authenticationController.register)
 // @access  Public
 router.post('/login', authenticationController.login)
 
-// @route   GET /authentication/user
-// @desc    Get user data
-// @access  Private
-router.get('/user', /*auth,*/ authenticationController.loadUser)
-
 module.exports = router

@@ -71,22 +71,3 @@ module.exports.login = (req, res, done) => {
         }
     })(req, res, done)
 }
-
-//TODO
-module.exports.loadUser = async (req, res, done) => {
-    try {
-        const accessToken = req.headers.authorization
-        // const user = await User.findById(req.user.id)
-        // if (!user) throw Error('User does not exist')
-        // res.json(user)
-        res.status(200).json({
-            success: true,
-            data: 'Successfully loaded user.'
-        })
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            data: error.message
-        })
-    }
-}
