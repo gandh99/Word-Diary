@@ -6,7 +6,7 @@ import GTranslateIcon from '@material-ui/icons/GTranslate'
 import { Tooltip } from '@material-ui/core'
 import { translateAction, addDiaryPostAction } from '../redux/actions/diaryActions'
 
-export default function AddWordModal(props) {
+export default function AddDiaryPostModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const [phrase, setPhrase] = useState('')

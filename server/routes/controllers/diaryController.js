@@ -42,3 +42,23 @@ module.exports.addPost = (req, res, done) => {
             })
         })
 }
+
+module.exports.getPost = (req, res, done) => {
+    const { userData } = req.tokenData
+    const username = userData.username
+
+    // Get all the posts belonging to the user
+    DiaryPost.find({username}, (err, result) => {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                data: 'Error retrieving posts'
+            })
+        }
+        
+        return res.status(200).json({
+            success: true,
+            data: result
+        })
+    })
+}

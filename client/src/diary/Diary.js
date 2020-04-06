@@ -5,11 +5,11 @@ import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import AddWordModal from './AddWordModal'
+import AddDiaryPostModal from './AddDiaryPostModal'
 
 export default function Diary() {
     // Add word modal
-    const [showAddWordModal, setShowAddWordModal] = useState(false)
+    const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
 
     const exampleContent = [
         // {
@@ -31,9 +31,9 @@ export default function Diary() {
 
     return (
         <div>
-            <AddWordModal
-                show={showAddWordModal}
-                onHide={() => { setShowAddWordModal(false) }}
+            <AddDiaryPostModal
+                show={showAddDiaryPostModal}
+                onHide={() => { setShowAddDiaryPostModal(false) }}
             />
             <div className='content-area' style={contentAreaStyle}>
                 {
@@ -54,7 +54,7 @@ export default function Diary() {
                 color="secondary"
                 aria-label="add"
                 style={fabStyle}
-                onClick={() => setShowAddWordModal(true)}>
+                onClick={() => setShowAddDiaryPostModal(true)}>
                 <AddIcon />
             </Fab>
         </div>

@@ -9,8 +9,13 @@ const auth = require('../../middleware/auth')
 router.post('/translate', auth, diaryController.translate)
 
 // @route   POST /diary/add-post
-// @desc    For add a new diary post
+// @desc    For adding a new diary post
 // @access  Private
 router.post('/add-post', auth, diaryController.addPost)
+
+// @route   GET /diary/get-post
+// @desc    For retrieving all diary posts belonging to the user
+// @access  Private
+router.get('/get-post', auth, diaryController.getPost)
 
 module.exports = router
