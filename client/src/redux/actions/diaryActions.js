@@ -48,3 +48,26 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
             })
         })
 }
+
+export const getDiaryPostAction = () => (dispatch, getState) => {
+    axios
+        .get('/diary/get-post', tokenConfig(getState))
+        .then(res => {
+            console.log(res.data.data)
+            dispatch({
+                type: GET_DIARY_POST_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: GET_DIARY_POST_FAIL,
+                payload: err.response.data
+            })
+        })
+}

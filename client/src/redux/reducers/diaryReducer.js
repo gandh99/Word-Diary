@@ -1,8 +1,16 @@
-import { TRANSLATE_SUCCESS, TRANSLATE_FAIL, ADD_DIARY_POST_SUCCESS, ADD_DIARY_POST_FAIL } from '../actionTypes'
+import {
+    TRANSLATE_SUCCESS,
+    TRANSLATE_FAIL,
+    ADD_DIARY_POST_SUCCESS,
+    ADD_DIARY_POST_FAIL,
+    GET_DIARY_POST_SUCCESS,
+    GET_DIARY_POST_FAIL
+} from '../actionTypes'
 
 const initialState = {
     translatedText: '',
-    diaryPost: {}
+    newDiaryPost: {},
+    allDiaryPosts: []
 }
 
 export default function (state = initialState, action) {
@@ -20,12 +28,22 @@ export default function (state = initialState, action) {
         case ADD_DIARY_POST_SUCCESS:
             return {
                 ...state,
-                diaryPost: action.payload
+                newDiaryPost: action.payload
             }
         case ADD_DIARY_POST_FAIL:
             return {
                 ...state,
-                diaryPost: {}
+                newDiaryPost: {}
+            }
+        case GET_DIARY_POST_SUCCESS:
+            return {
+                ...state,
+                allDiaryPosts: action.payload
+            }
+        case GET_DIARY_POST_FAIL:
+            return {
+                ...state,
+                allDiaryPosts: []
             }
         default:
             return state
