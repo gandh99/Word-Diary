@@ -50,10 +50,12 @@ export default function Diary() {
                         ))
                 }
             </div>
-            <Fab color="secondary" aria-label="add" style={fabStyle}>
-                <AddIcon
-                    onClick={() => setShowAddWordModal(true)}
-                />
+            <Fab
+                color="secondary"
+                aria-label="add"
+                style={fabStyle}
+                onClick={() => setShowAddWordModal(true)}>
+                <AddIcon />
             </Fab>
         </div>
     )
