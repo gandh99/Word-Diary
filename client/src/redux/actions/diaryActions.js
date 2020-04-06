@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { returnErrors } from './errorActions'
-import { TRANSLATE_SUCCESS, TRANSLATE_FAIL } from '../actionTypes'
+import { TRANSLATE_SUCCESS, TRANSLATE_FAIL, ADD_DIARY_POST_SUCCESS, ADD_DIARY_POST_FAIL } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
     axios
-        .post('/translate', textData, tokenConfig(getState))
+        .post('/diary/translate', textData, tokenConfig(getState))
         .then(res => {
             const translatedText = res.data.data
             dispatch({
@@ -22,6 +22,25 @@ export const translateAction = (textData, callback) => (dispatch, getState) => {
             )
             dispatch({
                 type: TRANSLATE_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const addDiaryPostAction = (postData, successCallback, errorCallback) => (dispatch, getState) => {
+    axios
+        .post('/diary/add-post', postData, tokenConfig(getState))
+        .then(res => {
+            //TODO
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: ADD_DIARY_POST_FAIL,
                 payload: err.response.data
             })
         })

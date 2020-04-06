@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 
 // Routes
 app.use('/authentication', require('./routes/api/authentication'))
-app.use('/translate', require('./routes/api/translate'))    
+app.use('/diary', require('./routes/api/diary'))    
 
 // Start the server
 const port = process.env.PORT || 5000

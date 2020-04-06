@@ -19,3 +19,7 @@ module.exports.translate = (req, res, done) => {
             })
         })
 }
+
+module.exports.addPost = (req, res, done) => {
+    
+}

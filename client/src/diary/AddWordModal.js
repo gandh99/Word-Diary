@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Modal, Button, Form } from 'react-bootstrap'
 import GTranslateIcon from '@material-ui/icons/GTranslate'
 import { Tooltip } from '@material-ui/core'
-import { translateAction } from '../redux/actions/diaryActions'
-import { useSelector } from 'react-redux'
+import { translateAction, addDiaryPostAction } from '../redux/actions/diaryActions'
 
 export default function AddWordModal(props) {
     const classes = useStyles()
@@ -14,6 +13,7 @@ export default function AddWordModal(props) {
     const [translatedPhrase, setTranslatedPhrase] = useState('')
     const [note, setNote] = useState('')
     const translatePhrase = (phrase, callback) => dispatch(translateAction(phrase, callback))
+    const addDiaryPost = (postData, successCallback, errorCallback) => dispatch(addDiaryPostAction(postData, successCallback, errorCallback))
 
     const fetchTranslation = (event) => {
         translatePhrase({ phrase },
@@ -26,11 +26,29 @@ export default function AddWordModal(props) {
 
     const onSubmit = (event) => {
         event.preventDefault()
+
+        // Validate input
+        if (!inputIsValid()) {
+            return
+        }
+
+        // Add the diary entry
+        addDiaryPost({
+            phrase,
+            translatedPhrase,
+            note
+        })
+
+        onHide()
     }
 
     const onHide = () => {
         props.onHide()
         setTranslatedPhrase('')
+    }
+
+    const inputIsValid = () => {
+        return (phrase.length > 0 && translatedPhrase.length > 0 && note.length > 0)
     }
 
     return (
