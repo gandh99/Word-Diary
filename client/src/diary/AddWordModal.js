@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Modal, Button, Form } from 'react-bootstrap'
 import GTranslateIcon from '@material-ui/icons/GTranslate'
 import { Tooltip } from '@material-ui/core'
 import { translateAction } from '../redux/actions/diaryActions'
+import { useSelector } from 'react-redux'
 
 export default function AddWordModal(props) {
     const classes = useStyles()
@@ -12,10 +13,15 @@ export default function AddWordModal(props) {
     const [phrase, setPhrase] = useState('')
     const [translatedPhrase, setTranslatedPhrase] = useState('')
     const [note, setNote] = useState('')
-    const translatePhrase = (phrase) => dispatch(translateAction(phrase))
+    const translatePhrase = (phrase, callback) => dispatch(translateAction(phrase, callback))
 
     const fetchTranslation = (event) => {
-        translatePhrase({ phrase })
+        translatePhrase({ phrase },
+            // Callback
+            (translatedText) => {
+                setTranslatedPhrase(translatedText)
+                console.log(translatedText)
+            })
     }
 
     const onSubmit = (event) => {
@@ -50,6 +56,7 @@ export default function AddWordModal(props) {
                             className='form-text-input'
                             type="text"
                             placeholder='Enter translated meaning'
+                            value={translatedPhrase}
                             onChange={(e) => { setTranslatedPhrase(e.target.value) }}
                         />
                         <Tooltip title='Fetch translation'>

@@ -2,14 +2,16 @@ import axios from 'axios'
 import { returnErrors } from './errorActions'
 import { TRANSLATE_SUCCESS, TRANSLATE_FAIL } from '../actionTypes'
 
-export const translateAction = (textData) => dispatch => {
+export const translateAction = (textData, callback) => dispatch => {
     axios
         .post('/translate', textData)
         .then(res => {
+            const translatedText = res.data.data
             dispatch({
                 type: TRANSLATE_SUCCESS,
-                payload: res.data
+                payload: translatedText
             })
+            callback(translatedText)
         })
         .catch(err => {
             const errorMessage = err.response.data.data
