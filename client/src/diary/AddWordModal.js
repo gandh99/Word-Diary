@@ -28,9 +28,15 @@ export default function AddWordModal(props) {
         event.preventDefault()
     }
 
+    const onHide = () => {
+        props.onHide()
+        setTranslatedPhrase('')
+    }
+
     return (
         <Modal
             {...props}
+            onHide={onHide}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered

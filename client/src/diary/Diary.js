@@ -31,9 +31,9 @@ export default function Diary() {
 
     return (
         <div>
-            <AddWordModal 
+            <AddWordModal
                 show={showAddWordModal}
-                onHide={() => {setShowAddWordModal(false)}}
+                onHide={() => { setShowAddWordModal(false) }}
             />
             <div className='content-area' style={contentAreaStyle}>
                 {
@@ -51,7 +51,7 @@ export default function Diary() {
                 }
             </div>
             <Fab color="secondary" aria-label="add" style={fabStyle}>
-                <AddIcon 
+                <AddIcon
                     onClick={() => setShowAddWordModal(true)}
                 />
             </Fab>
