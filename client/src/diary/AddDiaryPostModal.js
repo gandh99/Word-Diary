@@ -32,12 +32,22 @@ export default function AddDiaryPostModal(props) {
         }
 
         // Add the diary entry
-        addDiaryPost({
-            phrase,
-            translatedPhrase,
-            note
-        })
-
+        addDiaryPost(
+            {
+                phrase,
+                translatedPhrase,
+                note
+            },
+            // successCallback
+            (message) => {
+                props.refresh()
+                props.showSnackbar(message, 'success')
+            },
+            // errorCallback
+            (message) => {
+                props.showSnackbar(message, 'error')
+            }
+        )
         onHide()
     }
 

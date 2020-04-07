@@ -42,6 +42,7 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
                 type: ADD_DIARY_POST_SUCCESS,
                 payload: res.data.data
             })
+            successCallback('Successfully added diary post.')
         })
         .catch(err => {
             const errorMessage = err.response.data.data
@@ -53,6 +54,7 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
                 type: ADD_DIARY_POST_FAIL,
                 payload: err.response.data
             })
+            errorCallback(errorMessage)
         })
 }
 

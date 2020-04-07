@@ -15,7 +15,7 @@ export default function Login() {
     // Variables to handle Snackbar for displaying login success/failure
     const [showSnackbar, setShowSnackbar] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
-    const [severity, setSeverity] = useState('')
+    const [snackbarSeverity, setSnackbarSeverity] = useState('')
 
     // Variables to handle input
     const [username, setUsername] = useState('')
@@ -36,13 +36,13 @@ export default function Login() {
             // successCallback
             message => {
                 setSnackbarMessage(message)
-                setSeverity('success')
+                setSnackbarSeverity('success')
                 setShowSnackbar(true)
             },
             // errorCallback
             message => {
                 setSnackbarMessage(message)
-                setSeverity('error')
+                setSnackbarSeverity('error')
                 setShowSnackbar(true)
             }
         )
@@ -79,7 +79,7 @@ export default function Login() {
                     message={snackbarMessage}
                     show={showSnackbar}
                     setShowSnackbar={setShowSnackbar}
-                    severity={severity}
+                    severity={snackbarSeverity}
                 />
                 <form onSubmit={onSubmit}>
                     <div className='input-container'>

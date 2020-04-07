@@ -7,14 +7,20 @@ import CardContent from '@material-ui/core/CardContent'
 import AddDiaryPostModal from './AddDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
+import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function Diary() {
     const dispatch = useDispatch()
     const diaryPosts = useSelector(state => state.diary.allDiaryPosts)
-    
+
     // For handling the AddDiaryPostModal
     const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
-    
+
+    // For showing/hiding the CustomSnackbar
+    const [showSnackbar, setShowSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [snackbarSeverity, setSnackbarSeverity] = useState('')
+
     useEffect(() => {
         dispatch(getDiaryPostsAction())
     }, [])
@@ -23,7 +29,13 @@ export default function Diary() {
         <div>
             <AddDiaryPostModal
                 show={showAddDiaryPostModal}
-                onHide={() => { setShowAddDiaryPostModal(false) }}
+                onHide={() => setShowAddDiaryPostModal(false)}
+                refresh={() => dispatch(getDiaryPostsAction())}
+                showSnackbar={(message, severity) => {
+                    setSnackbarSeverity(severity)
+                    setSnackbarMessage(message)
+                    setShowSnackbar(true)} 
+                }
             />
             <div className='content-area' style={contentAreaStyle}>
                 {
@@ -47,6 +59,12 @@ export default function Diary() {
                 onClick={() => setShowAddDiaryPostModal(true)}>
                 <AddIcon />
             </Fab>
+            <CustomSnackbar
+                message={snackbarMessage}
+                show={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+                severity={snackbarSeverity}
+            />
         </div>
     )
 }
