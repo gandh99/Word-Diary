@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { Grid } from '@material-ui/core'
+import DiaryPost from './DiaryPost'
 
 export default function Diary() {
     const dispatch = useDispatch()
@@ -50,15 +51,9 @@ export default function Diary() {
                         justify="flex-start"
                         alignItems="center" >
                         {diaryPosts.map(post => (
-                            <Grid item xs={12} sm={6}>
-                                <Card style={cardStyle}>
-                                    <CardContent>
-                                        <div>{post.phrase}</div>
-                                        <div>{post.translatedPhrase}</div>
-                                        <div>{post.note}</div>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
+                            <DiaryPost
+                                post={post}
+                            />
                         ))
                         }
                     </Grid>
@@ -83,10 +78,6 @@ export default function Diary() {
 
 const gridContentAreaStyle = {
     padding: '2rem'
-}
-
-const cardStyle = {
-    textAlign: 'start',
 }
 
 const fabStyle = {
