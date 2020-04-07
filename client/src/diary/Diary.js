@@ -53,6 +53,7 @@ export default function Diary() {
                         {diaryPosts.map(post => (
                             <DiaryPost
                                 post={post}
+                                refresh={() => dispatch(getDiaryPostsAction())}
                             />
                         ))
                         }

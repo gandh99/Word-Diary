@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Grid, Divider } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -7,17 +8,36 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import StarIcon from '@material-ui/icons/Star'
 import ShareIcon from '@material-ui/icons/Share'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlineOutlined'
+import { updateDiaryPostAction } from '../redux/actions/diaryActions'
 
 export default function DiaryPost(props) {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const updateDiaryPost = (postData, done) => dispatch(updateDiaryPostAction(postData, done))
+    let currentPost = { ...props.post }
+
+    const toggleStarPost = (event, starred) => {
+        currentPost.starred = starred
+        submitUpdate()
+    }
+
+    const submitUpdate = (event) => {
+        updateDiaryPost(currentPost, () => props.refresh())
+    }
 
     return (
         <Grid item xs={12} sm={6}>
             <Card style={cardStyle}>
                 <CardContent>
                     <div style={toolbarHeaderStyle}>
-                        <ShareIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.share} />
-                        <DeleteOutlineIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.delete} />
+                        <ShareIcon
+                            htmlColor={toolbarIconDefaultColor}
+                            style={toolbarIconStyle}
+                            className={classes.share} />
+                        <DeleteOutlineIcon
+                            htmlColor={toolbarIconDefaultColor}
+                            style={toolbarIconStyle}
+                            className={classes.delete} />
                     </div>
                     <div className={classes.phrase}>{props.post.phrase}</div>
                     <Divider />
@@ -26,8 +46,16 @@ export default function DiaryPost(props) {
                     <div style={toolbarFooterStyle}>
                         {
                             props.post.starred
-                                ? <StarIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.starUnfilled} />
-                                : <StarBorderIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.starUnfilled} />
+                                ? <StarIcon
+                                    onClick={(e) => toggleStarPost(e, false)}
+                                    htmlColor={starIconFilledColor}
+                                    style={toolbarIconStyle}
+                                    className={classes.starUnfilled} />
+                                : <StarBorderIcon
+                                    onClick={(e) => toggleStarPost(e, true)}
+                                    htmlColor={toolbarIconDefaultColor}
+                                    style={toolbarIconStyle}
+                                    className={classes.starUnfilled} />
                         }
                     </div>
                 </CardContent>
@@ -59,8 +87,6 @@ const toolbarIconStyle = {
     cursor: 'pointer'
 }
 
-const toolbarIconDefaultColor = '#888888'
-
 const useStyles = makeStyles((theme) => ({
     phrase: {
         marginBottom: '0.5rem',
@@ -80,3 +106,6 @@ const useStyles = makeStyles((theme) => ({
     delete: {
     }
 }))
+
+const toolbarIconDefaultColor = '#888888'
+const starIconFilledColor = '#ffb600'

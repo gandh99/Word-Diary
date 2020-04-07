@@ -4,7 +4,9 @@ import {
     ADD_DIARY_POST_SUCCESS,
     ADD_DIARY_POST_FAIL,
     GET_DIARY_POST_SUCCESS,
-    GET_DIARY_POST_FAIL
+    GET_DIARY_POST_FAIL,
+    UPDATE_DIARY_POST_SUCCESS,
+    UPDATE_DIARY_POST_FAIL
 } from '../actionTypes'
 
 const initialState = {
@@ -44,6 +46,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 allDiaryPosts: []
+            }
+        case UPDATE_DIARY_POST_SUCCESS:
+            return {
+                ...state,
+                newDiaryPost: action.payload
+            }
+        case UPDATE_DIARY_POST_FAIL:
+            return {
+                ...state,
+                newDiaryPost: {}
             }
         default:
             return state
