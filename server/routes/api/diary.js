@@ -18,4 +18,9 @@ router.post('/add-post', auth, diaryController.addPost)
 // @access  Private
 router.get('/get-post', auth, diaryController.getPost)
 
+// @route   UPDATE /diary/get-post
+// @desc    For updating a particular post
+// @access  Private
+router.put('/update-post', auth, diaryController.updatePost)
+
 module.exports = router

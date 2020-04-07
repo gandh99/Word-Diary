@@ -52,13 +52,32 @@ module.exports.getPost = (req, res, done) => {
         if (err) {
             return res.status(400).json({
                 success: false,
-                data: 'Error retrieving posts'
+                data: 'Error retrieving posts.'
             })
         }
 
         return res.status(200).json({
             success: true,
             data: result
+        })
+    })
+}
+
+module.exports.updatePost = (req, res, done) => {
+    const { _id, phrase, translatedPhrase, note, starred } = req.body
+
+    // Update the particular diary post using the _id provided
+    DiaryPost.updateOne({ _id }, { phrase, translatedPhrase, note, starred }, (err, result) => {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                data: 'Error updating post.'
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: 'Successfully updated post.'
         })
     })
 }
