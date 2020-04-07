@@ -8,7 +8,7 @@ export default function EmptyContentPlaceholder() {
 
     return (
         <div>
-            <img src={Bear} style={bearStyle} />
+            <img src={Bear} style={bearStyle} alt={"Rawr! I'm a bear!"} />
             <Typography component="h5" className={classes.bearCaption}>
                 Oops! Nothing to see here!
             </Typography>

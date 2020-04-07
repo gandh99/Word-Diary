@@ -9,6 +9,7 @@ import {
     GET_DIARY_POST_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
+import { history } from '../../history'
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
     axios
@@ -55,6 +56,7 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
                 payload: err.response.data
             })
             errorCallback(errorMessage)
+            history.push('/login')
         })
 }
 
