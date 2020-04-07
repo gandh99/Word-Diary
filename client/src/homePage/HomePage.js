@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './homepage.css'
 import Header from './Header'
 import Overview from '../overview/Overview'
 import Diary from '../diary/Diary'
@@ -16,10 +17,12 @@ export default function HomePage(props) {
 
     return (
         <>
-            <Header 
+            <Header
                 setTabContentIndex={setTabContentIndex}
             />
-            {tabContent[tabContentIndex]}
+            <div className='tab-area'>
+                {tabContent[tabContentIndex]}
+            </div>
         </>
     )
 }

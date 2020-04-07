@@ -23,19 +23,19 @@ export default function Header(props) {
             <Typography className={classes.header} component="h4">
                 Word Diary
             </Typography>
-            <Paper className={classes.root}>
-                <Tabs
-                    value={selectedTabIndex}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    centered >
-                    <Tab icon={<HomeIcon />} />
-                    <Tab icon={<MenuBookIcon />} />
-                    <Tab icon={<NotificationsIcon />} />
-                    <Tab icon={<PeopleAltIcon />} />
-                </Tabs>
-            </Paper>
+                <Paper className={classes.tabs}>
+                    <Tabs
+                        value={selectedTabIndex}
+                        onChange={handleChange}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        centered >
+                        <Tab icon={<HomeIcon />} />
+                        <Tab icon={<MenuBookIcon />} />
+                        <Tab icon={<NotificationsIcon />} />
+                        <Tab icon={<PeopleAltIcon />} />
+                    </Tabs>
+                </Paper>
         </>
     )
 }
@@ -49,5 +49,10 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
         marginTop: '1.5rem',
         marginBottom: '0.3rem',
+    },
+    tabs: {
+        flexGrow: 1,
+        position: 'sticky',
+        top: '0'
     }
 }))

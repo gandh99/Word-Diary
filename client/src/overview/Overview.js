@@ -1,9 +1,12 @@
 import React from 'react'
+import './overview.css'
 
 export default function Overview() {
     return (
         <div>
-            Overview
+            <div className='content-area'>
+                Overview
+            </div>
         </div>
     )
 }

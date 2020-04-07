@@ -8,6 +8,7 @@ import AddDiaryPostModal from './AddDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { Grid } from '@material-ui/core'
 
 export default function Diary() {
     const dispatch = useDispatch()
@@ -34,22 +35,32 @@ export default function Diary() {
                 showSnackbar={(message, severity) => {
                     setSnackbarSeverity(severity)
                     setSnackbarMessage(message)
-                    setShowSnackbar(true)} 
+                    setShowSnackbar(true)
+                }
                 }
             />
-            <div className='content-area' style={contentAreaStyle}>
-                {
-                    diaryPosts.length <= 0
-                        ? <EmptyContentPlaceholder />
-                        : diaryPosts.map(post => (
-                            <Card style={cardStyle}>
-                                <CardContent>
-                                    <div>{post.phrase}</div>
-                                    <div>{post.translatedPhrase}</div>
-                                    <div>{post.note}</div>
-                                </CardContent>
-                            </Card>
+            <div style={contentAreaStyle}>
+                {diaryPosts.length <= 0
+                    ? <EmptyContentPlaceholder />
+                    : <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="center" >
+                        {diaryPosts.map(post => (
+                            <Grid item xs={12} sm={6}>
+                                <Card style={cardStyle}>
+                                    <CardContent>
+                                        <div>{post.phrase}</div>
+                                        <div>{post.translatedPhrase}</div>
+                                        <div>{post.note}</div>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
                         ))
+                        }
+                    </Grid>
                 }
             </div>
             <Fab
@@ -70,12 +81,11 @@ export default function Diary() {
 }
 
 const contentAreaStyle = {
-    marginTop: '20px'
+    padding: '2rem'
 }
 
 const cardStyle = {
-    margin: '1rem auto',
-    width: '80%'
+    textAlign: 'start',
 }
 
 const fabStyle = {
