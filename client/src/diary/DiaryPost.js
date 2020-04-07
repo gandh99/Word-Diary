@@ -8,6 +8,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import StarIcon from '@material-ui/icons/Star'
 import ShareIcon from '@material-ui/icons/Share'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlineOutlined'
+import { Tooltip } from '@material-ui/core'
 import { updateDiaryPostAction, deleteDiaryPostAction } from '../redux/actions/diaryActions'
 
 export default function DiaryPost(props) {
@@ -35,15 +36,19 @@ export default function DiaryPost(props) {
             <Card style={cardStyle}>
                 <CardContent>
                     <div style={toolbarHeaderStyle}>
-                        <ShareIcon
-                            htmlColor={toolbarIconDefaultColor}
-                            style={toolbarIconStyle}
-                            className={classes.share} />
-                        <DeleteOutlineIcon
-                            onClick={() => deletePost()}
-                            htmlColor={toolbarIconDefaultColor}
-                            style={toolbarIconStyle}
-                            className={classes.delete} />
+                        <Tooltip title='Share post'>
+                            <ShareIcon
+                                htmlColor={toolbarIconDefaultColor}
+                                style={toolbarIconStyle}
+                                className={classes.share} />
+                        </Tooltip>
+                        <Tooltip title='Delete post'>
+                            <DeleteOutlineIcon
+                                onClick={() => deletePost()}
+                                htmlColor={toolbarIconDefaultColor}
+                                style={toolbarIconStyle}
+                                className={classes.delete} />
+                        </Tooltip>
                     </div>
                     <div className={classes.phrase}>{props.post.phrase}</div>
                     <Divider />
@@ -52,16 +57,22 @@ export default function DiaryPost(props) {
                     <div style={toolbarFooterStyle}>
                         {
                             props.post.starred
-                                ? <StarIcon
-                                    onClick={(e) => toggleStarPost(e, false)}
-                                    htmlColor={starIconFilledColor}
-                                    style={toolbarIconStyle}
-                                    className={classes.starUnfilled} />
-                                : <StarBorderIcon
-                                    onClick={(e) => toggleStarPost(e, true)}
-                                    htmlColor={toolbarIconDefaultColor}
-                                    style={toolbarIconStyle}
-                                    className={classes.starUnfilled} />
+                                ?
+                                <Tooltip title='Unstar post'>
+                                    <StarIcon
+                                        onClick={(e) => toggleStarPost(e, false)}
+                                        htmlColor={starIconFilledColor}
+                                        style={toolbarIconStyle}
+                                        className={classes.starUnfilled} />
+                                </Tooltip>
+                                :
+                                <Tooltip title='Star post'>
+                                    <StarBorderIcon
+                                        onClick={(e) => toggleStarPost(e, true)}
+                                        htmlColor={toolbarIconDefaultColor}
+                                        style={toolbarIconStyle}
+                                        className={classes.starUnfilled} />
+                                </Tooltip>
                         }
                     </div>
                 </CardContent>
