@@ -123,4 +123,4 @@ const useStyles = makeStyles((theme) => ({
     button: {
         maginTop: '2rem'
     }
-}));   
+}))
