@@ -8,7 +8,9 @@ import {
     GET_DIARY_POST_SUCCESS,
     GET_DIARY_POST_FAIL,
     UPDATE_DIARY_POST_SUCCESS,
-    UPDATE_DIARY_POST_FAIL
+    UPDATE_DIARY_POST_FAIL,
+    DELETE_DIARY_POST_SUCCESS,
+    DELETE_DIARY_POST_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../history'
@@ -102,6 +104,31 @@ export const updateDiaryPostAction = (postData, done) => (dispatch, getState) =>
             )
             dispatch({
                 type: UPDATE_DIARY_POST_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) => {
+    const { _id } = postData
+
+    axios
+        .delete(`/diary/delete-post/${_id}`, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: DELETE_DIARY_POST_SUCCESS,
+                payload: res.data.data
+            })
+            done()
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: DELETE_DIARY_POST_FAIL,
                 payload: err.response.data
             })
         })

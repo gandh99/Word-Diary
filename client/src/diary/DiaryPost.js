@@ -8,17 +8,22 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import StarIcon from '@material-ui/icons/Star'
 import ShareIcon from '@material-ui/icons/Share'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlineOutlined'
-import { updateDiaryPostAction } from '../redux/actions/diaryActions'
+import { updateDiaryPostAction, deleteDiaryPostAction } from '../redux/actions/diaryActions'
 
 export default function DiaryPost(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const updateDiaryPost = (postData, done) => dispatch(updateDiaryPostAction(postData, done))
+    const deleteDiaryPost = (postData, done) => dispatch(deleteDiaryPostAction(postData, done))
     let currentPost = { ...props.post }
 
     const toggleStarPost = (event, starred) => {
         currentPost.starred = starred
         submitUpdate()
+    }
+
+    const deletePost = () => {
+        deleteDiaryPost(currentPost, () => props.refresh())
     }
 
     const submitUpdate = (event) => {
@@ -35,6 +40,7 @@ export default function DiaryPost(props) {
                             style={toolbarIconStyle}
                             className={classes.share} />
                         <DeleteOutlineIcon
+                            onClick={() => deletePost()}
                             htmlColor={toolbarIconDefaultColor}
                             style={toolbarIconStyle}
                             className={classes.delete} />
