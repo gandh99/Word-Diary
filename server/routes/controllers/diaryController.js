@@ -82,3 +82,22 @@ module.exports.updatePost = (req, res, done) => {
         })
     })
 }
+
+module.exports.deletePost = (req, res, done) => {
+    const _id = req.params.id
+
+    // Delete the particular diary post using the _id provided
+    DiaryPost.deleteOne({ _id }, (err, result) => {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                data: 'Error deleting post.'
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: 'Successfully deleted post.'
+        })
+    })
+}

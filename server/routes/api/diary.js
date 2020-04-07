@@ -23,4 +23,9 @@ router.get('/get-post', auth, diaryController.getPost)
 // @access  Private
 router.put('/update-post', auth, diaryController.updatePost)
 
+// @route   DELETE /diary/delete-post
+// @desc    For deleting a particular post
+// @access  Private
+router.delete('/delete-post/:id', auth, diaryController.deletePost)
+
 module.exports = router
