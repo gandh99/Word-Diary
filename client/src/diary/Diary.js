@@ -1,33 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import AddDiaryPostModal from './AddDiaryPostModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 
 export default function Diary() {
-    // Add word modal
+    const dispatch = useDispatch()
+    const diaryPosts = useSelector(state => state.diary.allDiaryPosts)
+    
+    // For handling the AddDiaryPostModal
     const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
-
-    const exampleContent = [
-        // {
-        //     word: '执着',
-        //     translation: 'Persistent',
-        //     exampleSentence: '他很执着。'
-        // },
-        // {
-        //     word: '执着',
-        //     translation: 'Persistent',
-        //     exampleSentence: '他很执着。'
-        // },
-        // {
-        //     word: '执着',
-        //     translation: 'Persistent',
-        //     exampleSentence: '他很执着。'
-        // },
-    ]
+    
+    useEffect(() => {
+        dispatch(getDiaryPostsAction())
+    }, [])
 
     return (
         <div>
@@ -37,14 +27,14 @@ export default function Diary() {
             />
             <div className='content-area' style={contentAreaStyle}>
                 {
-                    exampleContent.length <= 0
+                    diaryPosts.length <= 0
                         ? <EmptyContentPlaceholder />
-                        : exampleContent.map(content => (
+                        : diaryPosts.map(post => (
                             <Card style={cardStyle}>
                                 <CardContent>
-                                    <div>{content.word}</div>
-                                    <div>{content.translation}</div>
-                                    <div>{content.exampleSentence}</div>
+                                    <div>{post.phrase}</div>
+                                    <div>{post.translatedPhrase}</div>
+                                    <div>{post.note}</div>
                                 </CardContent>
                             </Card>
                         ))
@@ -71,7 +61,7 @@ const cardStyle = {
 }
 
 const fabStyle = {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '20px',
     right: '20px'
 }

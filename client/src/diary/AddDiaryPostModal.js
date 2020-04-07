@@ -20,7 +20,6 @@ export default function AddDiaryPostModal(props) {
             // Callback
             (translatedText) => {
                 setTranslatedPhrase(translatedText)
-                console.log(translatedText)
             })
     }
 

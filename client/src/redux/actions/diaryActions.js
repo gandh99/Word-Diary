@@ -1,6 +1,13 @@
 import axios from 'axios'
 import { returnErrors } from './errorActions'
-import { TRANSLATE_SUCCESS, TRANSLATE_FAIL, ADD_DIARY_POST_SUCCESS, ADD_DIARY_POST_FAIL } from '../actionTypes'
+import {
+    TRANSLATE_SUCCESS,
+    TRANSLATE_FAIL,
+    ADD_DIARY_POST_SUCCESS,
+    ADD_DIARY_POST_FAIL,
+    GET_DIARY_POST_SUCCESS,
+    GET_DIARY_POST_FAIL
+} from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
@@ -49,11 +56,10 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
         })
 }
 
-export const getDiaryPostAction = () => (dispatch, getState) => {
+export const getDiaryPostsAction = () => (dispatch, getState) => {
     axios
         .get('/diary/get-post', tokenConfig(getState))
         .then(res => {
-            console.log(res.data.data)
             dispatch({
                 type: GET_DIARY_POST_SUCCESS,
                 payload: res.data.data
