@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './diary.css'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
@@ -27,7 +28,7 @@ export default function Diary() {
     }, [])
 
     return (
-        <div>
+        <div className='content-area'>
             <AddDiaryPostModal
                 show={showAddDiaryPostModal}
                 onHide={() => setShowAddDiaryPostModal(false)}
