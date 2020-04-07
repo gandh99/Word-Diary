@@ -24,7 +24,11 @@ export default function DiaryPost(props) {
                     <div className={classes.translatedPhrase}>{props.post.translatedPhrase}</div>
                     <div className={classes.note}>{props.post.note}</div>
                     <div style={toolbarFooterStyle}>
-                        <StarBorderIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.starUnfilled} />
+                        {
+                            props.post.starred
+                                ? <StarIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.starUnfilled} />
+                                : <StarBorderIcon htmlColor={toolbarIconDefaultColor} style={toolbarIconStyle} className={classes.starUnfilled} />
+                        }
                     </div>
                 </CardContent>
             </Card>

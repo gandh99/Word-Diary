@@ -18,6 +18,10 @@ const DiaryPostSchema = new Schema({
         type: String,
         required: true
     },
+    starred: {
+        type: Boolean,
+        default: false
+    },
     dateCreated: {
         type: Date,
         default: Date.now
