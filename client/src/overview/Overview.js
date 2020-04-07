@@ -4,7 +4,7 @@ import './overview.css'
 export default function Overview() {
     return (
         <div>
-            <div className='content-area'>
+            <div className='tab-content-area'>
                 Overview
             </div>
         </div>

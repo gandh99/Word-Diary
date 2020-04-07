@@ -28,7 +28,7 @@ export default function Diary() {
     }, [])
 
     return (
-        <div className='content-area'>
+        <div className='tab-content-area'>
             <AddDiaryPostModal
                 show={showAddDiaryPostModal}
                 onHide={() => setShowAddDiaryPostModal(false)}
@@ -40,7 +40,7 @@ export default function Diary() {
                 }
                 }
             />
-            <div style={contentAreaStyle}>
+            <div style={gridContentAreaStyle}>
                 {diaryPosts.length <= 0
                     ? <EmptyContentPlaceholder />
                     : <Grid
@@ -81,7 +81,7 @@ export default function Diary() {
     )
 }
 
-const contentAreaStyle = {
+const gridContentAreaStyle = {
     padding: '2rem'
 }
 
