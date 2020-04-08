@@ -1,8 +1,8 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const passport = require("passport")
+const setupProxy = require('./setupProxy')
 const connectDB = require('./config/db')
-const { createProxyMiddleware } = require('http-proxy-middleware')
 
 // Init
 const app = express()
@@ -18,7 +18,7 @@ app.use(passport.session())
 
 // Proxy to the authServer. This line of code MUST be above the bodyparser!!!
 // It is a known issue: https://github.com/chimurai/http-proxy-middleware/issues/40
-app.use('/authentication', createProxyMiddleware({ target: 'http://localhost:4000', changeOrigin: true }))
+setupProxy(app)
 
 // Bodyparser
 app.use(express.json())
