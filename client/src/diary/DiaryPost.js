@@ -16,7 +16,7 @@ export default function DiaryPost(props) {
     const dispatch = useDispatch()
     const updateDiaryPost = (postData, done) => dispatch(updateDiaryPostAction(postData, done))
     const deleteDiaryPost = (postData, done) => dispatch(deleteDiaryPostAction(postData, done))
-    let currentPost = { ...props.post }
+    let currentPost = props.post
 
     const toggleStarPost = (event, starred) => {
         currentPost.starred = starred
