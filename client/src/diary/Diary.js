@@ -52,6 +52,7 @@ export default function Diary() {
                         alignItems="center" >
                         {diaryPosts.map(post => (
                             <DiaryPost
+                                key={post._id}
                                 post={post}
                                 refresh={() => dispatch(getDiaryPostsAction())}
                             />
@@ -78,7 +79,7 @@ export default function Diary() {
 }
 
 const gridContentAreaStyle = {
-    padding: '2rem'
+    padding: '2rem 2rem 6rem 2rem',
 }
 
 const fabStyle = {

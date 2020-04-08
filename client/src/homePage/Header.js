@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
     tabs: {
         flexGrow: 1,
         position: 'sticky',
-        top: '0'
+        top: '0',
+        zIndex: '2'
     }
 }))
