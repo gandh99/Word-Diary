@@ -55,8 +55,8 @@ module.exports.login = (req, res, done) => {
             }
 
             // Create the access token and refresh token
-            const accessToken = jwt.sign({ userData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5s' })
-            const refreshToken = jwt.sign({ userData }, process.env.REFRESH_TOKEN_SECRET)
+            const accessToken = jwt.sign({ userData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
+            const refreshToken = jwt.sign({ userData }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
 
             // Store the refresh token in Redis cache
             // redisClient.set(username, refreshToken)
@@ -86,7 +86,7 @@ module.exports.refresh = (req, res, done) => {
         if (err) throw err
 
         const userData = tokenData.userData
-        const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5s' })
+        const accessToken = jwt.sign({ userData }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
         res.status(200).json({
             success: true,
             data: accessToken

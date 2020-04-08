@@ -44,7 +44,7 @@ module.exports.addPost = (req, res, done) => {
 }
 
 module.exports.getPost = (req, res, done) => {
-    const userData = req.tokenData
+    const { userData } = req.tokenData
     const username = userData.username
 
     // Get all the posts belonging to the user
