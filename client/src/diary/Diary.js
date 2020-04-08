@@ -3,8 +3,6 @@ import './diary.css'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import AddDiaryPostModal from './AddDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
@@ -42,23 +40,24 @@ export default function Diary() {
                 }
             />
             <div style={gridContentAreaStyle}>
-                {diaryPosts.length <= 0
-                    ? <EmptyContentPlaceholder />
-                    : <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justify="flex-start"
-                        alignItems="center" >
-                        {diaryPosts.map(post => (
-                            <DiaryPost
-                                key={post._id}
-                                post={post}
-                                refresh={() => dispatch(getDiaryPostsAction())}
-                            />
-                        ))
-                        }
-                    </Grid>
+                {
+                    diaryPosts.length <= 0
+                        ? <EmptyContentPlaceholder />
+                        : <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-start"
+                            alignItems="center" >
+                            {diaryPosts.map(post => (
+                                <DiaryPost
+                                    key={post._id}
+                                    post={post}
+                                    refresh={() => dispatch(getDiaryPostsAction())}
+                                />
+                            ))
+                            }
+                        </Grid>
                 }
             </div>
             <Fab
