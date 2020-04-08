@@ -38,6 +38,8 @@ export default function (state = initialState, action) {
             
             return {
                 ...state,
+                accessToken,
+                refreshToken,
                 userData: userData,
                 isAuthenticated: true,
                 isLoading: false

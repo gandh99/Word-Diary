@@ -64,7 +64,7 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
         })
 }
 
-export const getDiaryPostsAction = () => (dispatch, getState) => {
+export const getDiaryPostsAction = () => (dispatch, getState) => {  
     axios
         .get('/diary/get-post', tokenConfig(getState))
         .then(res => {
