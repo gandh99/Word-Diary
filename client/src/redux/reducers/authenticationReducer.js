@@ -7,6 +7,7 @@ import {
     REGISTER_FAIL,
     AUTH_ERROR,
     LOGOUT_SUCCESS,
+    TOKEN_REFRESH_SUCCESS,
 } from '../actionTypes'
 
 const initialState = {
@@ -47,6 +48,14 @@ export default function (state = initialState, action) {
         case REGISTER_SUCCESS:
             return {
                 ...state,
+            }
+        case TOKEN_REFRESH_SUCCESS:
+            const newAccessToken = action.payload
+            localStorage.setItem('accessToken', newAccessToken)
+
+            return {
+                ...state,
+                accessToken: newAccessToken
             }
         case AUTH_ERROR:
         case LOGIN_FAIL:

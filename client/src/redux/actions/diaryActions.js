@@ -10,10 +10,49 @@ import {
     UPDATE_DIARY_POST_SUCCESS,
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
-    DELETE_DIARY_POST_FAIL
+    DELETE_DIARY_POST_FAIL,
+    TOKEN_REFRESH_SUCCESS
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../history'
+import store from '../store'
+
+export const refreshTokenAction = (error) => {console.log(error)
+    const originalRequest = error.config
+    const { dispatch } = store
+    
+    if (error.response.status === 401 && originalRequest.url ===
+        'http://localhost:4000/authentication/refresh') {
+        history.push('/login')
+        return Promise.reject(error)
+    }
+    
+    if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+        const refreshToken = localStorage.getItem('refreshToken')
+
+        return axios
+            .post('/authentication/refresh', { refreshToken })
+            .then(res => {
+                if (res.status === 200 || res.status === 201) {
+                    const newAccessToken = res.data.data
+                    dispatch({
+                        type: TOKEN_REFRESH_SUCCESS,
+                        payload: newAccessToken
+                    })
+
+                    // Update the original request with the new token and execute it again
+                    originalRequest.headers['authorization'] = newAccessToken
+                    return axios(originalRequest)
+                }
+            })
+    }
+    return Promise.reject(error)
+}
+
+axios.interceptors.response.use((response) => {
+    return response
+}, refreshTokenAction)
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
     axios
@@ -64,7 +103,7 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
         })
 }
 
-export const getDiaryPostsAction = () => (dispatch, getState) => {  
+export const getDiaryPostsAction = () => (dispatch, getState) => {
     axios
         .get('/diary/get-post', tokenConfig(getState))
         .then(res => {
@@ -74,6 +113,7 @@ export const getDiaryPostsAction = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
+            console.log(err)
             const errorMessage = err.response.data.data
 
             dispatch(
