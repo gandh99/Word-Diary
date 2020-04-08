@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
+    "authServer": "nodemon authServer.js",
     "client": "cd ../client/ && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run client\""
   },
   "author": "Gan Ding Han",
   "license": "ISC",
