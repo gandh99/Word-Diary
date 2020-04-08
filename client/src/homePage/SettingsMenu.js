@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from '@material-ui/core'
+import { logoutUserAction } from '../redux/actions/authenticationActions'
 
 export default function SettingsMenu() {
     const classes = useStyles()
+    const dispatch = useDispatch()
     const [openMenu, setOpenMenu] = useState(false)
+    const logout = () => dispatch(logoutUserAction())
 
     const handleToggle = (shouldOpen) => {
         setOpenMenu(shouldOpen)
@@ -27,7 +31,7 @@ export default function SettingsMenu() {
                             <ClickAwayListener onClickAway={() => handleToggle(false)}>
                                 <MenuList autoFocusItem={openMenu} id="menu-list-grow">
                                     <MenuItem>Profile</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
+                                    <MenuItem onClick={logout}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>
@@ -48,7 +52,7 @@ const menuPopperStyle = {
 }
 
 const menuGrowStyle = {
-    position: 'absolute', 
+    position: 'absolute',
     top: '-5px',
     right: '30px'
 }

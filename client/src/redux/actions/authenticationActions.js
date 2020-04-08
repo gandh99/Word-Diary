@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADING, USER_LOADED, AUTH_ERROR } from '../actionTypes'
+import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADING, USER_LOADED, AUTH_ERROR, LOGOUT_SUCCESS } from '../actionTypes'
 import axios from 'axios'
 import { returnErrors } from './errorActions'
 import { history } from '../../history'
@@ -50,6 +50,13 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
                 payload: err.response.data
             })
         })
+}
+
+export const logoutUserAction = () => dispatch => {
+    dispatch({
+        type: LOGOUT_SUCCESS
+    })
+    history.push('/login')
 }
 
 export const tokenConfig = (getState) => {
