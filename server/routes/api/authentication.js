@@ -13,4 +13,9 @@ router.post('/register', authenticationController.register)
 // @access  Public
 router.post('/login', authenticationController.login)
 
+// @route   POST /authentication/refresh
+// @desc    For generating a new access token by supplying a refresh token
+// @access  Public
+router.post('/refresh', authenticationController.refresh)
+
 module.exports = router

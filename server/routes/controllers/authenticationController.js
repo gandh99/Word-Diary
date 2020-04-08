@@ -71,3 +71,25 @@ module.exports.login = (req, res, done) => {
         }
     })(req, res, done)
 }
+
+module.exports.refresh = (req, res, done) => {
+    const { refreshToken } = req.body
+
+    if (!refreshToken) {
+        return res.status(400).json({
+            success: false,
+            data: 'No refresh token provided.'
+        })
+    }
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, tokenData) => {
+        if (err) throw err
+
+        const userData = tokenData.userData
+        const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+        res.status(200).json({
+            success: true,
+            data: accessToken
+        })
+    })
+}
