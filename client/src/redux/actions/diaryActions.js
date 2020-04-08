@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../config/axiosConfig'
 import { returnErrors } from './errorActions'
 import {
     TRANSLATE_SUCCESS,
@@ -11,48 +11,9 @@ import {
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
     DELETE_DIARY_POST_FAIL,
-    TOKEN_REFRESH_SUCCESS
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
-import { history } from '../../history'
-import store from '../store'
-
-export const refreshTokenAction = (error) => {console.log(error)
-    const originalRequest = error.config
-    const { dispatch } = store
-    
-    if (error.response.status === 401 && originalRequest.url ===
-        'http://localhost:4000/authentication/refresh') {
-        history.push('/login')
-        return Promise.reject(error)
-    }
-    
-    if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true
-        const refreshToken = localStorage.getItem('refreshToken')
-
-        return axios
-            .post('/authentication/refresh', { refreshToken })
-            .then(res => {
-                if (res.status === 200 || res.status === 201) {
-                    const newAccessToken = res.data.data
-                    dispatch({
-                        type: TOKEN_REFRESH_SUCCESS,
-                        payload: newAccessToken
-                    })
-
-                    // Update the original request with the new token and execute it again
-                    originalRequest.headers['authorization'] = newAccessToken
-                    return axios(originalRequest)
-                }
-            })
-    }
-    return Promise.reject(error)
-}
-
-axios.interceptors.response.use((response) => {
-    return response
-}, refreshTokenAction)
+import { history } from '../../config/history'
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
     axios

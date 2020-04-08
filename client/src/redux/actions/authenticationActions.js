@@ -1,7 +1,7 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADING, USER_LOADED, AUTH_ERROR, LOGOUT_SUCCESS } from '../actionTypes'
-import axios from 'axios'
+import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT_SUCCESS } from '../actionTypes'
+import axios from '../../config/axiosConfig'
 import { returnErrors } from './errorActions'
-import { history } from '../../history'
+import { history } from '../../config/history'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios

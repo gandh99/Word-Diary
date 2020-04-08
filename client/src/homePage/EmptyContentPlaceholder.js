@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { history } from '../history'
+import { history } from '../config/history'
 import { makeStyles } from '@material-ui/core/styles'
 import Bear from '../images/bear.png'
 import { Typography } from '@material-ui/core'
