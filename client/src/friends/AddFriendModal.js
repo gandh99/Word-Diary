@@ -5,28 +5,30 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import { userSearchAction } from '../redux/actions/friendsActions'
+import UserSearchCard from './UserSearchCard'
 
 export default function AddFriendModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const [inputString, setInputString] = useState('')
-    const userSearch = (searchString) => dispatch(userSearchAction(searchString))
+    const [userList, setUserList] = useState([])
+    const userSearch = (searchString, done) => dispatch(userSearchAction(searchString, done))
 
     const onSearch = (event, searchString) => {
         event.preventDefault()
 
         // Validate input
         if (!inputIsValid(searchString)) {
+            setUserList([])
             return
         }
 
         // Add the diary entry
-        userSearch(searchString)
+        userSearch(searchString, setUserList)
     }
 
     const onHide = () => {
+        setUserList([])
         props.onHide()
-        setInputString('')
     }
 
     const inputIsValid = (inputString) => {
@@ -48,14 +50,12 @@ export default function AddFriendModal(props) {
                     </div>
                     <InputBase
                         placeholder="Search for a friend…"
-                        value={inputString}
                         classes={{
                             root: classes.inputRoot,
                             input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
                         onChange={(e) => {
-                            setInputString(e.target.value)
                             onSearch(e, e.target.value)
                         }}
                     />
@@ -63,7 +63,11 @@ export default function AddFriendModal(props) {
             </Modal.Header>
             <Form>
                 <Modal.Body className={classes.modalBody}>
-
+                    {
+                        userList.map(user =>
+                            <UserSearchCard username={user.username} />
+                        )
+                    }
                 </Modal.Body>
             </Form>
             <Modal.Footer className='modal-footer'>

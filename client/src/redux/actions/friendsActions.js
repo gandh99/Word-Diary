@@ -6,7 +6,7 @@ import {
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
-export const userSearchAction = (searchString) => (dispatch, getState) => {
+export const userSearchAction = (searchString, done) => (dispatch, getState) => {
     axios
         .get(`/friends/user-search/${searchString}`, tokenConfig(getState))
         .then(res => {
@@ -14,6 +14,7 @@ export const userSearchAction = (searchString) => (dispatch, getState) => {
                 type: USER_SEARCH_SUCCESS,
                 payload: res.data.data
             })
+            done(res.data.data)
         })
         .catch(err => {
             const errorMessage = err.response.data.data
