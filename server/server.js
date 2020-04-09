@@ -25,6 +25,7 @@ app.use(express.json())
 
 // Routes
 app.use('/diary', require('./routes/api/diary'))    
+app.use('/friends', require('./routes/api/friends'))    
 
 // Start the server
 const port = process.env.SERVER_PORT || 5000
