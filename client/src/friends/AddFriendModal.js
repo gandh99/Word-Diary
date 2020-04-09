@@ -2,55 +2,35 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import { Modal, Button, Form } from 'react-bootstrap'
-import GTranslateIcon from '@material-ui/icons/GTranslate'
-import { Tooltip } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
+import { userSearchAction } from '../redux/actions/friendsActions'
 
 export default function AddFriendModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    // const [phrase, setPhrase] = useState('')
-    // const [translatedPhrase, setTranslatedPhrase] = useState('')
-    // const [note, setNote] = useState('')
-    // const translatePhrase = (phrase, callback) => dispatch(translateAction(phrase, callback))
-    // const addDiaryPost = (postData, successCallback, errorCallback) => dispatch(addDiaryPostAction(postData, successCallback, errorCallback))
+    const [inputString, setInputString] = useState('')
+    const userSearch = (searchString) => dispatch(userSearchAction(searchString))
 
-    const onSubmit = (event) => {
+    const onSearch = (event, searchString) => {
         event.preventDefault()
 
         // Validate input
-        if (!inputIsValid()) {
+        if (!inputIsValid(searchString)) {
             return
         }
 
         // Add the diary entry
-        // addDiaryPost(
-        //     {
-        //         phrase,
-        //         translatedPhrase,
-        //         note
-        //     },
-        //     // successCallback
-        //     (message) => {
-        //         props.refresh()
-        //         props.showSnackbar(message, 'success')
-        //     },
-        //     // errorCallback
-        //     (message) => {
-        //         props.showSnackbar(message, 'error')
-        //     }
-        // )
-        onHide()
+        userSearch(searchString)
     }
 
     const onHide = () => {
         props.onHide()
-        // setTranslatedPhrase('')
+        setInputString('')
     }
 
-    const inputIsValid = () => {
-        // return (phrase.length > 0 && translatedPhrase.length > 0 && note.length > 0)
+    const inputIsValid = (inputString) => {
+        return (inputString.length > 0)
     }
 
     return (
@@ -68,15 +48,20 @@ export default function AddFriendModal(props) {
                     </div>
                     <InputBase
                         placeholder="Search for a friend…"
+                        value={inputString}
                         classes={{
                             root: classes.inputRoot,
                             input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => {
+                            setInputString(e.target.value)
+                            onSearch(e, e.target.value)
+                        }}
                     />
                 </div>
             </Modal.Header>
-            <Form onSubmit={onSubmit}>
+            <Form>
                 <Modal.Body className={classes.modalBody}>
 
                 </Modal.Body>
@@ -84,7 +69,7 @@ export default function AddFriendModal(props) {
             <Modal.Footer className='modal-footer'>
                 <Button type='submit' className={classes.button}>
                     Done
-                    </Button>
+                </Button>
             </Modal.Footer>
         </Modal>
     )
