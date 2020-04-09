@@ -61,7 +61,7 @@ export default function AddFriendModal(props) {
                     />
                 </div>
             </Modal.Header>
-            <Form>
+            <div className={classes.userResultsArea}>
                 <Modal.Body className={classes.modalBody}>
                     {
                         userList.map(user =>
@@ -69,8 +69,8 @@ export default function AddFriendModal(props) {
                         )
                     }
                 </Modal.Body>
-            </Form>
-            <Modal.Footer className='modal-footer'>
+            </div>
+            <Modal.Footer>
                 <Button type='submit' className={classes.button}>
                     Done
                 </Button>
@@ -119,6 +119,10 @@ const useStyles = makeStyles((theme) => ({
     },
     modalBody: {
         height: '20rem'
+    },
+    userResultsArea: {
+        maxHeight: '100%',
+        overflow: 'auto'
     },
     button: {
         backgroundColor: theme.palette.primary.main

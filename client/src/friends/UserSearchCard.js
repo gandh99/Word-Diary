@@ -5,14 +5,16 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Button from '@material-ui/core/Button'
+import AccountCircle from '../images/account_circle.png'
 
 export default function UserSearchCard(props) {
     const classes = useStyles()
 
     return (
         <Card className={classes.root} variant="outlined">
-            <CardContent>
-                <AccountCircleIcon color='primary' fontSize='large' />
+            <CardContent className={classes.cardContent}>
+                {/* <AccountCircleIcon color='primary' fontSize='large' /> */}
+                <img src={AccountCircle} className={classes.displayPicture} />
                 <Typography className={classes.username} variant="h5" component="h2">
                     {props.username}
                 </Typography>
@@ -28,13 +30,17 @@ const useStyles = makeStyles(theme => ({
     root: {
         minWidth: 275,
     },
+    cardContent: {
+    },
+    displayPicture: {
+        width: '3rem'
+    },
     username: {
         fontSize: 18,
         display: 'inline',
         margin: '0 2rem'
     },
     addButton: {
-        textTransform: 'none',
-        float: 'right',
+        textTransform: 'none'
     },
 }))
