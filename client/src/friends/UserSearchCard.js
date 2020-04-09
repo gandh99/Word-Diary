@@ -13,7 +13,6 @@ export default function UserSearchCard(props) {
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent className={classes.cardContent}>
-                {/* <AccountCircleIcon color='primary' fontSize='large' /> */}
                 <img src={AccountCircle} className={classes.displayPicture} />
                 <Typography className={classes.username} variant="h5" component="h2">
                     {props.username}
@@ -31,16 +30,21 @@ const useStyles = makeStyles(theme => ({
         minWidth: 275,
     },
     cardContent: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     displayPicture: {
         width: '3rem'
     },
     username: {
-        fontSize: 18,
-        display: 'inline',
+        fontSize: 16,
         margin: '0 2rem'
     },
     addButton: {
-        textTransform: 'none'
+        textTransform: 'none',
+        verticalAlign: 'middle',
+        height: '80%',
+        marginLeft: 'auto'
     },
 }))
