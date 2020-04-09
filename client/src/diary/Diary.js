@@ -32,11 +32,12 @@ export default function Diary() {
                 show={showAddDiaryPostModal}
                 onHide={() => setShowAddDiaryPostModal(false)}
                 refresh={() => dispatch(getDiaryPostsAction())}
-                showSnackbar={(message, severity) => {
-                    setSnackbarSeverity(severity)
-                    setSnackbarMessage(message)
-                    setShowSnackbar(true)
-                }
+                showSnackbar={
+                    (message, severity) => {
+                        setSnackbarSeverity(severity)
+                        setSnackbarMessage(message)
+                        setShowSnackbar(true)
+                    }
                 }
             />
             <div style={gridContentAreaStyle}>

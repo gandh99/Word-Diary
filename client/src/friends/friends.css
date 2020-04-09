@@ -1,0 +1,6 @@
+@import url('../styles.css');
+
+.tab-content-area {
+    background: -moz-linear-gradient(45deg, var(--primary-background-color-dark) 0%, var(--primary-background-color-light) 100%);
+    min-height: 100vh;
+}
