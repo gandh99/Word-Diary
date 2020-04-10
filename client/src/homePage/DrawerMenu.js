@@ -4,11 +4,33 @@ import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@ma
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
 import Drawer from '@material-ui/core/Drawer'
+import HomeIcon from '@material-ui/icons/Home'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
+import MenuBookIcon from '@material-ui/icons/MenuBook'
+import SettingsIcon from '@material-ui/icons/Settings'
+import HelpIcon from '@material-ui/icons/Help'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 export default function DrawerMenu(props) {
     const { container } = props
     const classes = useStyles()
     const theme = useTheme()
+
+    // Page links (icon + text)
+    const pageLinks = [
+        { icon: <HomeIcon />, text: 'Home' },
+        { icon: <MenuBookIcon />, text: 'My Diary' },
+        { icon: <NotificationsIcon />, text: 'Notifications' },
+        { icon: <PeopleAltIcon />, text: 'Friends' },
+    ]
+
+    // Utility links (icon + text)
+    const utilityLinks = [
+        { icon: <SettingsIcon />, text: 'Settings' },
+        { icon: <HelpIcon />, text: 'Help' },
+        { icon: <ExitToAppIcon />, text: 'Logout' },
+    ]
 
     const handleDrawerToggle = () => {
         props.setMobileOpen(!props.mobileOpen);
@@ -19,19 +41,19 @@ export default function DrawerMenu(props) {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                {pageLinks.map((page) => (
+                    <ListItem button key={page.text}>
+                        <ListItemIcon>{page.icon}</ListItemIcon>
+                        <ListItemText primary={page.text} />
                     </ListItem>
                 ))}
             </List>
             <Divider />
             <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                {utilityLinks.map(utility => (
+                    <ListItem button key={utility.text}>
+                        <ListItemIcon>{utility.icon}</ListItemIcon>
+                        <ListItemText primary={utility.text} />
                     </ListItem>
                 ))}
             </List>

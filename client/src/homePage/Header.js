@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import { Typography } from '@material-ui/core'
+import { Typography, Hidden } from '@material-ui/core'
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
@@ -27,9 +27,11 @@ export default function Header(props) {
     return (
         <>
             <div className='header-area' style={headerAreaStyle}>
-                <IconButton onClick={() => props.setMobileOpen(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                    <MenuIcon color='primary' fontSize='large' />
-                </IconButton>
+                <Hidden smUp>
+                    <IconButton onClick={() => props.setMobileOpen(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon color='primary' fontSize='large' />
+                    </IconButton>
+                </Hidden>
                 <Typography className={classes.title} component="h4">
                     Word Diary
                 </Typography>
