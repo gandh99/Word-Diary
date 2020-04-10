@@ -6,9 +6,9 @@ module.exports.userSearch = async (req, res, done) => {
     const originalUserId = userData.id
     const searchString = req.params.username
 
-    // Find all users where the substring appears at the start of their username
+    // Find all users where the substring appears at the start of their username (except the originator of this query)
     const matchingUsers = await User.find(
-        { 'username': { '$regex': "^" + searchString } },
+        { 'username': { '$regex': "^" + searchString, "$ne": userData.username } },
         (err, users) => {
             if (err) {
                 return res.status(400).json({
@@ -43,7 +43,7 @@ module.exports.userSearch = async (req, res, done) => {
             status: 'Add'
         }
 
-        // If this user, who matches the search string, has been sent a friend request by the query originator
+        // Check if this user, who matches the search string, has been sent a friend request by the query originator
         if (idOfRequestedFriends.includes(matchingUser._id.toString())) {
             userData.status = 'Requested'
         }
