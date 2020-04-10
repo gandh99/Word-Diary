@@ -15,6 +15,10 @@ const UserSchema = new Schema({
         required: true,
         default: "Hi there! I'm using Word Diary!"
     },
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Friends'
+    }],
     dateCreated: {
         type: Date,
         default: Date.now
