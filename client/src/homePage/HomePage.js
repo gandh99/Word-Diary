@@ -35,9 +35,9 @@ export default function HomePage(props) {
                     mobileOpen={mobileOpen}
                     setMobileOpen={setMobileOpen}
                 />
-
-                <div className='tab-area'>
-                    {tabContent[tabContentIndex]}
+                <div className={classes.pageArea}>
+                    <Friends />
+                    {/* {tabContent[tabContentIndex]} */}
                 </div>
             </div>
         </div>
@@ -59,4 +59,6 @@ const useStyles = makeStyles((theme) => ({
         }),
         marginLeft: 0,
     },
+    pageArea: {
+    }
 }))

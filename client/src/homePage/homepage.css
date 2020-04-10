@@ -1,5 +1,5 @@
 @import url('../styles.css');
 
-.tab-area {
+.pageArea {
     background: -moz-linear-gradient(45deg, var(--primary-background-color-dark) 0%, var(--primary-background-color-light) 100%);
 }

@@ -42,7 +42,7 @@ export default function DrawerMenu(props) {
             <Divider />
             <List>
                 {pageLinks.map((page) => (
-                    <ListItem button key={page.text}>
+                    <ListItem button key={page.text} onClick={() => console.log('hi')}>
                         <ListItemIcon>{page.icon}</ListItemIcon>
                         <ListItemText primary={page.text} />
                     </ListItem>
