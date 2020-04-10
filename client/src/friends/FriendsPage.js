@@ -7,7 +7,7 @@ import Fab from '@material-ui/core/Fab'
 import AddFriendModal from './AddFriendModal'
 import FriendsTabBar from './FriendsTabBar'
 
-export default function Friends(props) {
+export default function FriendsPage(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
 

@@ -4,9 +4,9 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
 import Overview from '../overview/Overview'
-import Diary from '../diary/Diary'
+import DiaryPage from '../diary/DiaryPage'
 import Notifications from '../notifications/Notifications'
-import Friends from '../friends/Friends'
+import FriendsPage from '../friends/FriendsPage'
 import DrawerMenu from './DrawerMenu'
 
 export default function HomePage(props) {
@@ -19,9 +19,9 @@ export default function HomePage(props) {
     const [tabContentIndex, setTabContentIndex] = useState(0)
     const tabContent = [
         <Overview />,
-        <Diary />,
+        <DiaryPage />,
         <Notifications />,
-        <Friends />,
+        <FriendsPage />,
     ]
 
     return (
@@ -36,7 +36,8 @@ export default function HomePage(props) {
                     setMobileOpen={setMobileOpen}
                 />
                 <div className={classes.pageArea}>
-                    <Friends />
+                    {/* <FriendsPage /> */}
+                    <DiaryPage />
                     {/* {tabContent[tabContentIndex]} */}
                 </div>
             </div>

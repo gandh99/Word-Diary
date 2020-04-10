@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Tabs, Tab } from '@material-ui/core'
 
-export default function FriendsTabBar(props) {
+export default function DiaryTabBar(props) {
     const classes = useStyles()
 
     return (
@@ -14,7 +14,7 @@ export default function FriendsTabBar(props) {
                 textColor="primary"
                 centered >
                 <Tab className={classes.tab} label='All' />
-                <Tab className={classes.tab} label='Pending' />
+                <Tab className={classes.tab} label='Shared with me' />
             </Tabs>
         </Paper>
     )
