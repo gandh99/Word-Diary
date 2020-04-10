@@ -4,9 +4,9 @@ const Friends = require('../../models/Friends')
 module.exports.userSearch = (req, res, done) => {
     const username = req.params.username
 
-    // Find all users with the supplied username
+    // Find all users where the substring appears at the start of the username
     User.find(
-        { 'username': { '$regex': username, '$options': 'i' } },
+        { 'username': { '$regex': "^" + username } },
         (err, users) => {
             if (err) {
                 return res.status(400).json({
