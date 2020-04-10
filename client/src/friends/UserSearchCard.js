@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import Card from '@material-ui/core/Card'
@@ -11,7 +11,23 @@ import { issueFriendRequestAction } from '../redux/actions/friendsActions'
 export default function UserSearchCard(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const [buttonStatus, setButtonStatus] = useState(props.user.status)
     const issueFriendRequest = (recipientData, successCallback, errorCallback) => dispatch(issueFriendRequestAction(recipientData, successCallback, errorCallback))
+
+    // Buttons
+    const requestedButton =
+        <Button className={classes.button} variant="outlined" disabled>
+            {buttonStatus}
+        </Button>
+    const addButton =
+        <Button
+            onClick={(e) => { onAddFriend(e, props.user.username) }}
+            variant="contained"
+            disableElevation
+            className={classes.button}
+            color='secondary' >
+            {buttonStatus}
+        </Button>
 
     const onAddFriend = (e, recipientUsername) => {
         e.preventDefault()
@@ -22,6 +38,7 @@ export default function UserSearchCard(props) {
             // successCallback
             (message) => {
                 props.showSnackbar(message, 'success')
+                setButtonStatus('Requested')
             },
             // errorCallback
             (message) => {
@@ -30,26 +47,13 @@ export default function UserSearchCard(props) {
         )
     }
 
-    const generateButton = (status) => {
-        switch (status) {
+    const generateButton = () => {
+        switch (buttonStatus) {
             case 'Requested':
-                return (
-                    <Button className={classes.button} variant="outlined" disabled>
-                        {status}
-                    </Button>
-                )
+                return requestedButton
             case 'Add':
             default:
-                return (
-                    <Button
-                        onClick={(e) => { onAddFriend(e, props.user.username) }}
-                        variant="contained"
-                        disableElevation
-                        className={classes.button}
-                        color='secondary' >
-                        {status}
-                    </Button>
-                )
+                return addButton
         }
     }
 
@@ -67,7 +71,7 @@ export default function UserSearchCard(props) {
                         {props.user.personalMessage}
                     </Typography>
                 </div>
-                {generateButton(props.user.status)}
+                {generateButton()}
             </CardContent>
         </Card>
     )
