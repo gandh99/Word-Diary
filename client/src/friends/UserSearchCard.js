@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
 
@@ -13,10 +12,17 @@ export default function UserSearchCard(props) {
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent className={classes.cardContent}>
-                <img src={AccountCircle} className={classes.displayPicture} />
-                <Typography className={classes.username} variant="h5" component="h2">
-                    {props.username}
-                </Typography>
+                <div className={classes.displayPictureArea}>
+                    <img src={AccountCircle} className={classes.displayPicture} />
+                </div>
+                <div className={classes.userDataArea}>
+                    <Typography className={classes.username} variant="h5" component="h2">
+                        {props.username}
+                    </Typography>
+                    <Typography className={classes.description} variant="h6" component="h6">
+                        Hi there, I'm using Word Diary!
+                    </Typography>
+                </div>
                 <Button variant="contained" disableElevation className={classes.addButton} color='secondary'>
                     Add
                 </Button>
@@ -34,12 +40,25 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    displayPictureArea: {
+        minWidth: '50px',
+        maxWidth: '50px',
+    },
     displayPicture: {
-        width: '3rem'
+        width: '100%',
+    },
+    userDataArea: {
+        marginLeft: '1rem',
+        marginRight: '1rem',
     },
     username: {
         fontSize: 16,
-        margin: '0 2rem'
+        margin: '0.2rem 0'
+    },
+    description: {
+        fontSize: 12,
+        margin: '0 0',
+        color: theme.palette.text.hint
     },
     addButton: {
         textTransform: 'none',
