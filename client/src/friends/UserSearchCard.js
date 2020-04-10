@@ -50,7 +50,7 @@ export default function UserSearchCard(props) {
                     disableElevation
                     className={classes.addButton}
                     color='secondary' >
-                    Add
+                    {props.user.status}
                 </Button>
             </CardContent>
         </Card>

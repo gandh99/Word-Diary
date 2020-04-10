@@ -1,12 +1,14 @@
 const User = require('../../models/User')
 const Friends = require('../../models/Friends')
 
-module.exports.userSearch = (req, res, done) => {
-    const username = req.params.username
+module.exports.userSearch = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const originalUserId = userData.id
+    const searchString = req.params.username
 
     // Find all users where the substring appears at the start of their username
-    User.find(
-        { 'username': { '$regex': "^" + username } },
+    const matchingUsers = await User.find(
+        { 'username': { '$regex': "^" + searchString } },
         (err, users) => {
             if (err) {
                 return res.status(400).json({
@@ -14,20 +16,45 @@ module.exports.userSearch = (req, res, done) => {
                     data: 'Error searching for the user.'
                 })
             }
-
-            // Package the user data that we want to send back
-            const usersData = []
-            users.map(user => (usersData.push({
-                username: user.username,
-                personalMessage: user.personalMessage
-            })))
-
-            return res.status(200).json({
-                success: true,
-                data: usersData
-            })
         }
     )
+
+    // Find all friend requests issued by the originator of this query whose status is "REQUESTED"
+    const requestedFriends = await Friends.find(
+        { 'requester': originalUserId },
+        'recipient',    // returns only the _id of the recipient
+        (err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error searching for the requested friends.'
+                })
+            }
+        }
+    )
+    
+    // Package the data to send back
+    const idOfRequestedFriends = requestedFriends.map(user => user.recipient.toString())    // necessary to convert to string
+    let usersData = []
+    for (let matchingUser of matchingUsers) {
+        let userData = {
+            username: matchingUser.username,
+            personalMessage: matchingUser.personalMessage,
+            status: 'Add'
+        }
+
+        // If this user, who matches the search string, has been sent a friend request by the query originator
+        if (idOfRequestedFriends.includes(matchingUser._id.toString())) {
+            userData.status = 'Requested'
+        }
+        
+        usersData.push(userData)
+    }
+
+    return res.status(200).json({
+        success: true,
+        data: usersData
+    })
 }
 
 module.exports.issueFriendRequest = async (req, res, done) => {
