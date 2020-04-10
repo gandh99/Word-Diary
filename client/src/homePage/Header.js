@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Tabs from '@material-ui/core/Tabs'
@@ -9,11 +9,15 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import SettingsMenu from './SettingsMenu'
-
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import DrawerMenu from './DrawerMenu'
 
 export default function Header(props) {
     const classes = useStyles()
-    const [selectedTabIndex, setSelectedTabIndex] = React.useState(0)
+
+    // For tab bar
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0)
 
     const handleChange = (event, newValue) => {
         setSelectedTabIndex(newValue)
@@ -23,7 +27,10 @@ export default function Header(props) {
     return (
         <>
             <div className='header-area' style={headerAreaStyle}>
-                <Typography className={classes.header} component="h4">
+                <IconButton onClick={() => props.setMobileOpen(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon color='primary' fontSize='large' />
+                </IconButton>
+                <Typography className={classes.title} component="h4">
                     Word Diary
                 </Typography>
                 <SettingsMenu />
@@ -53,7 +60,12 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
-    header: {
+    menuButton: {
+        position: 'absolute',
+        top: '-20px',
+        left: '20px'
+    },
+    title: {
         color: theme.palette.primary.main,
         fontWeight: 'bold',
         marginTop: '1.5rem',
