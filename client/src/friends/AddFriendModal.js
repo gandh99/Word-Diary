@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
-import { Modal, Button, Form } from 'react-bootstrap'
+import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import { userSearchAction } from '../redux/actions/friendsActions'
@@ -10,6 +11,12 @@ import UserSearchCard from './UserSearchCard'
 export default function AddFriendModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+
+    // For showing/hiding the CustomSnackbar
+    const [showSnackbar, setShowSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [snackbarSeverity, setSnackbarSeverity] = useState('')
+
     const [userList, setUserList] = useState([])
     const userSearch = (searchString, done) => dispatch(userSearchAction(searchString, done))
 
@@ -67,6 +74,11 @@ export default function AddFriendModal(props) {
                         userList.map(user =>
                             <UserSearchCard
                                 user={user}
+                                showSnackbar={(message, severity) => {
+                                    setSnackbarMessage(message)
+                                    setSnackbarSeverity(severity)
+                                    setShowSnackbar(true)
+                                }}
                             />
                         )
                     }
@@ -77,6 +89,12 @@ export default function AddFriendModal(props) {
                     Done
                 </Button>
             </Modal.Footer>
+            <CustomSnackbar
+                message={snackbarMessage}
+                show={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+                severity={snackbarSeverity}
+            />
         </Modal>
     )
 }

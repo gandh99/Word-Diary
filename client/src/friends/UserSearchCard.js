@@ -11,14 +11,22 @@ import { issueFriendRequestAction } from '../redux/actions/friendsActions'
 export default function UserSearchCard(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const issueFriendRequest = (recipientData, done) => dispatch(issueFriendRequestAction(recipientData, done))
+    const issueFriendRequest = (recipientData, successCallback, errorCallback) => dispatch(issueFriendRequestAction(recipientData, successCallback, errorCallback))
 
     const onAddFriend = (e, recipientUsername) => {
         e.preventDefault()
-        issueFriendRequest({
-            recipient: recipientUsername
-        },
-            () => { }
+        issueFriendRequest(
+            {
+                recipient: recipientUsername
+            },
+            // successCallback
+            (message) => {
+                props.showSnackbar(message, 'success')
+            },
+            // errorCallback
+            (message) => {
+                props.showSnackbar(message, 'fail')
+            }
         )
     }
 

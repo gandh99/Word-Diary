@@ -31,7 +31,7 @@ export const userSearchAction = (searchString, done) => (dispatch, getState) => 
         })
 }
 
-export const issueFriendRequestAction = (recipientData, done) => (dispatch, state) => {
+export const issueFriendRequestAction = (recipientData, successCallback, errorCallback) => (dispatch, state) => {
     axios
         .post('/friends/issue-friend-request', recipientData, tokenConfig(state))
         .then(res => {
@@ -39,7 +39,7 @@ export const issueFriendRequestAction = (recipientData, done) => (dispatch, stat
                 type: ISSUE_FRIEND_REQUEST_SUCCESS,
                 payload: recipientData.recipient
             })
-            // done(res.data.data)
+            successCallback(res.data.data)
         })
         .catch(err => {
             const errorMessage = err.response.data.data
@@ -51,5 +51,7 @@ export const issueFriendRequestAction = (recipientData, done) => (dispatch, stat
                 type: ISSUE_FRIEND_REQUEST_FAIL,
                 payload: err.response.data
             })
+
+            errorCallback(errorMessage)
         })
 }
