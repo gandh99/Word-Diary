@@ -30,6 +30,29 @@ export default function UserSearchCard(props) {
         )
     }
 
+    const generateButton = (status) => {
+        switch (status) {
+            case 'Requested':
+                return (
+                    <Button className={classes.button} variant="outlined" disabled>
+                        {status}
+                    </Button>
+                )
+            case 'Add':
+            default:
+                return (
+                    <Button
+                        onClick={(e) => { onAddFriend(e, props.user.username) }}
+                        variant="contained"
+                        disableElevation
+                        className={classes.button}
+                        color='secondary' >
+                        {status}
+                    </Button>
+                )
+        }
+    }
+
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent className={classes.cardContent}>
@@ -44,14 +67,7 @@ export default function UserSearchCard(props) {
                         {props.user.personalMessage}
                     </Typography>
                 </div>
-                <Button
-                    onClick={(e) => { onAddFriend(e, props.user.username) }}
-                    variant="contained"
-                    disableElevation
-                    className={classes.addButton}
-                    color='secondary' >
-                    {props.user.status}
-                </Button>
+                {generateButton(props.user.status)}
             </CardContent>
         </Card>
     )
@@ -86,7 +102,7 @@ const useStyles = makeStyles(theme => ({
         margin: '0 0',
         color: theme.palette.text.hint
     },
-    addButton: {
+    button: {
         textTransform: 'none',
         verticalAlign: 'middle',
         height: '80%',
