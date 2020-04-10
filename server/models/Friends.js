@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-module.exports = statusTypes = {
-    REQUESTED: 'requested',
-    PENDING: 'pending',
-    FRIENDS: 'friends',
+const statusTypes = {
+    REQUESTED: 'REQUESTED',
+    PENDING: 'PENDING',
+    FRIENDS: 'FRIENDS',
 }
 
 const FriendsSchema = new Schema({
