@@ -17,10 +17,10 @@ export default function UserSearchCard(props) {
                 </div>
                 <div className={classes.userDataArea}>
                     <Typography className={classes.username} variant="h5" component="h2">
-                        {props.username}
+                        {props.user.username}
                     </Typography>
                     <Typography className={classes.description} variant="h6" component="h6">
-                        Hi there, I'm using Word Diary!
+                        {props.user.personalMessage}
                     </Typography>
                 </div>
                 <Button variant="contained" disableElevation className={classes.addButton} color='secondary'>

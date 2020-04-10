@@ -65,7 +65,9 @@ export default function AddFriendModal(props) {
                 <Modal.Body className={classes.modalBody}>
                     {
                         userList.map(user =>
-                            <UserSearchCard username={user.username} />
+                            <UserSearchCard
+                                user={user}
+                            />
                         )
                     }
                 </Modal.Body>

@@ -10,6 +10,11 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    personalMessage: {
+        type: String,
+        required: true,
+        default: "Hi there! I'm using Word Diary!"
+    },
     dateCreated: {
         type: Date,
         default: Date.now

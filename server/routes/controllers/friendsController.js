@@ -16,7 +16,10 @@ module.exports.userSearch = (req, res, done) => {
 
             // Package the user data that we want to send back
             const usersData = []
-            users.map(user => (usersData.push({ username: user.username })))
+            users.map(user => (usersData.push({
+                username: user.username,
+                personalMessage: user.personalMessage
+            })))
 
             return res.status(200).json({
                 success: true,
