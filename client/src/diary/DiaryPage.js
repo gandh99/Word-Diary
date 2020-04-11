@@ -10,16 +10,21 @@ import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { Grid } from '@material-ui/core'
 import DiaryPost from './DiaryPost'
 import DiaryTabBar from './DiaryTabBar'
+import AllPostsTabPanel from './AllPostsTabPanel'
+import StarredPostsTabPanel from './StarredPostsTabPanel'
 
 export default function DiaryPage(props) {
     const dispatch = useDispatch()
-    const diaryPosts = useSelector(state => state.diary.allDiaryPosts)
 
     // For tab bar
     const [selectedTabIndex, setSelectedTabIndex] = useState(0)
     const handleTabChange = (event, newValue) => {
         setSelectedTabIndex(newValue)
     }
+    const tabContent = [
+        <AllPostsTabPanel />,
+        <StarredPostsTabPanel />,
+    ]
 
     // For handling the AddDiaryPostModal
     const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
@@ -52,27 +57,7 @@ export default function DiaryPage(props) {
                         }
                     }
                 />
-                <div style={gridContentAreaStyle}>
-                    {
-                        diaryPosts.length <= 0
-                            ? <EmptyContentPlaceholder />
-                            : <Grid
-                                container
-                                spacing={2}
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="center" >
-                                {diaryPosts.map(post => (
-                                    <DiaryPost
-                                        key={post._id}
-                                        post={post}
-                                        refresh={() => dispatch(getDiaryPostsAction())}
-                                    />
-                                ))
-                                }
-                            </Grid>
-                    }
-                </div>
+                {tabContent[selectedTabIndex]}
                 <Fab
                     color="secondary"
                     aria-label="add"
@@ -89,10 +74,6 @@ export default function DiaryPage(props) {
             </div>
         </>
     )
-}
-
-const gridContentAreaStyle = {
-    padding: '2rem 2rem 6rem 2rem',
 }
 
 const fabStyle = {

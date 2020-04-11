@@ -14,7 +14,7 @@ export default function DiaryTabBar(props) {
                 textColor="primary"
                 centered >
                 <Tab className={classes.tab} label='All' />
-                <Tab className={classes.tab} label='Shared with me' />
+                <Tab className={classes.tab} label='Starred' />
             </Tabs>
         </Paper>
     )
