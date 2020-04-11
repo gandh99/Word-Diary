@@ -13,4 +13,9 @@ router.get('/user-search/:username', auth, friendsController.userSearch)
 // @access  Private
 router.post('/issue-friend-request', auth, friendsController.issueFriendRequest)
 
+// @route   GET /friends/get-pending-requests
+// @desc    For retrieving pending friend requests
+// @access  Private
+router.get('/get-pending-requests', auth, friendsController.getPendingRequests)
+
 module.exports = router

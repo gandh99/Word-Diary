@@ -32,7 +32,7 @@ module.exports.userSearch = async (req, res, done) => {
             }
         }
     )
-    
+
     // Package the data to send back
     const idOfRequestedFriends = requestedFriends.map(user => user.recipient.toString())    // necessary to convert to string
     let usersData = []
@@ -47,7 +47,7 @@ module.exports.userSearch = async (req, res, done) => {
         if (idOfRequestedFriends.includes(matchingUser._id.toString())) {
             userData.status = 'Requested'
         }
-        
+
         usersData.push(userData)
     }
 
@@ -106,4 +106,24 @@ module.exports.issueFriendRequest = async (req, res, done) => {
         success: true,
         data: 'Friend request sent.'
     })
+}
+
+module.exports.getPendingRequests = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData.id
+
+    // Get all the pending requests (friend requests sent by others) belonging to this user
+    const pendingFriendRequests = await Friends.find(
+        { 'requester': userId },
+        (err, requests) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error retrieving pending friend requests.'
+                })
+            }
+        }
+    )
+
+    return res.status(200).send(pendingFriendRequests)
 }
