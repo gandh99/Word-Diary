@@ -79,7 +79,6 @@ export default function DiaryPost(props) {
                 </CardContent>
             </Card>
         </Grid>
-
     )
 }
 

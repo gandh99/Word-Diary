@@ -1,9 +1,12 @@
 import React from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
+import { useDispatch, useSelector } from 'react-redux'
+import PendingFriendCard from './PendingFriendCard'
 
 export default function PendingFriendsTabPanel() {
-    const pendingFriends = []
+    const dispatch = useDispatch()
+    const pendingFriends = useSelector(state => state.friends.pendingFriendRequests)
 
     return (
         <div style={gridContentAreaStyle}>
@@ -16,15 +19,15 @@ export default function PendingFriendsTabPanel() {
                         direction="row"
                         justify="flex-start"
                         alignItems="center" >
-                        {/* {diaryPosts.map(post => (
-                            <DiaryPost
-                                key={post._id}
-                                post={post}
-                                refresh={() => dispatch(getDiaryPostsAction())}
-                                displaySnackbar={displaySnackbar}
+                        {pendingFriends.map(friend => (
+                            <PendingFriendCard
+                                key={friend._id}
+                                friend={friend}
+                            // refresh={() => dispatch(getDiaryPostsAction())}
+                            // displaySnackbar={displaySnackbar}
                             />
                         ))
-                        } */}
+                        }
                     </Grid>
             }
         </div>

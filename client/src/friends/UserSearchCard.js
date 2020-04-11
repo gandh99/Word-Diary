@@ -67,7 +67,7 @@ export default function UserSearchCard(props) {
                     <Typography className={classes.username} variant="h5" component="h2">
                         {props.user.username}
                     </Typography>
-                    <Typography className={classes.description} variant="h6" component="h6">
+                    <Typography className={classes.personalMessage} variant="h6" component="h6">
                         {props.user.personalMessage}
                     </Typography>
                 </div>
@@ -101,7 +101,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: 16,
         margin: '0.2rem 0'
     },
-    description: {
+    personalMessage: {
         fontSize: 12,
         margin: '0 0',
         color: theme.palette.text.hint
