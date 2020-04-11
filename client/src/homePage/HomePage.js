@@ -11,6 +11,7 @@ import DrawerMenu from './DrawerMenu'
 import {
     BrowserRouter as Router,
     Switch,
+    Redirect,
 } from "react-router-dom"
 import { PrivateRoute } from '../reusableComponents/PrivateRoute'
 
@@ -45,6 +46,7 @@ export default function HomePage(props) {
                         <Switch>
                             <PrivateRoute path='/diary' component={DiaryPage} />
                             <PrivateRoute path='/friends' component={FriendsPage} />
+                            <Redirect from='/' to='/diary' />
                         </Switch>
                     </div>
                 </div>
