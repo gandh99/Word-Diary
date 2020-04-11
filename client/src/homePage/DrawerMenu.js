@@ -43,7 +43,7 @@ export default function DrawerMenu(props) {
             <Divider />
             <List>
                 {pageLinks.map((page) => (
-                    <Link to={page.link} style={{ textDecoration: 'none' }}>
+                    <Link to={page.link} style={{ textDecoration: 'none' }} className={classes.link}>
                         <ListItem button key={page.text}>
                             <ListItemIcon>{page.icon}</ListItemIcon>
                             <ListItemText primary={page.text} />
@@ -113,8 +113,10 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         height: '100vh',
         width: drawerWidth,
-        padding: '0 1.5rem',
         borderRight: 'solid 1px lightgray'
+    },
+    link: {
+        color: theme.palette.text.primary
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -126,9 +128,5 @@ const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
     },
 }))
