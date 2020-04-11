@@ -25,6 +25,7 @@ export default function DiaryPost(props) {
 
     const deletePost = () => {
         deleteDiaryPost(currentPost, () => props.refresh())
+        props.displaySnackbar('Successfully deleted post', 'success')
     }
 
     const submitUpdate = (event) => {

@@ -41,11 +41,11 @@ export default function AddDiaryPostModal(props) {
             // successCallback
             (message) => {
                 props.refresh()
-                props.showSnackbar(message, 'success')
+                props.displaySnackbar(message, 'success')
             },
             // errorCallback
             (message) => {
-                props.showSnackbar(message, 'error')
+                props.displaySnackbar(message, 'error')
             }
         )
         onHide()
@@ -66,8 +66,7 @@ export default function AddDiaryPostModal(props) {
             onHide={onHide}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
-            centered
-            className='modal' >
+            centered >
             <Modal.Header className='modal-header'>
                 <Modal.Title id="contained-modal-title-vcenter" className='modal-title'>
                     {'Add a new word'}

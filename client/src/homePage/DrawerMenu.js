@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@material-ui/core';
 import { Link } from "react-router-dom"
@@ -44,7 +44,7 @@ export default function DrawerMenu(props) {
             <List>
                 {pageLinks.map((page) => (
                     <Link to={page.link} style={{ textDecoration: 'none' }}>
-                        <ListItem button key={page.text} onClick={() => console.log('hi')}>
+                        <ListItem button key={page.text}>
                             <ListItemIcon>{page.icon}</ListItemIcon>
                             <ListItemText primary={page.text} />
                         </ListItem>
@@ -90,15 +90,9 @@ export default function DrawerMenu(props) {
                 </Drawer>
             </Hidden>
             <Hidden xsDown implementation="css">
-                <Drawer
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    variant="permanent"
-                    open
-                >
+                <div className={classes.permanentDrawer}>
                     {drawer}
-                </Drawer>
+                </div>
             </Hidden>
         </nav>
     )
@@ -114,6 +108,13 @@ const useStyles = makeStyles((theme) => ({
             width: drawerWidth,
             flexShrink: 0,
         },
+    },
+    permanentDrawer: {
+        position: 'fixed',
+        height: '100vh',
+        width: drawerWidth,
+        padding: '0 1.5rem',
+        borderRight: 'solid 1px lightgray'
     },
     menuButton: {
         marginRight: theme.spacing(2),
