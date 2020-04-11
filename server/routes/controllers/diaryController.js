@@ -61,7 +61,6 @@ module.exports.getPost = (req, res, done) => {
             data: result
         })
     })
-        .sort({ starred: -1 })
 }
 
 module.exports.updatePost = (req, res, done) => {
