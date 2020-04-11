@@ -6,7 +6,9 @@ import {
     ISSUE_FRIEND_REQUEST_SUCCESS,
     ISSUE_FRIEND_REQUEST_FAIL,
     GET_PENDING_FRIEND_REQUESTS_SUCCESS,
-    GET_PENDING_FRIEND_REQUESTS_FAIL
+    GET_PENDING_FRIEND_REQUESTS_FAIL,
+    RESPOND_TO_PENDING_REQUEST_SUCCESS,
+    RESPOND_TO_PENDING_REQUEST_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
@@ -75,6 +77,28 @@ export const getPendingFriendRequestsAction = () => (dispatch, state) => {
             )
             dispatch({
                 type: GET_PENDING_FRIEND_REQUESTS_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const respondToPendingFriendRequestAction = (responseData) => (dispatch, state) => {
+    axios
+        .put('/friends/respond-to-pending-request', responseData, tokenConfig(state))
+        .then(res => {
+            dispatch({
+                type: RESPOND_TO_PENDING_REQUEST_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: RESPOND_TO_PENDING_REQUEST_FAIL,
                 payload: err.response.data
             })
         })

@@ -3,10 +3,19 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid, Card, CardContent, Tooltip, Divider, Typography, Button } from '@material-ui/core'
 import AccountCircle from '../images/account_circle.png'
+import { respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
 
 export default function PendingFriendCard(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+
+    const respondToPendingRequest = (isAccepted) => {
+        dispatch(respondToPendingFriendRequestAction({
+            friendId: props.friend._id,
+            friendUsername: props.friend.username,
+            isAccepted
+        }))
+    }
 
     return (
         <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -25,8 +34,19 @@ export default function PendingFriendCard(props) {
                     </div>
                 </CardContent>
                 <CardContent className={classes.toolbar}>
-                    <Button className={classes.button} variant="contained" color="secondary">Accept</Button>
-                    <Button className={classes.button} color="secondary">Reject</Button>
+                    <Button
+                        onClick={() => respondToPendingRequest(true)}
+                        className={classes.button}
+                        variant="contained"
+                        color="secondary">
+                        Accept
+                    </Button>
+                    <Button
+                        onClick={() => respondToPendingRequest(false)}
+                        className={classes.button}
+                        color="secondary">
+                        Reject
+                    </Button>
                 </CardContent>
             </Card>
         </Grid>

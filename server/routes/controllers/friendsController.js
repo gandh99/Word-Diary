@@ -146,24 +146,26 @@ module.exports.getPendingRequests = async (req, res, done) => {
 module.exports.respondToPendingRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData.id
-    const { friendId, accept } = req.body
+    const { friendId, friendUsername, isAccepted } = req.body
 
-    if (accept) {
+    if (isAccepted) {
         // Modify friendship to reflect accepted status
         await Friends
             .findOneAndUpdate(
                 { 'requester': friendId, 'recipient': ownId },
-                { $set: { status: 'ACCEPTED' } }
+                { $set: { status: 'ACCEPTED' } },
+                { useFindAndModify: false }
             )
         await Friends
             .findOneAndUpdate(
                 { 'requester': ownId, 'recipient': friendId },
-                { $set: { status: 'ACCEPTED' } }
+                { $set: { status: 'ACCEPTED' } },
+                { useFindAndModify: false }
             )
 
         return res.status(200).json({
             success: true,
-            data: 'Accepted pending request.'
+            data: { friendId, friendUsername, isAccepted }
         })
     } else {
         // Modify friendship to reflect rejected status
@@ -186,7 +188,7 @@ module.exports.respondToPendingRequest = async (req, res, done) => {
 
         return res.status(200).json({
             success: true,
-            data: 'Rejected pending request.'
+            data: { friendId, friendUsername, isAccepted }
         })
     }
 }
