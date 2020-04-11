@@ -10,9 +10,12 @@ import MenuBookIcon from '@material-ui/icons/MenuBook'
 import SettingsIcon from '@material-ui/icons/Settings'
 import HelpIcon from '@material-ui/icons/Help'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import { logoutUserAction } from '../redux/actions/authenticationActions';
+import { useDispatch } from 'react-redux';
 
 export default function DrawerMenu(props) {
     const { container } = props
+    const dispatch = useDispatch()
     const classes = useStyles()
     const theme = useTheme()
 
@@ -28,7 +31,6 @@ export default function DrawerMenu(props) {
     const utilityLinks = [
         { icon: <SettingsIcon />, text: 'Settings' },
         { icon: <HelpIcon />, text: 'Help' },
-        { icon: <ExitToAppIcon />, text: 'Logout' },
     ]
 
     const handleDrawerToggle = () => {
@@ -57,6 +59,12 @@ export default function DrawerMenu(props) {
                         <ListItemText primary={utility.text} />
                     </ListItem>
                 ))}
+                <ListItem button onClick={() => dispatch(logoutUserAction())}>
+                    <ListItemIcon>
+                        <ExitToAppIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={'Logout'} />
+                </ListItem>
             </List>
         </div>
     )
