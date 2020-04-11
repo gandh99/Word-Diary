@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import { Link } from "react-router-dom"
 import Drawer from '@material-ui/core/Drawer'
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
@@ -20,9 +19,9 @@ export default function DrawerMenu(props) {
     // Page links (icon + text)
     const pageLinks = [
         { icon: <HomeIcon />, text: 'Home' },
-        { icon: <MenuBookIcon />, text: 'My Diary' },
+        { icon: <MenuBookIcon />, text: 'My Diary', link: '/diary' },
         { icon: <NotificationsIcon />, text: 'Notifications' },
-        { icon: <PeopleAltIcon />, text: 'Friends' },
+        { icon: <PeopleAltIcon />, text: 'Friends', link: '/friends' },
     ]
 
     // Utility links (icon + text)
@@ -42,10 +41,12 @@ export default function DrawerMenu(props) {
             <Divider />
             <List>
                 {pageLinks.map((page) => (
-                    <ListItem button key={page.text} onClick={() => console.log('hi')}>
-                        <ListItemIcon>{page.icon}</ListItemIcon>
-                        <ListItemText primary={page.text} />
-                    </ListItem>
+                    <Link to={page.link} style={{ textDecoration: 'none' }}>
+                        <ListItem button key={page.text} onClick={() => console.log('hi')}>
+                            <ListItemIcon>{page.icon}</ListItemIcon>
+                            <ListItemText primary={page.text} />
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
             <Divider />
@@ -104,12 +105,6 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
             flexShrink: 0,
-        },
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
         },
     },
     menuButton: {

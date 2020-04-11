@@ -8,6 +8,11 @@ import DiaryPage from '../diary/DiaryPage'
 import Notifications from '../notifications/Notifications'
 import FriendsPage from '../friends/FriendsPage'
 import DrawerMenu from './DrawerMenu'
+import {
+    BrowserRouter as Router,
+    Switch,
+} from "react-router-dom"
+import { PrivateRoute } from '../reusableComponents/PrivateRoute'
 
 export default function HomePage(props) {
     const classes = useStyles()
@@ -25,23 +30,26 @@ export default function HomePage(props) {
     ]
 
     return (
-        <div className={classes.root}>
-            <DrawerMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-            <div className={clsx(classes.contentArea, {
-                [classes.contentShift]: mobileOpen,
-            })}>
-                <Header
-                    setTabContentIndex={setTabContentIndex}
-                    mobileOpen={mobileOpen}
-                    setMobileOpen={setMobileOpen}
-                />
-                <div className={classes.pageArea}>
-                    {/* <FriendsPage /> */}
-                    <DiaryPage />
-                    {/* {tabContent[tabContentIndex]} */}
+        <Router>
+            <div className={classes.root}>
+                <DrawerMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+                <div className={clsx(classes.contentArea, {
+                    [classes.contentShift]: mobileOpen,
+                })}>
+                    <Header
+                        setTabContentIndex={setTabContentIndex}
+                        mobileOpen={mobileOpen}
+                        setMobileOpen={setMobileOpen}
+                    />
+                    <div className={classes.pageArea}>
+                        <Switch>
+                            <PrivateRoute path='/diary' component={DiaryPage} />
+                            <PrivateRoute path='/friends' component={FriendsPage} />
+                        </Switch>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Router>
     )
 }
 
