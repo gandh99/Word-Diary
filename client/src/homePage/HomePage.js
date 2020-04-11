@@ -19,7 +19,7 @@ export default function HomePage(props) {
     const classes = useStyles()
 
     // For drawer
-    const [mobileOpen, setMobileOpen] = useState(false)
+    const [drawerOpen, setDrawerOpen] = useState(false)
 
     // For tabs
     const [tabContentIndex, setTabContentIndex] = useState(0)
@@ -33,14 +33,14 @@ export default function HomePage(props) {
     return (
         <Router>
             <div className={classes.root}>
-                <DrawerMenu mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+                <DrawerMenu drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
                 <div className={clsx(classes.contentArea, {
-                    [classes.contentShift]: mobileOpen,
+                    [classes.contentShift]: drawerOpen,
                 })}>
                     <Header
                         setTabContentIndex={setTabContentIndex}
-                        mobileOpen={mobileOpen}
-                        setMobileOpen={setMobileOpen}
+                        drawerOpen={drawerOpen}
+                        setDrawerOpen={setDrawerOpen}
                     />
                     <div className={classes.pageArea}>
                         <Switch>

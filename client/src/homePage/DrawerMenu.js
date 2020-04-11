@@ -34,7 +34,7 @@ export default function DrawerMenu(props) {
     ]
 
     const handleDrawerToggle = () => {
-        props.setMobileOpen(!props.mobileOpen);
+        props.setDrawerOpen(!props.mobileOpen);
     };
 
     const drawer = (
@@ -77,7 +77,7 @@ export default function DrawerMenu(props) {
                     container={container}
                     variant="temporary"
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={props.mobileOpen}
+                    open={props.drawerOpen}
                     onClose={handleDrawerToggle}
                     classes={{
                         paper: classes.drawerPaper,

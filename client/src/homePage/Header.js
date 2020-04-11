@@ -11,7 +11,7 @@ export default function Header(props) {
         <>
             <div className='header-area' style={headerAreaStyle}>
                 <Hidden smUp>
-                    <IconButton onClick={() => props.setMobileOpen(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <IconButton onClick={() => props.setDrawerOpen(true)} edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon color='primary' fontSize='large' />
                     </IconButton>
                 </Hidden>

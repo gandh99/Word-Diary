@@ -6,6 +6,8 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import Fab from '@material-ui/core/Fab'
 import AddFriendModal from './AddFriendModal'
 import FriendsTabBar from './FriendsTabBar'
+import AllFriendsTabPanel from './AllFriendsTabPanel'
+import PendingFriendsTabPanel from './PendingFriendsTabPanel'
 
 export default function FriendsPage(props) {
     const classes = useStyles()
@@ -20,6 +22,12 @@ export default function FriendsPage(props) {
     // For handling the AddFriendModal
     const [showAddFriendModal, setShowAddFriendModal] = useState(false)
 
+    // Tab content
+    const tabContent = [
+        <AllFriendsTabPanel />,
+        <PendingFriendsTabPanel />,
+    ]
+
     return (
         <>
             <FriendsTabBar
@@ -30,15 +38,8 @@ export default function FriendsPage(props) {
                 <AddFriendModal
                     show={showAddFriendModal}
                     onHide={() => setShowAddFriendModal(false)}
-                // refresh={() => dispatch(getDiaryPostsAction())}
-                // showSnackbar={
-                //     (message, severity) => {
-                //         setSnackbarSeverity(severity)
-                //         setSnackbarMessage(message)
-                //         setShowSnackbar(true)
-                //     }
-                // }
                 />
+                {tabContent[selectedTabIndex]}
                 <Fab
                     color="secondary"
                     aria-label="add"
@@ -54,23 +55,6 @@ export default function FriendsPage(props) {
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
-    },
-    menuButton: {
-        position: 'absolute',
-        top: '-20px',
-        left: '20px'
-    },
-    title: {
-        color: theme.palette.primary.main,
-        fontWeight: 'bold',
-        marginTop: '1.5rem',
-        marginBottom: '0.3rem',
-    },
-    tabs: {
-        flexGrow: 1,
-        position: 'sticky',
-        top: '0',
-        zIndex: '2'
     },
 }))
 

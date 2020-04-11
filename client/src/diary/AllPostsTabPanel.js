@@ -20,10 +20,6 @@ export default function AllPostsTabPanel(props) {
         setShowSnackbar(true)
     }
 
-    useEffect(() => {
-        dispatch(getDiaryPostsAction())
-    }, [])
-
     return (
         <div style={gridContentAreaStyle}>
             {
