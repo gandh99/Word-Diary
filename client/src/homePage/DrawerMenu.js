@@ -34,7 +34,7 @@ export default function DrawerMenu(props) {
     ]
 
     const handleDrawerToggle = () => {
-        props.setDrawerOpen(!props.mobileOpen);
+        props.setDrawerOpen(!props.drawerOpen);
     };
 
     const drawer = (
