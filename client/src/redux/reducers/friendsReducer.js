@@ -2,12 +2,15 @@ import {
     USER_SEARCH_SUCCESS,
     USER_SEARCH_FAIL,
     ISSUE_FRIEND_REQUEST_SUCCESS,
-    ISSUE_FRIEND_REQUEST_FAIL
+    ISSUE_FRIEND_REQUEST_FAIL,
+    GET_PENDING_FRIEND_REQUESTS_SUCCESS,
+    GET_PENDING_FRIEND_REQUESTS_FAIL
 } from '../actionTypes'
 
 const initialState = {
     userSearchResults: [],
-    friendRequestRecipient: ''
+    friendRequestRecipient: '',
+    pendingFriendRequests: []
 }
 
 export default function(state = initialState, action) {
@@ -31,6 +34,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 friendRequestRecipient: ''
+            }
+        case GET_PENDING_FRIEND_REQUESTS_SUCCESS:
+            return {
+                ...state,
+                pendingFriendRequests: action.payload
+            }
+        case GET_PENDING_FRIEND_REQUESTS_FAIL:
+            return {
+                ...state,
+                pendingFriendRequests: []
             }
         default:
             return state

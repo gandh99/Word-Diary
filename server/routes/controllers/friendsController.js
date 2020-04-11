@@ -112,18 +112,33 @@ module.exports.getPendingRequests = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData.id
 
-    // Get all the pending requests (friend requests sent by others) belonging to this user
-    const pendingFriendRequests = await Friends.find(
-        { 'requester': userId },
-        (err, requests) => {
+    // Get all the pending friend requests (requests yet to be accepted by me)
+    await Friends
+        .find(
+            { 'requester': userId },
+            'recipient',    // returns the id of the user who issued the friend request
+            (err, requests) => {
+                if (err) {
+                    return res.status(400).json({
+                        success: false,
+                        data: 'Error retrieving pending friend requests.'
+                    })
+                }
+            }
+        )
+        .populate('recipient', 'username personalMessage')      // essentially a JOIN + SELECT statement
+        .exec((err, usersWhoIssuedRequestToMe) => {
             if (err) {
                 return res.status(400).json({
                     success: false,
                     data: 'Error retrieving pending friend requests.'
                 })
             }
-        }
-    )
 
-    return res.status(200).send(pendingFriendRequests)
+            const usersArray = usersWhoIssuedRequestToMe.map(user => user.recipient)
+            return res.status(200).json({
+                success: true,
+                data: usersArray
+            })
+        })
 }
