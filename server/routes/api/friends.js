@@ -18,4 +18,9 @@ router.post('/issue-friend-request', auth, friendsController.issueFriendRequest)
 // @access  Private
 router.get('/get-pending-requests', auth, friendsController.getPendingRequests)
 
+// @route   UPDATE /friends/respond-to-pending-request
+// @desc    For retrieving pending friend requests
+// @access  Private
+router.put('/respond-to-pending-request', auth, friendsController.respondToPendingRequest)
+
 module.exports = router

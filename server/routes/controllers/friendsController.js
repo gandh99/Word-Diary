@@ -115,7 +115,7 @@ module.exports.getPendingRequests = async (req, res, done) => {
     // Get all the pending friend requests (requests yet to be accepted by me)
     await Friends
         .find(
-            { 'requester': userId },
+            { 'requester': userId, 'status': 'PENDING' },
             'recipient',    // returns the id of the user who issued the friend request
             (err, requests) => {
                 if (err) {
@@ -141,4 +141,52 @@ module.exports.getPendingRequests = async (req, res, done) => {
                 data: usersArray
             })
         })
+}
+
+module.exports.respondToPendingRequest = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const ownId = userData.id
+    const { friendId, accept } = req.body
+
+    if (accept) {
+        // Modify friendship to reflect accepted status
+        await Friends
+            .findOneAndUpdate(
+                { 'requester': friendId, 'recipient': ownId },
+                { $set: { status: 'ACCEPTED' } }
+            )
+        await Friends
+            .findOneAndUpdate(
+                { 'requester': ownId, 'recipient': friendId },
+                { $set: { status: 'ACCEPTED' } }
+            )
+
+        return res.status(200).json({
+            success: true,
+            data: 'Accepted pending request.'
+        })
+    } else {
+        // Modify friendship to reflect rejected status
+        const docA = await Friends.findOneAndRemove(
+            { 'requester': ownId, 'recipient': friendId }
+        )
+        const docB = await Friends.findOneAndRemove(
+            { 'requester': friendId, 'recipient': ownId }
+        )
+        const updateSelf = await User.findOneAndUpdate(
+            { '_id': ownId },
+            { $pull: { 'friends': docA._id } },
+            { useFindAndModify: false }
+        )
+        const updateFriend = await User.findOneAndUpdate(
+            { '_id': friendId },
+            { $pull: { 'friends': docB._id } },
+            { useFindAndModify: false }
+        )
+
+        return res.status(200).json({
+            success: true,
+            data: 'Rejected pending request.'
+        })
+    }
 }
