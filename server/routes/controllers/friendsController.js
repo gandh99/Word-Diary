@@ -19,8 +19,8 @@ module.exports.userSearch = async (req, res, done) => {
         }
     )
 
-    // Find all friend requests issued by the originator of this query whose status is "PENDING"
-    const requestedFriends = await Friends.find(
+    // Find all friend requests issued by me
+    const friendRequestsIssuedByMe = await Friends.find(
         { requester: ownId, status: 'PENDING' },
         'recipient',    // returns only the _id of the recipient
         (err, users) => {
@@ -33,8 +33,23 @@ module.exports.userSearch = async (req, res, done) => {
         }
     )
 
+    // Find all friend requests issued to me
+    const friendRequestsIssuedToMe = await Friends.find(
+        { recipient: ownId, status: 'PENDING' },
+        'requester',    // returns only the _id of the requester
+        (err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error searching for the requested friends.'
+                })
+            }
+        }
+    )
+
     // Package the data to send back
-    const idOfRequestedFriends = requestedFriends.map(user => user.recipient.toString())    // necessary to convert to string
+    const idOfFriendRequestsIssuedByMe = friendRequestsIssuedByMe.map(user => user.recipient.toString())    // necessary to convert to string
+    const idOfFriendRequestsIssuedToMe = friendRequestsIssuedToMe.map(user => user.requester.toString())    // necessary to convert to string
     let usersData = []
     for (let matchingUser of matchingUsers) {
         let userData = {
@@ -45,8 +60,12 @@ module.exports.userSearch = async (req, res, done) => {
         }
 
         // Check if this user, who matches the search string, has been sent a friend request by the query originator
-        if (idOfRequestedFriends.includes(matchingUser._id.toString())) {
+        if (idOfFriendRequestsIssuedByMe.includes(matchingUser._id.toString())) {
             userData.status = 'Pending'
+        } else if (idOfFriendRequestsIssuedToMe.includes(matchingUser._id.toString())) {
+            // When this matchingUser's name appears on the UserSearchCard on the frontend, I will have
+            // the option to accept the request in the modal
+            userData.status = 'Accept'
         }
 
         usersData.push(userData)

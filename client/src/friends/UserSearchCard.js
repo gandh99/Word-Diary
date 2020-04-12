@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
-import { issueFriendRequestAction } from '../redux/actions/friendsActions'
+import { issueFriendRequestAction, respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
 
 export default function UserSearchCard(props) {
     const classes = useStyles()
@@ -15,21 +15,29 @@ export default function UserSearchCard(props) {
     const issueFriendRequest = (recipientData, successCallback, errorCallback) => dispatch(issueFriendRequestAction(recipientData, successCallback, errorCallback))
 
     // Buttons
-    const pendingButton =
+    const disabledButton =
         <Button className={classes.button} variant="outlined" disabled>
             {buttonStatus}
         </Button>
     const addButton =
         <Button
-            onClick={(e) => { onAddFriend(e, props.user._id, props.user.username) }}
+            onClick={(e) => { onIssueFriendRequest(e, props.user._id, props.user.username) }}
             variant="contained"
             disableElevation
             className={classes.button}
             color='secondary' >
             {buttonStatus}
         </Button>
+    const acceptButton =
+        <Button
+            onClick={(e) => { onAcceptFriendRequest(e, props.user._id) }}
+            variant="contained"
+            disableElevation
+            className={classes.button + ' ' + classes.acceptButton} >
+            {buttonStatus}
+        </Button>
 
-    const onAddFriend = (e, recipientId, recipientUsername) => {
+    const onIssueFriendRequest = (e, recipientId, recipientUsername) => {
         e.preventDefault()
         issueFriendRequest(
             {
@@ -48,10 +56,32 @@ export default function UserSearchCard(props) {
         )
     }
 
+    const onAcceptFriendRequest = (e, friendId) => {
+        e.preventDefault()
+        dispatch(respondToPendingFriendRequestAction(
+            {
+                friendId,
+                isAccepted: true
+            },
+            // successCallback
+            (message) => {
+                props.showSnackbar(message, 'success')
+                setButtonStatus('Accepted')
+            },
+            // errorCallback
+            (message) => {
+                props.showSnackbar(message, 'fail')
+            }
+        ))
+    }
+
     const generateButton = () => {
         switch (buttonStatus) {
             case 'Pending':
-                return pendingButton
+            case 'Accepted':
+                return disabledButton
+            case 'Accept':
+                return acceptButton
             case 'Add':
             default:
                 return addButton
@@ -113,4 +143,11 @@ const useStyles = makeStyles(theme => ({
         height: '80%',
         marginLeft: 'auto'
     },
+    acceptButton: {
+        backgroundColor: theme.palette.success.main,
+        color: theme.palette.primary.contrastText,
+        '&:hover': {
+            backgroundColor: theme.palette.success.dark
+        }
+    }
 }))

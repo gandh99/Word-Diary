@@ -10,11 +10,17 @@ export default function PendingFriendCard(props) {
     const dispatch = useDispatch()
 
     const respondToPendingRequest = (isAccepted) => {
-        dispatch(respondToPendingFriendRequestAction({
-            friendId: props.friend._id,
-            friendUsername: props.friend.username,
-            isAccepted
-        }))
+        dispatch(respondToPendingFriendRequestAction(
+            {
+                friendId: props.friend._id,
+                friendUsername: props.friend.username,
+                isAccepted
+            },
+            // successCallback
+            () => { },
+            // errorCallback
+            () => { },
+        ))
     }
 
     return (

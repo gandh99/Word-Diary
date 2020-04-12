@@ -82,7 +82,7 @@ export const getFriendRequestsIssuedToMeAction = () => (dispatch, state) => {
         })
 }
 
-export const respondToPendingFriendRequestAction = (responseData) => (dispatch, state) => {
+export const respondToPendingFriendRequestAction = (responseData, successCallback, errorCallback) => (dispatch, state) => {
     axios
         .put('/friends/respond-to-pending-friend-request', responseData, tokenConfig(state))
         .then(res => {
@@ -90,6 +90,7 @@ export const respondToPendingFriendRequestAction = (responseData) => (dispatch, 
                 type: RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS,
                 payload: res.data.data
             })
+            successCallback('Successfully responded to pending friend request.')
         })
         .catch(err => {
             const errorMessage = err.response.data.data
@@ -101,5 +102,6 @@ export const respondToPendingFriendRequestAction = (responseData) => (dispatch, 
                 type: RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
                 payload: err.response.data
             })
+            errorCallback(errorMessage)
         })
 }
