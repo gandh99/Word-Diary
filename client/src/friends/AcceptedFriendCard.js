@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid, Card, CardContent, Tooltip, Divider, Typography, Button } from '@material-ui/core'
 import AccountCircle from '../images/account_circle.png'
+import MenuBookIcon from '@material-ui/icons/MenuBook'
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 
 export default function AcceptedFriendCard(props) {
     const classes = useStyles()
@@ -24,21 +27,23 @@ export default function AcceptedFriendCard(props) {
                         </Typography>
                     </div>
                 </CardContent>
-                {/* <CardContent className={classes.toolbar}>
+                <div className={classes.footer}>
                     <Button
-                        onClick={() => respondToPendingRequest(true)}
-                        className={classes.button}
-                        variant="contained"
-                        color="secondary">
-                        Accept
+                        startIcon={<MenuBookIcon className={classes.footerIcon} />}
+                        className={classes.footerButton} >
+                        Diary
                     </Button>
                     <Button
-                        onClick={() => respondToPendingRequest(false)}
-                        className={classes.button}
-                        color="secondary">
-                        Reject
+                        startIcon={<ChatBubbleOutlineIcon className={classes.footerIcon} />}
+                        className={classes.footerButton} >
+                        Message
                     </Button>
-                </CardContent> */}
+                    <Button
+                        startIcon={<RemoveCircleOutlineIcon className={classes.footerIcon}  />}
+                        className={classes.footerButton} >
+                        Unfriend
+                    </Button>
+                </div>
             </Card>
         </Grid>
     )
@@ -74,19 +79,19 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 0',
         color: theme.palette.text.hint
     },
-    toolbar: {
-        margin: 0,
+    footer: {
+        padding: 0,
         display: 'flex',
         flexDirection: 'row',
-        padding: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%'
+        alignItems: 'flex-end',
     },
-    button: {
+    footerButton: {
         textTransform: 'none',
         verticalAlign: 'middle',
-        height: '80%',
-        margin: '0 1.5rem'
+        padding: '0.5rem 1.5rem',
+        color: theme.palette.grey[600]
     },
+    footerIcon: {
+        fill: theme.palette.grey[600]
+    }
 }))

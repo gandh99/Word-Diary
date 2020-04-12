@@ -25,7 +25,7 @@ export default function AllFriendsTabPanel() {
                                 key={friend._id}
                                 friend={friend}
                                 refresh={() => dispatch(getFriendsAction())}
-                                // displaySnackbar={displaySnackbar}
+                            // displaySnackbar={displaySnackbar}
                             />
                         ))
                         }
