@@ -47,9 +47,37 @@ module.exports.userSearch = async (req, res, done) => {
         }
     )
 
-    // Package the data to send back
+    // Find all of my friends
+    const acceptedFriendRequests = await Friends.find({
+        $and: [
+            { $or: [{ requester: ownId }, { recipient: ownId }] }
+        ]
+    },
+        'requester recipient',    // returns only the _id of the requester and recipient
+        (err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error searching for the requested friends.'
+                })
+            }
+        }
+    )
+        .populate('requester recipient', '_id username personalMessage')      // essentially a JOIN + SELECT statement
+
+    // Extract the ids of users: 
+    // (1) To whom I have issued a friend request
+    // (2) From whom I have received a friend request
+    // (3) Who are currently my friends
     const idOfFriendRequestsIssuedByMe = friendRequestsIssuedByMe.map(user => user.recipient.toString())    // necessary to convert to string
     const idOfFriendRequestsIssuedToMe = friendRequestsIssuedToMe.map(user => user.requester.toString())    // necessary to convert to string
+    const idOfAcceptedFriends = acceptedFriendRequests.map(friends => (
+        friends.requester._id.toString() === ownId
+            ? (friends.recipient._id.toString())    // necessary to convert to string
+            : (friends.requester._id.toString())    // necessary to convert to string
+    ))
+
+    // Package the data to send back
     let usersData = []
     for (let matchingUser of matchingUsers) {
         let userData = {
@@ -66,6 +94,8 @@ module.exports.userSearch = async (req, res, done) => {
             // When this matchingUser's name appears on the UserSearchCard on the frontend, I will have
             // the option to accept the request in the modal
             userData.status = 'Accept'
+        } else if (idOfAcceptedFriends.includes(matchingUser._id.toString())) {
+            userData.status = 'Friends'
         }
 
         usersData.push(userData)
@@ -80,7 +110,7 @@ module.exports.userSearch = async (req, res, done) => {
 module.exports.issueFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData.id
-    const { recipientId } = req.body   
+    const { recipientId } = req.body
 
     // Create the friend request
     const friendRequest = await Friends.findOneAndUpdate(
@@ -216,4 +246,46 @@ module.exports.respondToPendingFriendRequest = async (req, res, done) => {
             data: { friendId, friendUsername, isAccepted }
         })
     }
+}
+
+module.exports.getFriends = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const ownId = userData.id
+
+    await Friends.find({
+        $and: [
+            { $or: [{ requester: ownId }, { recipient: ownId }] }
+        ]
+    },
+        'requester recipient',    // returns only the _id of the requester and recipient
+        (err, users) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error searching for the requested friends.'
+                })
+            }
+        }
+    )
+        .populate('requester recipient', '_id username personalMessage')      // essentially a JOIN + SELECT statement
+        .exec((err, friendship) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error retrieving friend requests issued to me.'
+                })
+            }
+
+            // friendship is an array of the bi-directional Friends model
+            // We want to extract only the details of the OTHER party
+            const friendsArray = friendship.map(friends => (
+                friends.requester._id.toString() === ownId
+                    ? ({ _id: friends.recipient._id, username: friends.recipient.username, personalMessage: friends.recipient.personalMessage })
+                    : ({ _id: friends.requester._id, username: friends.requester.username, personalMessage: friends.requester.personalMessage })
+            ))
+            return res.status(200).json({
+                success: true,
+                data: friendsArray
+            })
+        })
 }

@@ -28,4 +28,9 @@ router.get('/get-friend-requests-issued-to-me', auth, friendsController.getFrien
 // @access  Private
 router.put('/respond-to-pending-friend-request', auth, friendsController.respondToPendingFriendRequest)
 
+// @route   GET /friends/get-friends
+// @desc    For retrieving all accepted friend requests
+// @access  Private
+router.get('/get-friends', auth, friendsController.getFriends)
+
 module.exports = router

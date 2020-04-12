@@ -81,6 +81,7 @@ export default function UserSearchCard(props) {
         switch (buttonStatus) {
             case 'Pending':
             case 'Accepted':
+            case 'Friends':
                 return disabledButton
             case 'Accept':
                 return acceptButton
