@@ -52,7 +52,6 @@ export default function DiaryPage(props) {
                 <AddDiaryPostModal
                     show={showAddDiaryPostModal}
                     onHide={() => setShowAddDiaryPostModal(false)}
-                    refresh={() => dispatch(getDiaryPostsAction())}
                     displaySnackbar={displaySnackbar}
                 />
                 {tabContent[selectedTabIndex]}

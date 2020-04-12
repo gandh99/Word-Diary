@@ -14,7 +14,7 @@ import { updateDiaryPostAction, deleteDiaryPostAction } from '../redux/actions/d
 export default function DiaryPost(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const updateDiaryPost = (postData, done) => dispatch(updateDiaryPostAction(postData, done))
+    const updateDiaryPost = (postData) => dispatch(updateDiaryPostAction(postData))
     const deleteDiaryPost = (postData, done) => dispatch(deleteDiaryPostAction(postData, done))
     let currentPost = props.post
 
@@ -24,12 +24,14 @@ export default function DiaryPost(props) {
     }
 
     const deletePost = () => {
-        deleteDiaryPost(currentPost, () => props.refresh())
-        props.displaySnackbar('Successfully deleted post', 'success')
+        deleteDiaryPost(
+            currentPost,
+            () => props.displaySnackbar('Successfully deleted post', 'success')
+        )
     }
 
     const submitUpdate = (event) => {
-        updateDiaryPost(currentPost, () => props.refresh())
+        updateDiaryPost(currentPost)
     }
 
     return (

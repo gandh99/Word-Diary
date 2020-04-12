@@ -35,7 +35,6 @@ export default function AllPostsTabPanel(props) {
                             <DiaryPost
                                 key={post._id}
                                 post={post}
-                                refresh={() => dispatch(getDiaryPostsAction())}
                                 displaySnackbar={displaySnackbar}
                             />
                         ))

@@ -40,7 +40,6 @@ export default function AddDiaryPostModal(props) {
             },
             // successCallback
             (message) => {
-                props.refresh()
                 props.displaySnackbar(message, 'success')
             },
             // errorCallback

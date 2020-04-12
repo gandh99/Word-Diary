@@ -67,26 +67,27 @@ module.exports.updatePost = (req, res, done) => {
     const { _id, phrase, translatedPhrase, note, starred } = req.body
 
     // Update the particular diary post using the _id provided
-    DiaryPost.updateOne({ _id }, { phrase, translatedPhrase, note, starred }, (err, result) => {
-        if (err) {
-            return res.status(400).json({
-                success: false,
-                data: 'Error updating post.'
-            })
-        }
+    DiaryPost
+        .findByIdAndUpdate(_id, { phrase, translatedPhrase, note, starred }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error updating post.'
+                })
+            }
 
-        return res.status(200).json({
-            success: true,
-            data: 'Successfully updated post.'
+            return res.status(200).json({
+                success: true,
+                data: result
+            })
         })
-    })
 }
 
 module.exports.deletePost = (req, res, done) => {
     const _id = req.params.id
 
     // Delete the particular diary post using the _id provided
-    DiaryPost.deleteOne({ _id }, (err, result) => {
+    DiaryPost.findOneAndRemove({ _id }, (err, deletedPost) => {
         if (err) {
             return res.status(400).json({
                 success: false,
@@ -96,7 +97,7 @@ module.exports.deletePost = (req, res, done) => {
 
         return res.status(200).json({
             success: true,
-            data: 'Successfully deleted post.'
+            data: deletedPost
         })
     })
 }

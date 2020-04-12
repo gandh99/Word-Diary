@@ -87,7 +87,7 @@ export const getDiaryPostsAction = () => (dispatch, getState) => {
         })
 }
 
-export const updateDiaryPostAction = (postData, done) => (dispatch, getState) => {
+export const updateDiaryPostAction = (postData) => (dispatch, getState) => {
     axios
         .put('/diary/update-post', postData, tokenConfig(getState))
         .then(res => {
@@ -95,7 +95,6 @@ export const updateDiaryPostAction = (postData, done) => (dispatch, getState) =>
                 type: UPDATE_DIARY_POST_SUCCESS,
                 payload: res.data.data
             })
-            done()
         })
         .catch(err => {
             const errorMessage = err.response.data.data

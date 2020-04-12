@@ -13,7 +13,7 @@ import {
 
 const initialState = {
     translatedText: '',
-    newDiaryPost: {},
+    affectedDiaryPost: {},
     allDiaryPosts: []
 }
 
@@ -32,12 +32,13 @@ export default function (state = initialState, action) {
         case ADD_DIARY_POST_SUCCESS:
             return {
                 ...state,
-                newDiaryPost: action.payload
+                affectedDiaryPost: action.payload,
+                allDiaryPosts: [...state.allDiaryPosts, action.payload]
             }
         case ADD_DIARY_POST_FAIL:
             return {
                 ...state,
-                newDiaryPost: {}
+                affectedDiaryPost: {}
             }
         case GET_DIARY_POST_SUCCESS:
             return {
@@ -52,22 +53,27 @@ export default function (state = initialState, action) {
         case UPDATE_DIARY_POST_SUCCESS:
             return {
                 ...state,
-                newDiaryPost: action.payload
+                affectedDiaryPost: action.payload,
+                allDiaryPosts: state.allDiaryPosts.map(
+                    post => (post._id === action.payload.creator) ? action.payload : post)
             }
         case UPDATE_DIARY_POST_FAIL:
             return {
                 ...state,
-                newDiaryPost: {}
+                affectedDiaryPost: {}
             }
         case DELETE_DIARY_POST_SUCCESS:
             return {
                 ...state,
-                newDiaryPost: action.payload
+                affectedDiaryPost: action.payload,
+                allDiaryPosts: state.allDiaryPosts.filter(
+                    post => post._id !== action.payload._id
+                )
             }
         case DELETE_DIARY_POST_FAIL:
             return {
                 ...state,
-                newDiaryPost: {}
+                affectedDiaryPost: {}
             }
         default:
             return state
