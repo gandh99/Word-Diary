@@ -3,8 +3,7 @@ const Schema = mongoose.Schema
 
 const statusTypes = {
     ACCEPTED: 'ACCEPTED',
-    REQUESTED: 'REQUESTED',     // friend requests issued by me
-    PENDING: 'PENDING',         // friend requests I have yet to accept
+    PENDING: 'PENDING',         
     FRIENDS: 'FRIENDS',
 }
 

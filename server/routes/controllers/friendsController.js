@@ -3,12 +3,12 @@ const Friends = require('../../models/Friends')
 
 module.exports.userSearch = async (req, res, done) => {
     const { userData } = req.tokenData
-    const originalUserId = userData.id
+    const ownId = userData.id
     const searchString = req.params.username
 
     // Find all users where the substring appears at the start of their username (except the originator of this query)
     const matchingUsers = await User.find(
-        { 'username': { '$regex': "^" + searchString, "$ne": userData.username } },
+        { username: { '$regex': "^" + searchString, "$ne": userData.username } },
         (err, users) => {
             if (err) {
                 return res.status(400).json({
@@ -19,9 +19,9 @@ module.exports.userSearch = async (req, res, done) => {
         }
     )
 
-    // Find all friend requests issued by the originator of this query whose status is "REQUESTED"
+    // Find all friend requests issued by the originator of this query whose status is "PENDING"
     const requestedFriends = await Friends.find(
-        { 'requester': originalUserId },
+        { requester: ownId, status: 'PENDING' },
         'recipient',    // returns only the _id of the recipient
         (err, users) => {
             if (err) {
@@ -38,6 +38,7 @@ module.exports.userSearch = async (req, res, done) => {
     let usersData = []
     for (let matchingUser of matchingUsers) {
         let userData = {
+            id: matchingUser._id,
             username: matchingUser.username,
             personalMessage: matchingUser.personalMessage,
             status: 'Add'
@@ -45,7 +46,7 @@ module.exports.userSearch = async (req, res, done) => {
 
         // Check if this user, who matches the search string, has been sent a friend request by the query originator
         if (idOfRequestedFriends.includes(matchingUser._id.toString())) {
-            userData.status = 'Requested'
+            userData.status = 'Pending'
         }
 
         usersData.push(userData)
@@ -59,46 +60,25 @@ module.exports.userSearch = async (req, res, done) => {
 
 module.exports.issueFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
+    const ownId = userData.id
+    const friendId = req.body.recipientId   //TODO in client
 
-    // We assume userA issued the friend request to userB
-    const UserA = await User.findOne({ 'username': userData.username }, (err, result) => {
-        if (err) {
-            return res.status(400).json({
-                success: false,
-                data: 'Error searching for requester.'
-            })
-        }
-    })
-    const UserB = await User.findOne({ 'username': req.body.recipient }, (err, result) => {
-        if (err) {
-            return res.status(400).json({
-                success: false,
-                data: 'Error searching for recipient.'
-            })
-        }
-    })
-
-    // Create a friend request for both parties
-    const FriendsA = await Friends.findOneAndUpdate(
-        { 'requester': UserA._id, 'recipient': UserB._id },
-        { 'status': 'REQUESTED' },
-        { upsert: true, new: true, useFindAndModify: false }
-    )
-    const FriendsB = await Friends.findOneAndUpdate(
-        { 'requester': UserB._id, 'recipient': UserA._id },
-        { 'status': 'PENDING' },
+    // Create the friend request
+    const friendRequest = await Friends.findOneAndUpdate(
+        { requester: ownId, recipient: friendId },
+        { status: 'PENDING' },
         { upsert: true, new: true, useFindAndModify: false }
     )
 
     // Add the friend request to each user's schema if it does not already exist
-    const updateUserA = await User.findOneAndUpdate(
-        { _id: UserA._id, 'friends': { $ne: FriendsA._id } },
-        { $push: { 'friends': FriendsA._id } },
+    await User.findOneAndUpdate(
+        { _id: ownId, friends: { $ne: friendRequest._id } },
+        { $push: { friends: friendRequest._id } },
         { useFindAndModify: false }
     )
-    const updateUserB = await User.findOneAndUpdate(
-        { _id: UserB._id, 'friends': { $ne: FriendsB._id } },
-        { $push: { 'friends': FriendsB._id } },
+    await User.findOneAndUpdate(
+        { _id: friendId, friends: { $ne: friendRequest._id } },
+        { $push: { friends: friendRequest._id } },
         { useFindAndModify: false }
     )
 
