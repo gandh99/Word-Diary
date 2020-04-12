@@ -8,7 +8,7 @@ import AddFriendModal from './AddFriendModal'
 import FriendsTabBar from './FriendsTabBar'
 import AllFriendsTabPanel from './AllFriendsTabPanel'
 import PendingFriendsTabPanel from './PendingFriendsTabPanel'
-import { getPendingFriendRequestsAction } from '../redux/actions/friendsActions'
+import { getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 
 export default function FriendsPage(props) {
     const classes = useStyles()
@@ -30,7 +30,7 @@ export default function FriendsPage(props) {
     ]
 
     useEffect(() => {
-        dispatch(getPendingFriendRequestsAction())
+        dispatch(getFriendRequestsIssuedToMeAction())
     }, [])
 
     return (

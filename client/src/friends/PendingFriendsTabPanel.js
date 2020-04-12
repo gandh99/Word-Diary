@@ -6,7 +6,7 @@ import PendingFriendCard from './PendingFriendCard'
 
 export default function PendingFriendsTabPanel() {
     const dispatch = useDispatch()
-    const pendingFriends = useSelector(state => state.friends.pendingFriendRequests)
+    const pendingFriends = useSelector(state => state.friends.friendRequestsIssuedToMe)
 
     return (
         <div style={gridContentAreaStyle}>
