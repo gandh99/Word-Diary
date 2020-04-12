@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
-import { issueFriendRequestAction, respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
+import { issueFriendRequestAction, respondToPendingFriendRequestAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 
 export default function UserSearchCard(props) {
     const classes = useStyles()
@@ -48,6 +48,7 @@ export default function UserSearchCard(props) {
             (message) => {
                 props.showSnackbar(message, 'success')
                 setButtonStatus('Pending')
+                dispatch(getFriendRequestsIssuedToMeAction())
             },
             // errorCallback
             (message) => {
@@ -67,6 +68,7 @@ export default function UserSearchCard(props) {
             (message) => {
                 props.showSnackbar(message, 'success')
                 setButtonStatus('Accepted')
+                dispatch(getFriendRequestsIssuedToMeAction())
             },
             // errorCallback
             (message) => {

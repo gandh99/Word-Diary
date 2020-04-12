@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import { Grid, Card, CardContent, Tooltip, Divider, Typography, Button } from '@material-ui/core'
 import AccountCircle from '../images/account_circle.png'
-import { respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
+import { respondToPendingFriendRequestAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 
 export default function PendingFriendCard(props) {
     const classes = useStyles()
@@ -17,7 +17,9 @@ export default function PendingFriendCard(props) {
                 isAccepted
             },
             // successCallback
-            () => { },
+            () => { 
+                dispatch(getFriendRequestsIssuedToMeAction())
+            },
             // errorCallback
             () => { },
         ))
