@@ -21,7 +21,7 @@ export default function UserSearchCard(props) {
         </Button>
     const addButton =
         <Button
-            onClick={(e) => { onAddFriend(e, props.user.username) }}
+            onClick={(e) => { onAddFriend(e, props.user._id, props.user.username) }}
             variant="contained"
             disableElevation
             className={classes.button}
@@ -29,11 +29,12 @@ export default function UserSearchCard(props) {
             {buttonStatus}
         </Button>
 
-    const onAddFriend = (e, recipientUsername) => {
+    const onAddFriend = (e, recipientId, recipientUsername) => {
         e.preventDefault()
         issueFriendRequest(
             {
-                recipient: recipientUsername
+                recipientId,
+                recipientUsername
             },
             // successCallback
             (message) => {

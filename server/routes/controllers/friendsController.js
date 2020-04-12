@@ -38,7 +38,7 @@ module.exports.userSearch = async (req, res, done) => {
     let usersData = []
     for (let matchingUser of matchingUsers) {
         let userData = {
-            id: matchingUser._id,
+            _id: matchingUser._id,
             username: matchingUser.username,
             personalMessage: matchingUser.personalMessage,
             status: 'Add'
@@ -61,11 +61,11 @@ module.exports.userSearch = async (req, res, done) => {
 module.exports.issueFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData.id
-    const friendId = req.body.recipientId   //TODO in client
+    const { recipientId } = req.body   
 
     // Create the friend request
     const friendRequest = await Friends.findOneAndUpdate(
-        { requester: ownId, recipient: friendId },
+        { requester: ownId, recipient: recipientId },
         { status: 'PENDING' },
         { upsert: true, new: true, useFindAndModify: false }
     )
@@ -77,7 +77,7 @@ module.exports.issueFriendRequest = async (req, res, done) => {
         { useFindAndModify: false }
     )
     await User.findOneAndUpdate(
-        { _id: friendId, friends: { $ne: friendRequest._id } },
+        { _id: recipientId, friends: { $ne: friendRequest._id } },
         { $push: { friends: friendRequest._id } },
         { useFindAndModify: false }
     )
