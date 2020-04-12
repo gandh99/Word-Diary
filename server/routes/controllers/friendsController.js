@@ -291,3 +291,34 @@ module.exports.getFriends = async (req, res, done) => {
             })
         })
 }
+
+module.exports.unfriend = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const ownId = userData._id
+    const friendId = req.body.friendId
+
+    // Remove the data from the Friends model
+    const rejectedFriendship = await Friends.findOneAndRemove(
+        {
+            $or: [
+                { 'requester': ownId, 'recipient': friendId },
+                { 'requester': friendId, 'recipient': ownId }
+            ]
+        }
+    )
+    await User.findOneAndUpdate(
+        { '_id': ownId },
+        { $pull: { 'friends': rejectedFriendship._id } },
+        { useFindAndModify: false }
+    )
+    await User.findOneAndUpdate(
+        { '_id': friendId },
+        { $pull: { 'friends': rejectedFriendship._id } },
+        { useFindAndModify: false }
+    )
+
+    return res.status(200).json({
+        success: true,
+        data: 'Successfully unfriended user.'
+    })
+}

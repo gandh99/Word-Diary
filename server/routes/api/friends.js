@@ -23,7 +23,7 @@ router.get('/get-friend-requests-issued-by-me', auth, friendsController.getFrien
 // @access  Private
 router.get('/get-friend-requests-issued-to-me', auth, friendsController.getFriendRequestsIssuedToMe)
 
-// @route   UPDATE /friends/respond-to-pending-friend-request
+// @route   PUT /friends/respond-to-pending-friend-request
 // @desc    For retrieving pending friend requests
 // @access  Private
 router.put('/respond-to-pending-friend-request', auth, friendsController.respondToPendingFriendRequest)
@@ -32,5 +32,10 @@ router.put('/respond-to-pending-friend-request', auth, friendsController.respond
 // @desc    For retrieving all accepted friend requests
 // @access  Private
 router.get('/get-friends', auth, friendsController.getFriends)
+
+// @route   PUT /friends/unfriend
+// @desc    For removing a friend
+// @access  Private
+router.put('/unfriend', auth, friendsController.unfriend)
 
 module.exports = router
