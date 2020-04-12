@@ -15,7 +15,7 @@ export default function UserSearchCard(props) {
     const issueFriendRequest = (recipientData, successCallback, errorCallback) => dispatch(issueFriendRequestAction(recipientData, successCallback, errorCallback))
 
     // Buttons
-    const requestedButton =
+    const pendingButton =
         <Button className={classes.button} variant="outlined" disabled>
             {buttonStatus}
         </Button>
@@ -50,8 +50,8 @@ export default function UserSearchCard(props) {
 
     const generateButton = () => {
         switch (buttonStatus) {
-            case 'Requested':
-                return requestedButton
+            case 'Pending':
+                return pendingButton
             case 'Add':
             default:
                 return addButton
