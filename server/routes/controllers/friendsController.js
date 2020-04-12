@@ -256,7 +256,8 @@ module.exports.getFriends = async (req, res, done) => {
         .find(
             {
                 $and: [
-                    { $or: [{ requester: ownId }, { recipient: ownId }] }
+                    { $or: [{ requester: ownId }, { recipient: ownId }] },
+                    { status: 'ACCEPTED' }
                 ]
             },
             'requester recipient',    // returns only the _id of the requester and recipient

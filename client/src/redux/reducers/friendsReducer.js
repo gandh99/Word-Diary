@@ -8,7 +8,9 @@ import {
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS,
     GET_FRIENDS_SUCCESS,
-    GET_FRIENDS_FAIL
+    GET_FRIENDS_FAIL,
+    UNFRIEND_SUCCESS,
+    UNFRIEND_FAIL
 } from '../actionTypes'
 
 const initialState = {
@@ -71,6 +73,8 @@ export default function(state = initialState, action) {
                 ...state,
                 responseToPendingRequest: {}
             }
+        case UNFRIEND_SUCCESS:
+        case UNFRIEND_FAIL:
         default:
             return state
     }

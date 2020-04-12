@@ -10,7 +10,9 @@ import {
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
     GET_FRIENDS_SUCCESS,
-    GET_FRIENDS_FAIL
+    GET_FRIENDS_FAIL,
+    UNFRIEND_SUCCESS,
+    UNFRIEND_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
@@ -125,6 +127,29 @@ export const getFriendsAction = () => (dispatch, state) => {
             )
             dispatch({
                 type: GET_FRIENDS_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const unfriendAction = (targetData, successCallback) => (dispatch, state) => {
+    axios
+        .put('/friends/unfriend', targetData, tokenConfig(state))
+        .then(res => {
+            dispatch({
+                type: UNFRIEND_SUCCESS,
+                payload: res.data.data
+            })
+            successCallback()
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: UNFRIEND_FAIL,
                 payload: err.response.data
             })
         })

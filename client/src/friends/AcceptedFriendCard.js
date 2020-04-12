@@ -6,10 +6,24 @@ import AccountCircle from '../images/account_circle.png'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
+import { unfriendAction } from '../redux/actions/friendsActions'
 
 export default function AcceptedFriendCard(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+
+    const unfriendUser = () => {
+        dispatch(unfriendAction(
+            {
+                friendId: props.friend._id
+            },
+            // successCallback
+            () => {
+                props.refresh()
+                props.displaySnackbar('Unfriended user', 'success')
+            }
+        ))
+    }
 
     return (
         <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -39,7 +53,8 @@ export default function AcceptedFriendCard(props) {
                         Message
                     </Button>
                     <Button
-                        startIcon={<RemoveCircleOutlineIcon className={classes.footerIcon}  />}
+                        onClick={unfriendUser}
+                        startIcon={<RemoveCircleOutlineIcon className={classes.footerIcon} />}
                         className={classes.footerButton} >
                         Unfriend
                     </Button>
