@@ -23,11 +23,11 @@ module.exports.translate = (req, res, done) => {
 
 module.exports.addPost = (req, res, done) => {
     const { userData } = req.tokenData
-    const username = userData.username
+    const userId = userData._id
     const { phrase, translatedPhrase, note } = req.body
 
     // Save this post to the user's diary
-    new DiaryPost({ username, phrase, translatedPhrase, note })
+    new DiaryPost({ creator: userId, phrase, translatedPhrase, note })
         .save()
         .then(result => {
             res.status(200).json({
@@ -45,10 +45,10 @@ module.exports.addPost = (req, res, done) => {
 
 module.exports.getPost = (req, res, done) => {
     const { userData } = req.tokenData
-    const username = userData.username
+    const userId = userData._id
 
     // Get all the posts belonging to the user
-    DiaryPost.find({ username }, (err, result) => {
+    DiaryPost.find({ creator: userId }, (err, result) => {
         if (err) {
             return res.status(400).json({
                 success: false,
