@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
+import CheckIcon from '@material-ui/icons/Check'
 import { issueFriendRequestAction, respondToPendingFriendRequestAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 
 export default function UserSearchCard(props) {
@@ -34,6 +35,13 @@ export default function UserSearchCard(props) {
             variant="contained"
             disableElevation
             className={classes.button + ' ' + classes.acceptButton} >
+            {buttonStatus}
+        </Button>
+    const friendsButton =
+        <Button
+            className={classes.button + ' ' + classes.friendsButton}
+            startIcon={<CheckIcon />}
+            variant='outlined' >
             {buttonStatus}
         </Button>
 
@@ -81,8 +89,9 @@ export default function UserSearchCard(props) {
         switch (buttonStatus) {
             case 'Pending':
             case 'Accepted':
-            case 'Friends':
                 return disabledButton
+            case 'Friends':
+                return friendsButton
             case 'Accept':
                 return acceptButton
             case 'Add':
@@ -151,6 +160,14 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.primary.contrastText,
         '&:hover': {
             backgroundColor: theme.palette.success.dark
+        }
+    },
+    friendsButton: {
+        borderColor: theme.palette.success.main,
+        color: theme.palette.success.main,
+        '&:hover': {
+            backgroundColor: 'transparent',
+            cursor: 'default'
         }
     }
 }))
