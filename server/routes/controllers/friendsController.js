@@ -252,21 +252,23 @@ module.exports.getFriends = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData._id
 
-    await Friends.find({
-        $and: [
-            { $or: [{ requester: ownId }, { recipient: ownId }] }
-        ]
-    },
-        'requester recipient',    // returns only the _id of the requester and recipient
-        (err, users) => {
-            if (err) {
-                return res.status(400).json({
-                    success: false,
-                    data: 'Error searching for the requested friends.'
-                })
+    await Friends
+        .find(
+            {
+                $and: [
+                    { $or: [{ requester: ownId }, { recipient: ownId }] }
+                ]
+            },
+            'requester recipient',    // returns only the _id of the requester and recipient
+            (err, users) => {
+                if (err) {
+                    return res.status(400).json({
+                        success: false,
+                        data: 'Error searching for the requested friends.'
+                    })
+                }
             }
-        }
-    )
+        )
         .populate('requester recipient', '_id username personalMessage')      // essentially a JOIN + SELECT statement
         .exec((err, friendship) => {
             if (err) {

@@ -1,9 +1,13 @@
 import React from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
+import { useSelector, useDispatch } from 'react-redux'
+import AcceptedFriendCard from './AcceptedFriendCard'
+import { getFriendsAction } from '../redux/actions/friendsActions'
 
 export default function AllFriendsTabPanel() {
-    const allFriends = []
+    const dispatch = useDispatch()
+    const allFriends = useSelector(state => state.friends.allFriends)
 
     return (
         <div style={gridContentAreaStyle}>
@@ -16,15 +20,15 @@ export default function AllFriendsTabPanel() {
                         direction="row"
                         justify="flex-start"
                         alignItems="center" >
-                        {/* {diaryPosts.map(post => (
-                            <DiaryPost
-                                key={post._id}
-                                post={post}
-                                refresh={() => dispatch(getDiaryPostsAction())}
-                                displaySnackbar={displaySnackbar}
+                        {allFriends.map(friend => (
+                            <AcceptedFriendCard
+                                key={friend._id}
+                                friend={friend}
+                                refresh={() => dispatch(getFriendsAction())}
+                                // displaySnackbar={displaySnackbar}
                             />
                         ))
-                        } */}
+                        }
                     </Grid>
             }
         </div>
