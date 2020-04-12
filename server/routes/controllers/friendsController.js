@@ -3,7 +3,7 @@ const Friends = require('../../models/Friends')
 
 module.exports.userSearch = async (req, res, done) => {
     const { userData } = req.tokenData
-    const ownId = userData.id
+    const ownId = userData._id
     const searchString = req.params.username
 
     // Find all users where the substring appears at the start of their username (except the originator of this query)
@@ -109,7 +109,7 @@ module.exports.userSearch = async (req, res, done) => {
 
 module.exports.issueFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
-    const ownId = userData.id
+    const ownId = userData._id
     const { recipientId } = req.body
 
     // Create the friend request
@@ -139,7 +139,7 @@ module.exports.issueFriendRequest = async (req, res, done) => {
 
 module.exports.getFriendRequestsIssuedByMe = async (req, res, done) => {
     const { userData } = req.tokenData
-    const userId = userData.id
+    const userId = userData._id
 
     // Get all the pending friend requests issued by me
     await Friends
@@ -174,7 +174,7 @@ module.exports.getFriendRequestsIssuedByMe = async (req, res, done) => {
 
 module.exports.getFriendRequestsIssuedToMe = async (req, res, done) => {
     const { userData } = req.tokenData
-    const userId = userData.id
+    const userId = userData._id
 
     // Get all the pending friend requests issued to me
     await Friends
@@ -209,7 +209,7 @@ module.exports.getFriendRequestsIssuedToMe = async (req, res, done) => {
 
 module.exports.respondToPendingFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
-    const ownId = userData.id
+    const ownId = userData._id
     const { friendId, friendUsername, isAccepted } = req.body
 
     if (isAccepted) {
@@ -250,7 +250,7 @@ module.exports.respondToPendingFriendRequest = async (req, res, done) => {
 
 module.exports.getFriends = async (req, res, done) => {
     const { userData } = req.tokenData
-    const ownId = userData.id
+    const ownId = userData._id
 
     await Friends.find({
         $and: [

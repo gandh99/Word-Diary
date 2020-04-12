@@ -50,7 +50,7 @@ module.exports.login = (req, res, done) => {
             })
         } else {
             let userData = {
-                id: user.id,
+                _id: user._id,
                 username: user.username
             }
 
