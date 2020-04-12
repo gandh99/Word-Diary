@@ -8,7 +8,9 @@ import {
     RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS,
     RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS,
-    GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL
+    GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
+    GET_FRIENDS_SUCCESS,
+    GET_FRIENDS_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
@@ -103,5 +105,27 @@ export const respondToPendingFriendRequestAction = (responseData, successCallbac
                 payload: err.response.data
             })
             errorCallback(errorMessage)
+        })
+}
+
+export const getFriendsAction = () => (dispatch, state) => {
+    axios
+        .get('/friends/get-friends', tokenConfig(state))
+        .then(res => {
+            dispatch({
+                type: GET_FRIENDS_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: GET_FRIENDS_FAIL,
+                payload: err.response.data
+            })
         })
 }
