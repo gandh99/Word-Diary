@@ -18,7 +18,8 @@ export default function PendingFriendCard(props) {
             },
             // successCallback
             () => { 
-                dispatch(getFriendRequestsIssuedToMeAction())
+                props.refresh()
+                props.displaySnackbar('Successfully responded to friend request', 'success')
             },
             // errorCallback
             () => { },

@@ -3,7 +3,7 @@ import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import AcceptedFriendCard from './AcceptedFriendCard'
-import { getFriendsAction } from '../redux/actions/friendsActions'
+import { getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function AllFriendsTabPanel() {
@@ -35,7 +35,10 @@ export default function AllFriendsTabPanel() {
                             <AcceptedFriendCard
                                 key={friend._id}
                                 friend={friend}
-                                refresh={() => dispatch(getFriendsAction())}
+                                refresh={() => {
+                                    dispatch(getFriendsAction())
+                                    dispatch(getFriendRequestsIssuedToMeAction())
+                                }}
                                 displaySnackbar={displaySnackbar}
                             />
                         ))

@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import PendingFriendCard from './PendingFriendCard'
+import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { getFriendRequestsIssuedToMeAction, getFriendsAction } from '../redux/actions/friendsActions'
 
 export default function PendingFriendsTabPanel() {
     const dispatch = useDispatch()
     const pendingFriends = useSelector(state => state.friends.friendRequestsIssuedToMe)
+
+    // For showing/hiding the CustomSnackbar
+    const [showSnackbar, setShowSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+    const [snackbarSeverity, setSnackbarSeverity] = useState('')
+    const displaySnackbar = (message, severity) => {
+        setSnackbarSeverity(severity)
+        setSnackbarMessage(message)
+        setShowSnackbar(true)
+    }
 
     return (
         <div style={gridContentAreaStyle}>
@@ -23,13 +35,22 @@ export default function PendingFriendsTabPanel() {
                             <PendingFriendCard
                                 key={friend._id}
                                 friend={friend}
-                            // refresh={() => dispatch(getDiaryPostsAction())}
-                            // displaySnackbar={displaySnackbar}
+                                refresh={() => {
+                                    dispatch(getFriendsAction())
+                                    dispatch(getFriendRequestsIssuedToMeAction())
+                                }}
+                                displaySnackbar={displaySnackbar}
                             />
                         ))
                         }
                     </Grid>
             }
+            <CustomSnackbar
+                message={snackbarMessage}
+                show={showSnackbar}
+                setShowSnackbar={setShowSnackbar}
+                severity={snackbarSeverity}
+            />
         </div>
     )
 }

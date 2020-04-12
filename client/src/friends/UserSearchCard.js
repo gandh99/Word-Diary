@@ -31,7 +31,10 @@ export default function UserSearchCard(props) {
         </Button>
     const acceptButton =
         <Button
-            onClick={(e) => { onAcceptFriendRequest(e, props.user._id) }}
+            onClick={(e) => {
+                onAcceptFriendRequest(e, props.user._id)
+                props.refresh()
+            }}
             variant="contained"
             disableElevation
             className={classes.button + ' ' + classes.acceptButton} >

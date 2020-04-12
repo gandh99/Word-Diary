@@ -5,7 +5,7 @@ import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
-import { userSearchAction } from '../redux/actions/friendsActions'
+import { userSearchAction, getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 import UserSearchCard from './UserSearchCard'
 
 export default function AddFriendModal(props) {
@@ -74,6 +74,10 @@ export default function AddFriendModal(props) {
                         userList.map(user =>
                             <UserSearchCard
                                 user={user}
+                                refresh={() => {
+                                    dispatch(getFriendsAction())
+                                    dispatch(getFriendRequestsIssuedToMeAction())
+                                }}
                                 showSnackbar={(message, severity) => {
                                     setSnackbarMessage(message)
                                     setSnackbarSeverity(severity)
