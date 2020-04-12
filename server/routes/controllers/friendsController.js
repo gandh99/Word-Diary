@@ -158,7 +158,7 @@ module.exports.getFriendRequestsIssuedToMe = async (req, res, done) => {
         })
 }
 
-module.exports.respondToPendingRequest = async (req, res, done) => {
+module.exports.respondToPendingFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData.id
     const { friendId, friendUsername, isAccepted } = req.body
@@ -171,12 +171,6 @@ module.exports.respondToPendingRequest = async (req, res, done) => {
                 { $set: { status: 'ACCEPTED' } },
                 { useFindAndModify: false }
             )
-        await Friends
-            .findOneAndUpdate(
-                { 'requester': ownId, 'recipient': friendId },
-                { $set: { status: 'ACCEPTED' } },
-                { useFindAndModify: false }
-            )
 
         return res.status(200).json({
             success: true,
@@ -184,20 +178,17 @@ module.exports.respondToPendingRequest = async (req, res, done) => {
         })
     } else {
         // Modify friendship to reflect rejected status
-        const docA = await Friends.findOneAndRemove(
-            { 'requester': ownId, 'recipient': friendId }
-        )
-        const docB = await Friends.findOneAndRemove(
+        const rejectedFriendship = await Friends.findOneAndRemove(
             { 'requester': friendId, 'recipient': ownId }
         )
-        const updateSelf = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { '_id': ownId },
-            { $pull: { 'friends': docA._id } },
+            { $pull: { 'friends': rejectedFriendship._id } },
             { useFindAndModify: false }
         )
-        const updateFriend = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { '_id': friendId },
-            { $pull: { 'friends': docB._id } },
+            { $pull: { 'friends': rejectedFriendship._id } },
             { useFindAndModify: false }
         )
 

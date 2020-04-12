@@ -39,7 +39,7 @@ export default function UserSearchCard(props) {
             // successCallback
             (message) => {
                 props.showSnackbar(message, 'success')
-                setButtonStatus('Requested')
+                setButtonStatus('Pending')
             },
             // errorCallback
             (message) => {

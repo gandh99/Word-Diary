@@ -5,8 +5,8 @@ import {
     USER_SEARCH_FAIL,
     ISSUE_FRIEND_REQUEST_SUCCESS,
     ISSUE_FRIEND_REQUEST_FAIL,
-    RESPOND_TO_PENDING_REQUEST_SUCCESS,
-    RESPOND_TO_PENDING_REQUEST_FAIL,
+    RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS,
+    RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL
 } from '../actionTypes'
@@ -84,10 +84,10 @@ export const getFriendRequestsIssuedToMeAction = () => (dispatch, state) => {
 
 export const respondToPendingFriendRequestAction = (responseData) => (dispatch, state) => {
     axios
-        .put('/friends/respond-to-pending-request', responseData, tokenConfig(state))
+        .put('/friends/respond-to-pending-friend-request', responseData, tokenConfig(state))
         .then(res => {
             dispatch({
-                type: RESPOND_TO_PENDING_REQUEST_SUCCESS,
+                type: RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS,
                 payload: res.data.data
             })
         })
@@ -98,7 +98,7 @@ export const respondToPendingFriendRequestAction = (responseData) => (dispatch, 
                 returnErrors(err.response.status, err.response.status, errorMessage)
             )
             dispatch({
-                type: RESPOND_TO_PENDING_REQUEST_FAIL,
+                type: RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
                 payload: err.response.data
             })
         })

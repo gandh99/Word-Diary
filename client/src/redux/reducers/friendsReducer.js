@@ -3,8 +3,8 @@ import {
     USER_SEARCH_FAIL,
     ISSUE_FRIEND_REQUEST_SUCCESS,
     ISSUE_FRIEND_REQUEST_FAIL,
-    RESPOND_TO_PENDING_REQUEST_SUCCESS,
-    RESPOND_TO_PENDING_REQUEST_FAIL,
+    RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS,
+    RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
     GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS
 } from '../actionTypes'
@@ -48,12 +48,12 @@ export default function(state = initialState, action) {
                 ...state,
                 friendRequestsIssuedToMe: []
             }
-        case RESPOND_TO_PENDING_REQUEST_SUCCESS:
+        case RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS:
             return {
                 ...state,
                 responseToPendingRequest: action.payload
             }
-        case RESPOND_TO_PENDING_REQUEST_FAIL:
+        case RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL:
             return {
                 ...state,
                 responseToPendingRequest: {}
