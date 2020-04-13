@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, Card, CardContent, Tooltip, Divider, Typography, Button } from '@material-ui/core'
+import { Grid, Card, CardContent, Typography, Button } from '@material-ui/core'
 import AccountCircle from '../images/account_circle.png'
-import { respondToPendingFriendRequestAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
+import { respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
 
 export default function PendingFriendCard(props) {
     const classes = useStyles()
@@ -11,14 +11,13 @@ export default function PendingFriendCard(props) {
 
     const respondToPendingRequest = (isAccepted) => {
         dispatch(respondToPendingFriendRequestAction(
+            // Provide details of the friend to whom we are responding
             {
-                friendId: props.friend._id,
-                friendUsername: props.friend.username,
+                friend: props.friend,
                 isAccepted
             },
             // successCallback
             () => { 
-                props.refresh()
                 props.displaySnackbar('Successfully responded to friend request', 'success')
             },
             // errorCallback

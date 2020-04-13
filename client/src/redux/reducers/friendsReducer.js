@@ -15,14 +15,15 @@ import {
 
 const initialState = {
     userSearchResults: [],
-    friendRequestRecipient: '',
+    friendRequestRecipient: {},
     friendRequestsIssuedToMe: [],
     responseToPendingRequest: {},
+    unfriendedUser: {},
     allFriends: []
 }
 
-export default function(state = initialState, action) {
-    switch(action.type) {
+export default function (state = initialState, action) {
+    switch (action.type) {
         case USER_SEARCH_SUCCESS:
             return {
                 ...state,
@@ -41,7 +42,7 @@ export default function(state = initialState, action) {
         case ISSUE_FRIEND_REQUEST_FAIL:
             return {
                 ...state,
-                friendRequestRecipient: ''
+                friendRequestRecipient: {}
             }
         case GET_FRIEND_REQUESTS_ISSUED_TO_ME_SUCCESS:
             return {
@@ -64,9 +65,13 @@ export default function(state = initialState, action) {
                 allFriends: []
             }
         case RESPOND_TO_PENDING_FRIEND_REQUEST_SUCCESS:
+            const { isAccepted } = action.payload
             return {
                 ...state,
-                responseToPendingRequest: action.payload
+                responseToPendingRequest: action.payload,
+                friendRequestsIssuedToMe: state.friendRequestsIssuedToMe.filter(
+                    friendRequest => friendRequest._id !== action.payload._id),
+                allFriends: isAccepted ? [...state.allFriends, action.payload] : state.allFriends
             }
         case RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL:
             return {
@@ -74,7 +79,16 @@ export default function(state = initialState, action) {
                 responseToPendingRequest: {}
             }
         case UNFRIEND_SUCCESS:
+            return {
+                ...state,
+                unfriendedUser: action.payload,
+                allFriends: state.allFriends.filter(friend => friend._id !== action.payload._id)
+            }
         case UNFRIEND_FAIL:
+            return {
+                ...state,
+                unfriendedUser: {}
+            }
         default:
             return state
     }

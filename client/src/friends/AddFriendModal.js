@@ -74,10 +74,6 @@ export default function AddFriendModal(props) {
                         userList.map(user =>
                             <UserSearchCard
                                 user={user}
-                                refresh={() => {
-                                    dispatch(getFriendsAction())
-                                    dispatch(getFriendRequestsIssuedToMeAction())
-                                }}
                                 showSnackbar={(message, severity) => {
                                     setSnackbarMessage(message)
                                     setSnackbarSeverity(severity)

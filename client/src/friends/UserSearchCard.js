@@ -22,7 +22,7 @@ export default function UserSearchCard(props) {
         </Button>
     const addButton =
         <Button
-            onClick={(e) => { onIssueFriendRequest(e, props.user._id, props.user.username) }}
+            onClick={(e) => { onIssueFriendRequest(e) }}
             variant="contained"
             disableElevation
             className={classes.button}
@@ -32,8 +32,7 @@ export default function UserSearchCard(props) {
     const acceptButton =
         <Button
             onClick={(e) => {
-                onAcceptFriendRequest(e, props.user._id)
-                props.refresh()
+                onAcceptFriendRequest(e)
             }}
             variant="contained"
             disableElevation
@@ -48,18 +47,16 @@ export default function UserSearchCard(props) {
             {buttonStatus}
         </Button>
 
-    const onIssueFriendRequest = (e, recipientId, recipientUsername) => {
+    const onIssueFriendRequest = (e) => {
         e.preventDefault()
         issueFriendRequest(
             {
-                recipientId,
-                recipientUsername
+                recipient: props.user
             },
             // successCallback
             (message) => {
                 props.showSnackbar(message, 'success')
                 setButtonStatus('Pending')
-                dispatch(getFriendRequestsIssuedToMeAction())
             },
             // errorCallback
             (message) => {
@@ -68,11 +65,11 @@ export default function UserSearchCard(props) {
         )
     }
 
-    const onAcceptFriendRequest = (e, friendId) => {
+    const onAcceptFriendRequest = (e) => {
         e.preventDefault()
         dispatch(respondToPendingFriendRequestAction(
             {
-                friendId,
+                friend: props.user,
                 isAccepted: true
             },
             // successCallback

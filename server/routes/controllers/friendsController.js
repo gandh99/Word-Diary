@@ -110,7 +110,7 @@ module.exports.userSearch = async (req, res, done) => {
 module.exports.issueFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData._id
-    const { recipientId } = req.body
+    const recipientId = req.body._id
 
     // Create the friend request
     const friendRequest = await Friends.findOneAndUpdate(
@@ -210,7 +210,10 @@ module.exports.getFriendRequestsIssuedToMe = async (req, res, done) => {
 module.exports.respondToPendingFriendRequest = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData._id
-    const { friendId, friendUsername, isAccepted } = req.body
+    const friendId = req.body._id
+    const friendUsername = req.body.username
+    const friendPersonalMessage = req.body.personalMessage
+    const isAccepted = req.body.isAccepted
 
     if (isAccepted) {
         // Modify friendship to reflect accepted status
@@ -223,7 +226,12 @@ module.exports.respondToPendingFriendRequest = async (req, res, done) => {
 
         return res.status(200).json({
             success: true,
-            data: { friendId, friendUsername, isAccepted }
+            data: {
+                _id: friendId,
+                username: friendUsername,
+                personalMessage: friendPersonalMessage,
+                isAccepted
+            }
         })
     } else {
         // Modify friendship to reflect rejected status
@@ -243,7 +251,12 @@ module.exports.respondToPendingFriendRequest = async (req, res, done) => {
 
         return res.status(200).json({
             success: true,
-            data: { friendId, friendUsername, isAccepted }
+            data: {
+                _id: friendId,
+                username: friendUsername,
+                personalMessage: friendPersonalMessage,
+                isAccepted
+            }
         })
     }
 }
@@ -296,7 +309,7 @@ module.exports.getFriends = async (req, res, done) => {
 module.exports.unfriend = async (req, res, done) => {
     const { userData } = req.tokenData
     const ownId = userData._id
-    const friendId = req.body.friendId
+    const friendId = req.body._id
 
     // Remove the data from the Friends model
     const rejectedFriendship = await Friends.findOneAndRemove(
@@ -320,6 +333,10 @@ module.exports.unfriend = async (req, res, done) => {
 
     return res.status(200).json({
         success: true,
-        data: 'Successfully unfriended user.'
+        data: {
+            _id: req.body._id,
+            username: req.body.username,
+            personalMessage: req.body.personalMessage
+        }
     })
 }

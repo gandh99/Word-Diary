@@ -39,15 +39,22 @@ export const userSearchAction = (searchString, done) => (dispatch, getState) => 
         })
 }
 
-export const issueFriendRequestAction = (recipientData, successCallback, errorCallback) => (dispatch, state) => {
+export const issueFriendRequestAction = (user, successCallback, errorCallback) => (dispatch, state) => {
+    const { recipient } = user
+    const recipientData = {
+        _id: recipient._id,
+        username: recipient.username,
+        personalMessage: recipient.personalMessage
+    }
+
     axios
         .post('/friends/issue-friend-request', recipientData, tokenConfig(state))
         .then(res => {
             dispatch({
                 type: ISSUE_FRIEND_REQUEST_SUCCESS,
-                payload: recipientData.recipient
+                payload: recipientData
             })
-            successCallback(res.data.data)
+            successCallback('Friend request sent.')
         })
         .catch(err => {
             const errorMessage = err.response.data.data
@@ -86,7 +93,15 @@ export const getFriendRequestsIssuedToMeAction = () => (dispatch, state) => {
         })
 }
 
-export const respondToPendingFriendRequestAction = (responseData, successCallback, errorCallback) => (dispatch, state) => {
+export const respondToPendingFriendRequestAction = (friendData, successCallback, errorCallback) => (dispatch, state) => {
+    const { friend, isAccepted } = friendData
+    const responseData = {
+        _id: friend._id,
+        username: friend.username,
+        personalMessage: friend.personalMessage,
+        isAccepted
+    }
+
     axios
         .put('/friends/respond-to-pending-friend-request', responseData, tokenConfig(state))
         .then(res => {
@@ -132,9 +147,16 @@ export const getFriendsAction = () => (dispatch, state) => {
         })
 }
 
-export const unfriendAction = (targetData, successCallback) => (dispatch, state) => {
+export const unfriendAction = (target, successCallback) => (dispatch, state) => {
+    const { friend } = target
+    const friendData = {
+        _id: friend._id,
+        username: friend.username,
+        personalMessage: friend.personalMessage
+    }
+
     axios
-        .put('/friends/unfriend', targetData, tokenConfig(state))
+        .put('/friends/unfriend', friendData, tokenConfig(state))
         .then(res => {
             dispatch({
                 type: UNFRIEND_SUCCESS,

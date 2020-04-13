@@ -15,11 +15,10 @@ export default function AcceptedFriendCard(props) {
     const unfriendUser = () => {
         dispatch(unfriendAction(
             {
-                friendId: props.friend._id
+                friend: props.friend
             },
             // successCallback
             () => {
-                props.refresh()
                 props.displaySnackbar('Unfriended user', 'success')
             }
         ))

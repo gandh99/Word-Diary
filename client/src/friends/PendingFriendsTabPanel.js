@@ -35,10 +35,6 @@ export default function PendingFriendsTabPanel() {
                             <PendingFriendCard
                                 key={friend._id}
                                 friend={friend}
-                                refresh={() => {
-                                    dispatch(getFriendsAction())
-                                    dispatch(getFriendRequestsIssuedToMeAction())
-                                }}
                                 displaySnackbar={displaySnackbar}
                             />
                         ))
