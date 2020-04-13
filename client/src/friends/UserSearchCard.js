@@ -50,9 +50,7 @@ export default function UserSearchCard(props) {
     const onIssueFriendRequest = (e) => {
         e.preventDefault()
         issueFriendRequest(
-            {
-                recipient: props.user
-            },
+            props.user,
             // successCallback
             (message) => {
                 props.showSnackbar(message, 'success')
@@ -69,14 +67,13 @@ export default function UserSearchCard(props) {
         e.preventDefault()
         dispatch(respondToPendingFriendRequestAction(
             {
-                friend: props.user,
+                ...props.user,
                 isAccepted: true
             },
             // successCallback
             (message) => {
                 props.showSnackbar(message, 'success')
                 setButtonStatus('Accepted')
-                dispatch(getFriendRequestsIssuedToMeAction())
             },
             // errorCallback
             (message) => {

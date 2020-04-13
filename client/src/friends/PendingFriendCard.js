@@ -13,7 +13,7 @@ export default function PendingFriendCard(props) {
         dispatch(respondToPendingFriendRequestAction(
             // Provide details of the friend to whom we are responding
             {
-                friend: props.friend,
+                ...props.friend,
                 isAccepted
             },
             // successCallback
