@@ -45,14 +45,14 @@ export default function DrawerMenu(props) {
                     <ListItem button key={'Diary'}>
                         <ListItemIcon>{<MenuBookIcon />}</ListItemIcon>
                         <ListItemText primary={'Diary'} />
-                        <AlertCountBadge count={10} />
+                        {/* <AlertCountBadge count={10} /> */}
                     </ListItem>
                 </Link>
                 <Link to={'/friends'} style={{ textDecoration: 'none' }} className={classes.link}>
                     <ListItem button key={'Friends'}>
                         <ListItemIcon>{<PeopleAltIcon />}</ListItemIcon>
                         <ListItemText primary={'Friends'} />
-                        <AlertCountBadge count={1000} />
+                        {/* <AlertCountBadge count={1000} /> */}
                     </ListItem>
                 </Link>
             </List>

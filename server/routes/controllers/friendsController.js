@@ -1,5 +1,6 @@
 const User = require('../../models/User')
 const Friends = require('../../models/Friends')
+const notificationsController = require('./notificationsController')
 
 module.exports.userSearch = async (req, res, done) => {
     const { userData } = req.tokenData
@@ -130,6 +131,9 @@ module.exports.issueFriendRequest = async (req, res, done) => {
         { $push: { friends: friendRequest._id } },
         { useFindAndModify: false }
     )
+
+    // Create a notification for the recipient this friend request
+    await notificationsController.createFriendRequestNotification(friendRequest._id, recipientId)
 
     return res.status(200).send({
         success: true,
