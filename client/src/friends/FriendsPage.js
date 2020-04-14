@@ -26,7 +26,7 @@ export default function FriendsPage(props) {
     // Tab content
     const tabContent = [
         <AllFriendsTabPanel />,
-        <PendingFriendsTabPanel />,
+        <PendingFriendsTabPanel />
     ]
 
     useEffect(() => {

@@ -7,9 +7,9 @@ export default function AlertCountBadge(props) {
         color: 'white',
         borderRadius: 50,
         padding: '0.1rem 0.5rem',
-        visibility: props.count > 0 ? 'visible' : 'hidden'
     }
-
+    
+    if (props.count <= 0) return null
     return (
         <span style={badgeStyle}>
             {props.count >= 100 ? '99+' : props.count}

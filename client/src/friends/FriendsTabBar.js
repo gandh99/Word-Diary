@@ -1,9 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Tabs, Tab } from '@material-ui/core'
+import AlertCountBadge from '../reusableComponents/AlertCountBadge'
+import { useSelector } from 'react-redux'
 
 export default function FriendsTabBar(props) {
     const classes = useStyles()
+    const notificationsForReceivedFriendRequests = useSelector(state => state.notifications.receivedFriendRequests)
 
     return (
         <Paper className={classes.tabs}>
@@ -14,7 +17,14 @@ export default function FriendsTabBar(props) {
                 textColor="primary"
                 centered >
                 <Tab className={classes.tab} label='All' />
-                <Tab className={classes.tab} label='Pending' />
+                <Tab
+                    className={classes.tab}
+                    label={
+                        <span>
+                            Pending <AlertCountBadge count={notificationsForReceivedFriendRequests.length} />
+                        </span>
+                    }
+                />
             </Tabs>
         </Paper>
     )
