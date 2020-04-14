@@ -1,6 +1,8 @@
 import {
     GET_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
-    GET_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL
+    GET_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL,
+    DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
+    DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL
 } from '../actionTypes'
 
 const initialState = {
@@ -18,6 +20,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 receivedFriendRequests: []
+            }
+        case DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS:
+            return {
+                ...state,
+                receivedFriendRequests: []
+            }
+        case DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL:
+            return {
+                ...state,
             }
         default:
             return state

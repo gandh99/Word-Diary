@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import PendingFriendCard from './PendingFriendCard'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { getFriendRequestsIssuedToMeAction, getFriendsAction } from '../redux/actions/friendsActions'
+import { deleteReceivedFriendRequestsAction } from '../redux/actions/notificationsActions'
 
 export default function PendingFriendsTabPanel() {
     const dispatch = useDispatch()
@@ -19,6 +20,10 @@ export default function PendingFriendsTabPanel() {
         setSnackbarMessage(message)
         setShowSnackbar(true)
     }
+
+    useEffect(() => {
+        dispatch(deleteReceivedFriendRequestsAction())
+    }, [])
 
     return (
         <div style={gridContentAreaStyle}>
