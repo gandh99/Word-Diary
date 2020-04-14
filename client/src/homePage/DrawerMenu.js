@@ -1,30 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@material-ui/core';
 import { Link } from "react-router-dom"
 import Drawer from '@material-ui/core/Drawer'
 import HomeIcon from '@material-ui/icons/Home'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import SettingsIcon from '@material-ui/icons/Settings'
 import HelpIcon from '@material-ui/icons/Help'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import { logoutUserAction } from '../redux/actions/authenticationActions';
-import { useDispatch } from 'react-redux';
-import AlertCountBadge from '../reusableComponents/AlertCountBadge';
+import { logoutUserAction } from '../redux/actions/authenticationActions'
+import { getReceivedFriendRequestsAction } from '../redux/actions/notificationsActions'
+import { useDispatch, useSelector } from 'react-redux'
+import AlertCountBadge from '../reusableComponents/AlertCountBadge'
 
 export default function DrawerMenu(props) {
     const { container } = props
     const dispatch = useDispatch()
     const classes = useStyles()
     const theme = useTheme()
+    const notificationsForReceivedFriendRequests = useSelector(state => state.notifications.receivedFriendRequests)
 
     // Utility links (icon + text)
     const utilityLinks = [
         { icon: <SettingsIcon />, text: 'Settings' },
         { icon: <HelpIcon />, text: 'Help' },
     ]
+
+    useEffect(() => {
+        dispatch(getReceivedFriendRequestsAction())
+    }, [])
 
     const handleDrawerToggle = () => {
         props.setDrawerOpen(!props.drawerOpen);
@@ -52,7 +57,7 @@ export default function DrawerMenu(props) {
                     <ListItem button key={'Friends'}>
                         <ListItemIcon>{<PeopleAltIcon />}</ListItemIcon>
                         <ListItemText primary={'Friends'} />
-                        {/* <AlertCountBadge count={1000} /> */}
+                        <AlertCountBadge count={notificationsForReceivedFriendRequests.length} />
                     </ListItem>
                 </Link>
             </List>

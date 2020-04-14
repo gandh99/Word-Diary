@@ -5,7 +5,7 @@ module.exports.createFriendRequestNotification = async (friendRequestId, recipie
 }
 
 module.exports.getReceivedFriendRequests = (req, res, done) => {
-    const { _id } = req.body
+    const { _id } = req.tokenData.userData
 
     FriendsNotification
         .find({ recipient: _id }, (err, result) => {
@@ -15,7 +15,7 @@ module.exports.getReceivedFriendRequests = (req, res, done) => {
                     data: 'Unable to get the notifications for the number of received friend requests.'
                 })
             }
-            console.log(result)
+            
             return res.status(200).json({
                 success: true,
                 data: result
