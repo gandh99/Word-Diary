@@ -12,20 +12,13 @@ import HelpIcon from '@material-ui/icons/Help'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { logoutUserAction } from '../redux/actions/authenticationActions';
 import { useDispatch } from 'react-redux';
+import AlertCountBadge from '../reusableComponents/AlertCountBadge';
 
 export default function DrawerMenu(props) {
     const { container } = props
     const dispatch = useDispatch()
     const classes = useStyles()
     const theme = useTheme()
-
-    // Page links (icon + text)
-    const pageLinks = [
-        { icon: <HomeIcon />, text: 'Home' },
-        { icon: <MenuBookIcon />, text: 'My Diary', link: '/diary' },
-        { icon: <NotificationsIcon />, text: 'Notifications' },
-        { icon: <PeopleAltIcon />, text: 'Friends', link: '/friends' },
-    ]
 
     // Utility links (icon + text)
     const utilityLinks = [
@@ -42,14 +35,26 @@ export default function DrawerMenu(props) {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                {pageLinks.map((page) => (
-                    <Link to={page.link} style={{ textDecoration: 'none' }} className={classes.link}>
-                        <ListItem button key={page.text}>
-                            <ListItemIcon>{page.icon}</ListItemIcon>
-                            <ListItemText primary={page.text} />
-                        </ListItem>
-                    </Link>
-                ))}
+                <Link to={'/'} style={{ textDecoration: 'none' }} className={classes.link}>
+                    <ListItem button key={'Home'}>
+                        <ListItemIcon>{<HomeIcon />}</ListItemIcon>
+                        <ListItemText primary={'Home'} />
+                    </ListItem>
+                </Link>
+                <Link to={'/diary'} style={{ textDecoration: 'none' }} className={classes.link}>
+                    <ListItem button key={'Diary'}>
+                        <ListItemIcon>{<MenuBookIcon />}</ListItemIcon>
+                        <ListItemText primary={'Diary'} />
+                        <AlertCountBadge count={10} />
+                    </ListItem>
+                </Link>
+                <Link to={'/friends'} style={{ textDecoration: 'none' }} className={classes.link}>
+                    <ListItem button key={'Friends'}>
+                        <ListItemIcon>{<PeopleAltIcon />}</ListItemIcon>
+                        <ListItemText primary={'Friends'} />
+                        <AlertCountBadge count={1000} />
+                    </ListItem>
+                </Link>
             </List>
             <Divider />
             <List>
