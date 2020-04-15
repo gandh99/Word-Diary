@@ -8,7 +8,7 @@ import {
     UPDATE_DIARY_POST_SUCCESS,
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
-    DELETE_DIARY_POST_FAIL
+    DELETE_DIARY_POST_FAIL,
 } from '../actionTypes'
 
 const initialState = {

@@ -3,12 +3,14 @@ import './diary.css'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import AddDiaryPostModal from './AddDiaryPostModal'
+import ShareDiaryPostModal from './SharedDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import DiaryTabBar from './DiaryTabBar'
 import AllPostsTabPanel from './AllPostsTabPanel'
 import StarredPostsTabPanel from './StarredPostsTabPanel'
+import { hideShareDiaryPostModal } from '../redux/actions/modalDisplayActions'
 
 export default function DiaryPage(props) {
     const dispatch = useDispatch()
@@ -21,6 +23,9 @@ export default function DiaryPage(props) {
 
     // For handling the AddDiaryPostModal
     const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
+
+    // For handling the ShareDiaryPostModal
+    const [showShareDiaryPostModal, setShowShareDiaryPostModal] = useState(false)
 
     // Tab content
     const tabContent = [
@@ -52,6 +57,11 @@ export default function DiaryPage(props) {
                 <AddDiaryPostModal
                     show={showAddDiaryPostModal}
                     onHide={() => setShowAddDiaryPostModal(false)}
+                    displaySnackbar={displaySnackbar}
+                />
+                <ShareDiaryPostModal
+                    show={useSelector(state => state.modalDisplay.displayShareDiaryPostModal)}
+                    onHide={() => dispatch(hideShareDiaryPostModal())}
                     displaySnackbar={displaySnackbar}
                 />
                 {tabContent[selectedTabIndex]}

@@ -11,6 +11,7 @@ import {
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
     DELETE_DIARY_POST_FAIL,
+    TOGGLE_SHARE_DIARY_POST_MODAL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'

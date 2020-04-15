@@ -10,6 +10,7 @@ import ShareIcon from '@material-ui/icons/Share'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import { Tooltip } from '@material-ui/core'
 import { updateDiaryPostAction, deleteDiaryPostAction } from '../redux/actions/diaryActions'
+import { showShareDiaryPostModal } from '../redux/actions/modalDisplayActions'
 
 export default function DiaryPost(props) {
     const classes = useStyles()
@@ -41,6 +42,7 @@ export default function DiaryPost(props) {
                     <div style={toolbarHeaderStyle}>
                         <Tooltip title='Share post'>
                             <ShareIcon
+                                onClick={() => dispatch(showShareDiaryPostModal(currentPost))}
                                 htmlColor={toolbarIconDefaultColor}
                                 style={toolbarIconStyle}
                                 className={classes.share} />
