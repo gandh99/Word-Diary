@@ -28,4 +28,9 @@ router.put('/update-post', auth, diaryController.updatePost)
 // @access  Private
 router.delete('/delete-post/:id', auth, diaryController.deletePost)
 
+// @route   POST /diary/share-post
+// @desc    For sharing a particular post
+// @access  Private
+router.post('/share-post/', auth, diaryController.sharePost)
+
 module.exports = router

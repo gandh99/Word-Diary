@@ -1,5 +1,6 @@
 const translate = require('@vitalets/google-translate-api')
 const DiaryPost = require('../../models/DiaryPost')
+const SharedDiaryPost = require('../../models/SharedDiaryPost')
 
 module.exports.translate = (req, res, done) => {
     const { phrase } = req.body
@@ -100,4 +101,26 @@ module.exports.deletePost = (req, res, done) => {
             data: deletedPost
         })
     })
+}
+
+module.exports.sharePost = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+    const { _id, recipient} = req.body.sharedPostData
+
+    // Create a SharedDiaryPost
+    new SharedDiaryPost({ post: _id, creator: userId, recipient })
+        .save()
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            })
+        })
+        .catch(err => {
+            res.status(400).json({
+                success: false,
+                data: 'Error adding a shared diary post.'
+            })
+        })
 }
