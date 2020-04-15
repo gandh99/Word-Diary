@@ -31,6 +31,11 @@ router.delete('/delete-post/:id', auth, diaryController.deletePost)
 // @route   POST /diary/share-post
 // @desc    For sharing a particular post
 // @access  Private
-router.post('/share-post/', auth, diaryController.sharePost)
+router.post('/share-post', auth, diaryController.sharePost)
+
+// @route   GET /diary/get-posts-shared-with-me
+// @desc    For retrieving all posts shared with the user
+// @access  Private
+router.get('/get-posts-shared-with-me', auth, diaryController.getPostsSharedWithMe)
 
 module.exports = router

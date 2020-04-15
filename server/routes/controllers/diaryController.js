@@ -126,4 +126,38 @@ module.exports.sharePost = (req, res, done) => {
             })
         }
     )
+
+    // TODO: Create a notification
+}
+
+module.exports.getPostsSharedWithMe = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+
+    SharedDiaryPost
+        .find(
+            { recipient: userId },
+            (err, sharedDiaryPosts) => {
+                if (err) {
+                    return res.status(400).json({
+                        success: false,
+                        data: 'Error retrieving diary posts shared with me.'
+                    })
+                }
+            }
+        )
+        .populate('post creator recipient')      // essentially a JOIN + SELECT statement
+        .exec((err, sharedDiaryPosts) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error retrieving diary posts shared with me.'
+                })
+            }
+            
+            return res.status(200).json({
+                success: true,
+                data: sharedDiaryPosts
+            })
+        })
 }
