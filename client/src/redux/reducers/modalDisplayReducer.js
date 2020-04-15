@@ -1,14 +1,28 @@
 import {
-    SHOW_SHARE_DIARY_POST_MODAL, HIDE_SHARE_DIARY_POST_MODAL
+    SHOW_SHARE_DIARY_POST_MODAL, 
+    HIDE_SHARE_DIARY_POST_MODAL,
+    SHOW_ADD_DIARY_POST_MODAL,
+    HIDE_ADD_DIARY_POST_MODAL
 } from '../actionTypes'
 
 const initialState = {
     displayShareDiaryPostModal: false,
-    postToShare: {}
+    postToShare: {},
+    displayAddDiaryPostModal: false
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case SHOW_ADD_DIARY_POST_MODAL:
+            return {
+                ...state,
+                displayAddDiaryPostModal: true,
+            }
+        case HIDE_ADD_DIARY_POST_MODAL:
+            return {
+                ...state,
+                displayAddDiaryPostModal: false,
+            }
         case SHOW_SHARE_DIARY_POST_MODAL:
             return {
                 ...state,

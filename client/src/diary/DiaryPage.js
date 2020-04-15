@@ -3,14 +3,14 @@ import './diary.css'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import AddDiaryPostModal from './AddDiaryPostModal'
-import ShareDiaryPostModal from './SharedDiaryPostModal'
+import ShareDiaryPostModal from './ShareDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import DiaryTabBar from './DiaryTabBar'
 import AllPostsTabPanel from './AllPostsTabPanel'
 import StarredPostsTabPanel from './StarredPostsTabPanel'
-import { hideShareDiaryPostModal } from '../redux/actions/modalDisplayActions'
+import { hideShareDiaryPostModal, showAddDiaryPostModal, hideAddDiaryPostModal } from '../redux/actions/modalDisplayActions'
 
 export default function DiaryPage(props) {
     const dispatch = useDispatch()
@@ -20,12 +20,6 @@ export default function DiaryPage(props) {
     const handleTabChange = (event, newValue) => {
         setSelectedTabIndex(newValue)
     }
-
-    // For handling the AddDiaryPostModal
-    const [showAddDiaryPostModal, setShowAddDiaryPostModal] = useState(false)
-
-    // For handling the ShareDiaryPostModal
-    const [showShareDiaryPostModal, setShowShareDiaryPostModal] = useState(false)
 
     // Tab content
     const tabContent = [
@@ -55,8 +49,8 @@ export default function DiaryPage(props) {
             />
             <div className='tab-content-area'>
                 <AddDiaryPostModal
-                    show={showAddDiaryPostModal}
-                    onHide={() => setShowAddDiaryPostModal(false)}
+                    show={useSelector(state => state.modalDisplay.displayAddDiaryPostModal)}
+                    onHide={() => dispatch(hideAddDiaryPostModal())}
                     displaySnackbar={displaySnackbar}
                 />
                 <ShareDiaryPostModal
@@ -69,7 +63,7 @@ export default function DiaryPage(props) {
                     color="secondary"
                     aria-label="add"
                     style={fabStyle}
-                    onClick={() => setShowAddDiaryPostModal(true)}>
+                    onClick={() => dispatch(showAddDiaryPostModal())}>
                     <AddIcon />
                 </Fab>
                 <CustomSnackbar
