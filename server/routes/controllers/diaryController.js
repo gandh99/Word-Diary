@@ -109,18 +109,21 @@ module.exports.sharePost = (req, res, done) => {
     const { post, recipient } = req.body
 
     // Create a SharedDiaryPost
-    new SharedDiaryPost({ post, creator: userId, recipient })
-        .save()
-        .then(result => {
-            res.status(200).json({
+    SharedDiaryPost.findOneAndUpdate(
+        { post, creator: userId, recipient },
+        { post, creator: userId, recipient },
+        { upsert: true, new: true, useFindAndModify: false }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error sharing post.'
+                })
+            }
+
+            return res.status(200).json({
                 success: true,
                 data: result
             })
-        })
-        .catch(err => {
-            res.status(400).json({
-                success: false,
-                data: 'Error adding a shared diary post.'
-            })
-        })
+        }
+    )
 }
