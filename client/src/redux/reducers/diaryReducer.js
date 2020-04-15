@@ -9,6 +9,8 @@ import {
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
     DELETE_DIARY_POST_FAIL,
+    SHARE_DIARY_POST_SUCCESS,
+    SHARE_DIARY_POST_FAIL,
 } from '../actionTypes'
 
 const initialState = {
@@ -71,6 +73,16 @@ export default function (state = initialState, action) {
                 )
             }
         case DELETE_DIARY_POST_FAIL:
+            return {
+                ...state,
+                affectedDiaryPost: {}
+            }
+        case SHARE_DIARY_POST_SUCCESS:
+            return {
+                ...state,
+                affectedDiaryPost: action.payload
+            }
+        case SHARE_DIARY_POST_FAIL:
             return {
                 ...state,
                 affectedDiaryPost: {}

@@ -12,6 +12,8 @@ import {
     DELETE_DIARY_POST_SUCCESS,
     DELETE_DIARY_POST_FAIL,
     TOGGLE_SHARE_DIARY_POST_MODAL,
+    SHARE_DIARY_POST_SUCCESS,
+    SHARE_DIARY_POST_FAIL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
@@ -130,6 +132,29 @@ export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) =>
             )
             dispatch({
                 type: DELETE_DIARY_POST_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const shareDiaryPostAction = (sharedPostData) => (dispatch, getState) => {
+    console.log(sharedPostData)
+    axios
+        .post('/diary/share-post', sharedPostData, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: SHARE_DIARY_POST_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: SHARE_DIARY_POST_FAIL,
                 payload: err.response.data
             })
         })

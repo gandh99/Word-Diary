@@ -106,10 +106,10 @@ module.exports.deletePost = (req, res, done) => {
 module.exports.sharePost = (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
-    const { _id, recipient} = req.body.sharedPostData
+    const { post, recipient } = req.body
 
     // Create a SharedDiaryPost
-    new SharedDiaryPost({ post: _id, creator: userId, recipient })
+    new SharedDiaryPost({ post, creator: userId, recipient })
         .save()
         .then(result => {
             res.status(200).json({

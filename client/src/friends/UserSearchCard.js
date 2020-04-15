@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
 import CheckIcon from '@material-ui/icons/Check'
 import { issueFriendRequestAction, respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
+import { shareDiaryPostAction } from '../redux/actions/diaryActions'
 
 export default function UserSearchCard(props) {
     const classes = useStyles()
@@ -97,6 +98,10 @@ export default function UserSearchCard(props) {
 
     const onSharePost = (e) => {
         e.preventDefault()
+        dispatch(shareDiaryPostAction({
+            post: postToShare._id, 
+            recipient: props.user._id
+        }))
         setButtonStatus('Shared')
     }
 
