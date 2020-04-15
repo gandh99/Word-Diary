@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './diary.css'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import AddDiaryPostModal from './AddDiaryPostModal'
 import ShareDiaryPostModal from './ShareDiaryPostModal'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import DiaryTabBar from './DiaryTabBar'
 import AllPostsTabPanel from './AllPostsTabPanel'
@@ -36,10 +35,6 @@ export default function DiaryPage(props) {
         setSnackbarMessage(message)
         setShowSnackbar(true)
     }
-
-    useEffect(() => {
-        dispatch(getDiaryPostsAction())
-    }, [])
 
     return (
         <>

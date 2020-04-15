@@ -13,7 +13,8 @@ import {
 } from "react-router-dom"
 import { PrivateRoute } from '../reusableComponents/PrivateRoute'
 import { useDispatch } from 'react-redux'
-import { getFriendsAction } from '../redux/actions/friendsActions'
+import { getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
+import { getDiaryPostsAction } from '../redux/actions/diaryActions'
 
 export default function HomePage(props) {
     const classes = useStyles()
@@ -24,6 +25,8 @@ export default function HomePage(props) {
 
     useEffect(() => {
         dispatch(getFriendsAction())
+        dispatch(getFriendRequestsIssuedToMeAction())
+        dispatch(getDiaryPostsAction())
     }, [])
 
     return (

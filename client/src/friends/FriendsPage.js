@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './friends.css'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,7 +8,6 @@ import AddFriendModal from './AddFriendModal'
 import FriendsTabBar from './FriendsTabBar'
 import AllFriendsTabPanel from './AllFriendsTabPanel'
 import PendingFriendsTabPanel from './PendingFriendsTabPanel'
-import { getFriendRequestsIssuedToMeAction, getFriendsAction } from '../redux/actions/friendsActions'
 import { showAddFriendModal, hideAddFriendModal } from '../redux/actions/modalDisplayActions'
 
 export default function FriendsPage(props) {
@@ -26,11 +25,6 @@ export default function FriendsPage(props) {
         <AllFriendsTabPanel />,
         <PendingFriendsTabPanel />
     ]
-
-    useEffect(() => {
-        dispatch(getFriendsAction())
-        dispatch(getFriendRequestsIssuedToMeAction())
-    }, [])
 
     return (
         <>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
@@ -8,8 +8,6 @@ import UserSearchCard from '../friends/UserSearchCard'
 
 export default function ShareDiaryPostModal(props) {
     const classes = useStyles()
-    const dispatch = useDispatch()
-    const post = useSelector(state => state.modalDisplay.postToShare)
     const allFriends = useSelector(state => state.friends.allFriends)
     const [displayedFriends, setDisplayedFriends] = useState(allFriends)
 
@@ -22,7 +20,6 @@ export default function ShareDiaryPostModal(props) {
 
     const onSearch = (event, searchString) => {
         event.preventDefault()
-
         const filteredFriends = allFriends.filter(friend => friend.username.includes(searchString))
         setDisplayedFriends(filteredFriends)
     }

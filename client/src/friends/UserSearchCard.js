@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import AccountCircle from '../images/account_circle.png'
 import CheckIcon from '@material-ui/icons/Check'
-import { issueFriendRequestAction, respondToPendingFriendRequestAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
+import { issueFriendRequestAction, respondToPendingFriendRequestAction } from '../redux/actions/friendsActions'
 
 export default function UserSearchCard(props) {
     const classes = useStyles()
