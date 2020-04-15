@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './homepage.css'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Header from './Header'
-import Overview from '../overview/Overview'
 import DiaryPage from '../diary/DiaryPage'
-import Notifications from '../notifications/Notifications'
 import FriendsPage from '../friends/FriendsPage'
 import DrawerMenu from './DrawerMenu'
 import {
@@ -14,21 +12,19 @@ import {
     Redirect,
 } from "react-router-dom"
 import { PrivateRoute } from '../reusableComponents/PrivateRoute'
+import { useDispatch } from 'react-redux'
+import { getFriendsAction } from '../redux/actions/friendsActions'
 
 export default function HomePage(props) {
     const classes = useStyles()
+    const dispatch = useDispatch()
 
     // For drawer
     const [drawerOpen, setDrawerOpen] = useState(false)
 
-    // For tabs
-    const [tabContentIndex, setTabContentIndex] = useState(0)
-    const tabContent = [
-        <Overview />,
-        <DiaryPage />,
-        <Notifications />,
-        <FriendsPage />,
-    ]
+    useEffect(() => {
+        dispatch(getFriendsAction())
+    }, [])
 
     return (
         <Router>
@@ -38,7 +34,6 @@ export default function HomePage(props) {
                     [classes.contentShift]: drawerOpen,
                 })}>
                     <Header
-                        setTabContentIndex={setTabContentIndex}
                         drawerOpen={drawerOpen}
                         setDrawerOpen={setDrawerOpen}
                     />

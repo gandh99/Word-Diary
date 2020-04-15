@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
@@ -14,6 +14,10 @@ export default function UserSearchCard(props) {
     const dispatch = useDispatch()
     const [buttonStatus, setButtonStatus] = useState(props.user.status)
     const issueFriendRequest = (recipientData, successCallback, errorCallback) => dispatch(issueFriendRequestAction(recipientData, successCallback, errorCallback))
+
+    // This is used when a user wants to share a diary post with a friend
+    // TODO: This variable might be redundant...
+    const postToShare = useSelector(state => state.modalDisplay.postToShare)
 
     // Buttons
     const disabledButton =

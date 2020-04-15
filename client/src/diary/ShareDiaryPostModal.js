@@ -4,35 +4,33 @@ import { makeStyles, fade } from '@material-ui/core/styles'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
-import CustomSnackbar from '../reusableComponents/CustomSnackbar'
-import { getFriendsAction } from '../redux/actions/friendsActions'
 import UserSearchCard from '../friends/UserSearchCard'
 
 export default function ShareDiaryPostModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const post = useSelector(state => state.modalDisplay.postToShare)
-    const friendsList = useSelector(state => state.friends.allFriends)
+    const allFriends = useSelector(state => state.friends.allFriends)
+    const [displayedFriends, setDisplayedFriends] = useState(allFriends)
 
-    friendsList.map(friend => friend.status = 'Share')
+    // Set the status to be used in the UserSearchCard
+    allFriends.map(friend => friend.status = 'Share')
 
     useEffect(() => {
-        dispatch(getFriendsAction())
-    }, [])
+        setDisplayedFriends(allFriends)
+    }, [allFriends])
 
     const onSearch = (event, searchString) => {
         event.preventDefault()
 
-    }
-
-    const onHide = () => {
-        props.onHide()
+        const filteredFriends = allFriends.filter(friend => friend.username.includes(searchString))
+        setDisplayedFriends(filteredFriends)
     }
 
     return (
         <Modal
             {...props}
-            onHide={onHide}
+            onHide={() => props.onHide()}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -58,14 +56,10 @@ export default function ShareDiaryPostModal(props) {
             <div className={classes.userResultsArea}>
                 <Modal.Body className={classes.modalBody}>
                     {
-                        friendsList.map(friend => 
+                        displayedFriends.map(friend => 
                             <UserSearchCard
+                                key={friend._id}
                                 user={friend}
-                                // showSnackbar={(message, severity) => {
-                                //     setSnackbarMessage(message)
-                                //     setSnackbarSeverity(severity)
-                                //     setShowSnackbar(true)
-                                // }}
                             />
                         )
                     }
@@ -76,12 +70,6 @@ export default function ShareDiaryPostModal(props) {
                     Done
                 </Button>
             </Modal.Footer>
-            {/* <CustomSnackbar
-                message={snackbarMessage}
-                show={showSnackbar}
-                setShowSnackbar={setShowSnackbar}
-                severity={snackbarSeverity}
-            /> */}
         </Modal>
     )
 }
