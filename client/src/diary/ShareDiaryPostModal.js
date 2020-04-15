@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { getFriendsAction } from '../redux/actions/friendsActions'
+import UserSearchCard from '../friends/UserSearchCard'
 
 export default function ShareDiaryPostModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const post = useSelector(state => state.modalDisplay.postToShare)
+    const friendsList = useSelector(state => state.friends.allFriends)
+
+    friendsList.map(friend => friend.status = 'Share')
+
+    useEffect(() => {
+        dispatch(getFriendsAction())
+    }, [])
 
     const onSearch = (event, searchString) => {
         event.preventDefault()
@@ -49,16 +58,16 @@ export default function ShareDiaryPostModal(props) {
             <div className={classes.userResultsArea}>
                 <Modal.Body className={classes.modalBody}>
                     {
-                        // userList.map(user =>
-                        //     <UserSearchCard
-                        //         user={user}
-                        //         showSnackbar={(message, severity) => {
-                        //             setSnackbarMessage(message)
-                        //             setSnackbarSeverity(severity)
-                        //             setShowSnackbar(true)
-                        //         }}
-                        //     />
-                        // )
+                        friendsList.map(friend => 
+                            <UserSearchCard
+                                user={friend}
+                                // showSnackbar={(message, severity) => {
+                                //     setSnackbarMessage(message)
+                                //     setSnackbarSeverity(severity)
+                                //     setShowSnackbar(true)
+                                // }}
+                            />
+                        )
                     }
                 </Modal.Body>
             </div>

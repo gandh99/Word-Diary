@@ -46,6 +46,15 @@ export default function UserSearchCard(props) {
             variant='outlined' >
             {buttonStatus}
         </Button>
+    const shareButton =
+        <Button
+            onClick={(e) => { onSharePost(e) }}
+            variant="contained"
+            disableElevation
+            className={classes.button}
+            color='secondary' >
+            {buttonStatus}
+        </Button>
 
     const onIssueFriendRequest = (e) => {
         e.preventDefault()
@@ -82,8 +91,16 @@ export default function UserSearchCard(props) {
         ))
     }
 
+    const onSharePost = (e) => {
+        e.preventDefault()
+        setButtonStatus('Shared')
+    }
+
     const generateButton = () => {
         switch (buttonStatus) {
+            case 'Share':
+                return shareButton
+            case 'Shared':
             case 'Pending':
             case 'Accepted':
                 return disabledButton
