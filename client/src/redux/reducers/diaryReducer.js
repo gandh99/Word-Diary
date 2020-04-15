@@ -11,12 +11,15 @@ import {
     DELETE_DIARY_POST_FAIL,
     SHARE_DIARY_POST_SUCCESS,
     SHARE_DIARY_POST_FAIL,
+    GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS,
+    GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
 } from '../actionTypes'
 
 const initialState = {
     translatedText: '',
     affectedDiaryPost: {},
-    allDiaryPosts: []
+    allDiaryPosts: [],
+    diaryPostsSharedWithMe: []
 }
 
 export default function (state = initialState, action) {
@@ -86,6 +89,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 affectedDiaryPost: {}
+            }
+        case GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS:
+            return {
+                ...state,
+                diaryPostsSharedWithMe: action.payload
+            }
+        case GET_DIARY_POSTS_SHARED_WITH_ME_FAIL:
+            return {
+                ...state,
+                diaryPostsSharedWithMe: []
             }
         default:
             return state

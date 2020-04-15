@@ -160,4 +160,6 @@ module.exports.getPostsSharedWithMe = (req, res, done) => {
                 data: sharedDiaryPosts
             })
         })
+
+    //TODO: Remove notification
 }

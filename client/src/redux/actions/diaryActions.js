@@ -14,6 +14,8 @@ import {
     TOGGLE_SHARE_DIARY_POST_MODAL,
     SHARE_DIARY_POST_SUCCESS,
     SHARE_DIARY_POST_FAIL,
+    GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS,
+    GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
@@ -138,7 +140,6 @@ export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) =>
 }
 
 export const shareDiaryPostAction = (sharedPostData) => (dispatch, getState) => {
-    console.log(sharedPostData)
     axios
         .post('/diary/share-post', sharedPostData, tokenConfig(getState))
         .then(res => {
@@ -155,6 +156,28 @@ export const shareDiaryPostAction = (sharedPostData) => (dispatch, getState) => 
             )
             dispatch({
                 type: SHARE_DIARY_POST_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const getDiaryPostsSharedWithMeAction = () => (dispatch, getState) => {
+    axios
+        .get('/diary/get-posts-shared-with-me', tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
                 payload: err.response.data
             })
         })
