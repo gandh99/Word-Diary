@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { makeStyles, fade } from '@material-ui/core/styles'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
@@ -9,6 +9,7 @@ import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 export default function ShareDiaryPostModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const post = useSelector(state => state.modalDisplay.postToShare)
 
     const onSearch = (event, searchString) => {
         event.preventDefault()
