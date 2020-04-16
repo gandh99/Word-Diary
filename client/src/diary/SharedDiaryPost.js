@@ -52,7 +52,7 @@ export default function SharedDiaryPost(props) {
                     <div className={classes.note}>{currentPost.note}</div>
                 </CardContent>
                 <CardContent>
-                    <Tooltip title='Shared by this friend'>
+                    <Tooltip title={'Shared by ' + creator.username}>
                         <div className={classes.toolbarFooter}>
                             <img className={classes.accountIcon} src={AccountCircleIcon} />
                             <span className={classes.creatorUsername}>{creator.username}</span>
