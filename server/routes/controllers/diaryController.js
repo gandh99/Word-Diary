@@ -84,10 +84,23 @@ module.exports.updatePost = (req, res, done) => {
         })
 }
 
-module.exports.deletePost = (req, res, done) => {
+module.exports.deletePost = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
     const _id = req.params.id
+
+    // Delete any related shared posts
+    SharedDiaryPost
+        .deleteMany({ post: _id, creator: userId },
+            (err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        success: false,
+                        data: 'Unable to all instances of shared posts relating to the post that was to be deleted.'
+                    })
+                }
+            }
+        )
 
     // Delete the particular diary post using the _id provided
     DiaryPost.findOneAndRemove({ _id, creator: userId }, (err, deletedPost) => {
@@ -103,8 +116,6 @@ module.exports.deletePost = (req, res, done) => {
             data: deletedPost
         })
     })
-
-    // TODO: Delete any related shared posts
 }
 
 module.exports.sharePost = (req, res, done) => {
@@ -175,7 +186,7 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
 
     // Extract post data
     const { phrase, translatedPhrase, note, starred } = post
-    
+
     // Add the post to the user's diary
     const affectedPost =
         await new DiaryPost({

@@ -127,7 +127,7 @@ export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) =>
             })
             done()
         })
-        .catch(err => {
+        .catch(err => {console.log(err)
             const errorMessage = err.response.data.data
 
             dispatch(
