@@ -38,4 +38,9 @@ router.post('/share-post', auth, diaryController.sharePost)
 // @access  Private
 router.get('/get-posts-shared-with-me', auth, diaryController.getPostsSharedWithMe)
 
+// @route   PUT /diary/respond-to-post-shared-with-me
+// @desc    For retrieving all posts shared with the user
+// @access  Private
+router.put('/respond-to-post-shared-with-me', auth, diaryController.respondToPostSharedWithMe)
+
 module.exports = router

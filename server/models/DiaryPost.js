@@ -22,6 +22,10 @@ const DiaryPostSchema = new Schema({
         type: Boolean,
         default: false
     },
+    sharedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     dateCreated: {
         type: Date,
         default: Date.now

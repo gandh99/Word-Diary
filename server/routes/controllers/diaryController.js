@@ -154,7 +154,7 @@ module.exports.getPostsSharedWithMe = (req, res, done) => {
                     data: 'Error retrieving diary posts shared with me.'
                 })
             }
-            
+
             return res.status(200).json({
                 success: true,
                 data: sharedDiaryPosts
@@ -162,4 +162,38 @@ module.exports.getPostsSharedWithMe = (req, res, done) => {
         })
 
     //TODO: Remove notification
+}
+
+module.exports.respondToPostSharedWithMe = async (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+    const { creator, post, isAccepted } = req.body.sharedPost
+
+    // Extract creator data
+    const { phrase, translatedPhrase, note, starred } = creator
+
+    // Add the post to the user's diary
+    let affectedPost = post
+    if (isAccepted) {
+        affectedPost =
+            await new DiaryPost({ creator: userId, phrase, translatedPhrase, note, starred, sharedBy: creator._id })
+                .save()
+    }
+
+    // Remove the SharedDiaryPost document
+    await SharedDiaryPost
+        .findByIdAndRemove({ _id: req.body.sharePost._id }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Error removing the diary post shared with me.'
+                })
+            }
+        })
+
+    return res.status(200).json({
+        success: true,
+        isAccepted,
+        data: affectedPost
+    })
 }
