@@ -44,5 +44,6 @@ module.exports.deleteReceivedFriendRequests = (req, res, done) => {
 }
 
 module.exports.createSharedDiaryPostNotification = async (sharedDiaryPost, creator, recipient) => {
+    console.log('creating...')
     SharedDiaryPostNotification.create({ sharedDiaryPost, creator, recipient })
 }
