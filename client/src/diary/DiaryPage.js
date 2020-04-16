@@ -10,6 +10,7 @@ import DiaryTabBar from './DiaryTabBar'
 import AllPostsTabPanel from './AllPostsTabPanel'
 import StarredPostsTabPanel from './StarredPostsTabPanel'
 import { hideShareDiaryPostModal, showAddDiaryPostModal, hideAddDiaryPostModal } from '../redux/actions/modalDisplayActions'
+import PostsSharedWithMeTabPanel from './PostsSharedWithMeTabPanel'
 
 export default function DiaryPage(props) {
     const dispatch = useDispatch()
@@ -24,6 +25,7 @@ export default function DiaryPage(props) {
     const tabContent = [
         <AllPostsTabPanel />,
         <StarredPostsTabPanel />,
+        <PostsSharedWithMeTabPanel />
     ]
 
     // For showing/hiding the CustomSnackbar

@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
-import DiaryPost from './DiaryPost'
-import { useDispatch, useSelector } from 'react-redux'
+import SharedDiaryPost from './SharedDiaryPost'
+import { useSelector } from 'react-redux'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
-export default function AllPostsTabPanel(props) {
-    const dispatch = useDispatch()
-    const diaryPosts = useSelector(state => state.diary.allDiaryPosts)
+export default function PostsSharedWithMeTabPanel() {
+    const sharedDiaryPosts = useSelector(state => state.diary.diaryPostsSharedWithMe)
 
     // For showing/hiding the CustomSnackbar
     const [showSnackbar, setShowSnackbar] = useState(false)
@@ -22,7 +21,7 @@ export default function AllPostsTabPanel(props) {
     return (
         <div style={gridContentAreaStyle}>
             {
-                diaryPosts.length <= 0
+                sharedDiaryPosts.length <= 0
                     ? <EmptyContentPlaceholder />
                     : <Grid
                         container
@@ -30,10 +29,10 @@ export default function AllPostsTabPanel(props) {
                         direction="row"
                         justify="flex-start"
                         alignItems="center" >
-                        {diaryPosts.map(post => (
-                            <DiaryPost
-                                key={post._id}
-                                post={post}
+                        {sharedDiaryPosts.map(sharedPost => (
+                            <SharedDiaryPost
+                                key={sharedPost._id}
+                                sharedPost={sharedPost}
                                 displaySnackbar={displaySnackbar}
                             />
                         ))
