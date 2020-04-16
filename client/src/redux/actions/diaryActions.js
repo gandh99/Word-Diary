@@ -11,11 +11,12 @@ import {
     UPDATE_DIARY_POST_FAIL,
     DELETE_DIARY_POST_SUCCESS,
     DELETE_DIARY_POST_FAIL,
-    TOGGLE_SHARE_DIARY_POST_MODAL,
     SHARE_DIARY_POST_SUCCESS,
     SHARE_DIARY_POST_FAIL,
     GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS,
     GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
+    RESPOND_TO_DIARY_POST_SHARED_WITH_ME_SUCCESS,
+    RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
@@ -178,6 +179,32 @@ export const getDiaryPostsSharedWithMeAction = () => (dispatch, getState) => {
             )
             dispatch({
                 type: GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const respondToDiaryPostSharedWithMeAction = (responseData) => (dispatch, getState) => {
+    const originalPost = responseData.sharedPost
+
+    axios
+        .put('/diary/respond-to-post-shared-with-me', responseData, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: RESPOND_TO_DIARY_POST_SHARED_WITH_ME_SUCCESS,
+                payload: {
+                    originalPost,
+                    newPost: res.data.data
+                }
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
                 payload: err.response.data
             })
         })

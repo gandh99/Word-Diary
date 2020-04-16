@@ -85,10 +85,12 @@ module.exports.updatePost = (req, res, done) => {
 }
 
 module.exports.deletePost = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
     const _id = req.params.id
 
     // Delete the particular diary post using the _id provided
-    DiaryPost.findOneAndRemove({ _id }, (err, deletedPost) => {
+    DiaryPost.findOneAndRemove({ _id, creator: userId }, (err, deletedPost) => {
         if (err) {
             return res.status(400).json({
                 success: false,
@@ -101,6 +103,8 @@ module.exports.deletePost = (req, res, done) => {
             data: deletedPost
         })
     })
+
+    // TODO: Delete any related shared posts
 }
 
 module.exports.sharePost = (req, res, done) => {
@@ -167,22 +171,30 @@ module.exports.getPostsSharedWithMe = (req, res, done) => {
 module.exports.respondToPostSharedWithMe = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
-    const { creator, post, isAccepted } = req.body.sharedPost
+    const { creator, post } = req.body.sharedPost
 
-    // Extract creator data
-    const { phrase, translatedPhrase, note, starred } = creator
-
+    // Extract post data
+    const { phrase, translatedPhrase, note, starred } = post
+    
     // Add the post to the user's diary
-    let affectedPost = post
-    if (isAccepted) {
-        affectedPost =
-            await new DiaryPost({ creator: userId, phrase, translatedPhrase, note, starred, sharedBy: creator._id })
-                .save()
-    }
+    const affectedPost =
+        await new DiaryPost({
+            creator: userId,
+            phrase,
+            translatedPhrase,
+            note,
+            starred,
+            sharedBy: creator._id
+        })
+            .save()
 
     // Remove the SharedDiaryPost document
     await SharedDiaryPost
-        .findByIdAndRemove({ _id: req.body.sharePost._id }, (err, result) => {
+        .findOneAndRemove({
+            creator: creator._id,
+            post: post._id,
+            recipient: userId
+        }, (err, result) => {
             if (err) {
                 return res.status(400).json({
                     success: false,
@@ -193,7 +205,6 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
 
     return res.status(200).json({
         success: true,
-        isAccepted,
         data: affectedPost
     })
 }
