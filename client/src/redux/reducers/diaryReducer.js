@@ -15,6 +15,8 @@ import {
     GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_SUCCESS,
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
+    DELETE_SHARED_DIARY_POST_SUCCESS,
+    DELETE_SHARED_DIARY_POST_FAIL,
 } from '../actionTypes'
 
 const initialState = {
@@ -117,6 +119,19 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 diaryPostsSharedWithMe: []
+            }
+        case DELETE_SHARED_DIARY_POST_SUCCESS:
+            return {
+                ...state,
+                affectedDiaryPost: action.payload,
+                diaryPostsSharedWithMe: state.diaryPostsSharedWithMe.filter(
+                    post => post._id !== action.payload._id
+                )
+            }
+        case DELETE_SHARED_DIARY_POST_FAIL:
+            return {
+                ...state,
+                affectedDiaryPost: {}
             }
         default:
             return state

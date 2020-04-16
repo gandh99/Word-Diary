@@ -8,25 +8,20 @@ import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import AccountCircleIcon from '../images/account_circle.png'
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import { Tooltip } from '@material-ui/core'
-import { updateDiaryPostAction, deleteDiaryPostAction, respondToDiaryPostSharedWithMeAction } from '../redux/actions/diaryActions'
-import { showShareDiaryPostModal } from '../redux/actions/modalDisplayActions'
+import { deleteSharedDiaryPostAction, respondToDiaryPostSharedWithMeAction } from '../redux/actions/diaryActions'
 
 export default function SharedDiaryPost(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const deleteSharedDiaryPost = (postData, done) => dispatch(deleteSharedDiaryPostAction(postData, done))
     let creator = props.sharedPost.creator
-    let sharedPost = props.sharedPost.post
-
-    const toggleStarPost = (event, starred) => {
-        sharedPost.starred = starred
-        submitUpdate()
-    }
+    let post = props.sharedPost.post
 
     const deletePost = () => {
-
-    }
-
-    const submitUpdate = (event) => {
+        deleteSharedDiaryPost(
+            props.sharedPost,
+            () => props.displaySnackbar('Successfully deleted post', 'success')
+        )
     }
 
     return (
@@ -49,10 +44,10 @@ export default function SharedDiaryPost(props) {
                                 className={classes.delete + ' ' + classes.toolbarIcon} />
                         </Tooltip>
                     </div>
-                    <div className={classes.phrase}>{sharedPost.phrase}</div>
+                    <div className={classes.phrase}>{post.phrase}</div>
                     <Divider />
-                    <div className={classes.translatedPhrase}>{sharedPost.translatedPhrase}</div>
-                    <div className={classes.note}>{sharedPost.note}</div>
+                    <div className={classes.translatedPhrase}>{post.translatedPhrase}</div>
+                    <div className={classes.note}>{post.note}</div>
                 </CardContent>
                 <CardContent>
                     <Tooltip title={'Shared by ' + creator.username}>

@@ -17,6 +17,8 @@ import {
     GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_SUCCESS,
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
+    DELETE_SHARED_DIARY_POST_SUCCESS,
+    DELETE_SHARED_DIARY_POST_FAIL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
@@ -205,6 +207,31 @@ export const respondToDiaryPostSharedWithMeAction = (responseData) => (dispatch,
             )
             dispatch({
                 type: RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const deleteSharedDiaryPostAction = (postData, done) => (dispatch, getState) => {
+    const { _id } = postData
+
+    axios
+        .delete(`/diary/delete-shared-post/${_id}`, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: DELETE_SHARED_DIARY_POST_SUCCESS,
+                payload: res.data.data
+            })
+            done()
+        })
+        .catch(err => {console.log(err)
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: DELETE_SHARED_DIARY_POST_FAIL,
                 payload: err.response.data
             })
         })

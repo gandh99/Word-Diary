@@ -1,6 +1,7 @@
 const translate = require('@vitalets/google-translate-api')
 const DiaryPost = require('../../models/DiaryPost')
 const SharedDiaryPost = require('../../models/SharedDiaryPost')
+const notificationsController = require('./notificationsController')
 
 module.exports.translate = (req, res, done) => {
     const { phrase } = req.body
@@ -118,13 +119,13 @@ module.exports.deletePost = async (req, res, done) => {
     })
 }
 
-module.exports.sharePost = (req, res, done) => {
+module.exports.sharePost = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
     const { post, recipient } = req.body
 
     // Create a SharedDiaryPost
-    SharedDiaryPost.findOneAndUpdate(
+    const sharedDiaryPost = await SharedDiaryPost.findOneAndUpdate(
         { post, creator: userId, recipient },
         { post, creator: userId, recipient },
         { upsert: true, new: true, useFindAndModify: false }, (err, result) => {
@@ -134,15 +135,16 @@ module.exports.sharePost = (req, res, done) => {
                     data: 'Error sharing post.'
                 })
             }
-
-            return res.status(200).json({
-                success: true,
-                data: result
-            })
         }
     )
 
-    // TODO: Create a notification
+    // Create a notification
+    await notificationsController.createSharedDiaryPostNotification(sharedDiaryPost, userId, recipient)
+
+    return res.status(200).json({
+        success: true,
+        data: sharedDiaryPost
+    })
 }
 
 module.exports.getPostsSharedWithMe = (req, res, done) => {
@@ -218,4 +220,28 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
         success: true,
         data: affectedPost
     })
+}
+
+module.exports.deleteSharedPost = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+    const _id = req.params.id
+
+    // Delete any related shared posts
+    SharedDiaryPost
+        .findOneAndRemove({ _id, recipient: userId },
+            (err, result) => {
+                if (err) {
+                    return res.status(400).json({
+                        success: false,
+                        data: 'Unable to delete the shared post.'
+                    })
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    data: result
+                })
+            }
+        )
 }

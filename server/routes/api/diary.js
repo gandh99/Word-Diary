@@ -43,4 +43,9 @@ router.get('/get-posts-shared-with-me', auth, diaryController.getPostsSharedWith
 // @access  Private
 router.put('/respond-to-post-shared-with-me', auth, diaryController.respondToPostSharedWithMe)
 
+// @route   DELETE /diary/delete-shared-post
+// @desc    For deleting a particular shared post
+// @access  Private
+router.delete('/delete-shared-post/:id', auth, diaryController.deleteSharedPost)
+
 module.exports = router

@@ -1,4 +1,5 @@
 const FriendsNotification = require('../../models/FriendsNotification')
+const SharedDiaryPostNotification = require('../../models/SharedDiaryPostNotification')
 
 module.exports.createFriendRequestNotification = async (friendRequestId, recipientId) => {
     FriendsNotification.create({ friends: friendRequestId, recipient: recipientId })
@@ -34,10 +35,14 @@ module.exports.deleteReceivedFriendRequests = (req, res, done) => {
                     data: 'Unable to delete the notifications for the received friend requests.'
                 })
             }
-            
+
             return res.status(200).json({
                 success: true,
                 data: result
             })
         })
+}
+
+module.exports.createSharedDiaryPostNotification = async (sharedDiaryPost, creator, recipient) => {
+    SharedDiaryPostNotification.create({ sharedDiaryPost, creator, recipient })
 }
