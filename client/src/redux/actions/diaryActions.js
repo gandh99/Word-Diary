@@ -1,5 +1,4 @@
 import axios from '../../config/axiosConfig'
-import { returnErrors } from './errorActions'
 import {
     TRANSLATE_SUCCESS,
     TRANSLATE_FAIL,
@@ -29,29 +28,22 @@ export const translateAction = (textData, callback) => (dispatch, getState) => {
         .post('/diary/translate', textData, tokenConfig(getState))
         .then(res => {
             const translatedText = res.data.data
-            useErrorDispatch(1, 1, 'hi', TRANSLATE_FAIL, 'hi')
+
             dispatch({
                 type: TRANSLATE_SUCCESS,
                 payload: translatedText
             })
             callback(translatedText)
         })
-        .catch(err => {console.log(err)
-            const errorMessage = err.response.data.data
+        .catch(err => {
             useErrorDispatch(
+                dispatch,
                 err.response.status,
                 err.response.status,
-                errorMessage,
+                err.response.data.data,
                 TRANSLATE_FAIL,
                 err.response.data
             )
-            // dispatch(
-            //     returnErrors(err.response.status, err.response.status, errorMessage)
-            // )
-            // dispatch({
-            //     type: TRANSLATE_FAIL,
-            //     payload: err.response.data
-            // })
         })
 }
 
@@ -66,16 +58,15 @@ export const addDiaryPostAction = (postData, successCallback, errorCallback) => 
             successCallback('Successfully added diary post.')
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                ADD_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: ADD_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
-            errorCallback(errorMessage)
+            errorCallback(err.response.data.data)
             history.push('/login')
         })
 }
@@ -90,16 +81,14 @@ export const getDiaryPostsAction = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            console.log(err)
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                GET_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: GET_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -113,15 +102,14 @@ export const updateDiaryPostAction = (postData) => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                UPDATE_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: UPDATE_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -138,16 +126,14 @@ export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) =>
             done()
         })
         .catch(err => {
-            console.log(err)
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                DELETE_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: DELETE_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -161,15 +147,14 @@ export const shareDiaryPostAction = (sharedPostData) => (dispatch, getState) => 
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                SHARE_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: SHARE_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -183,15 +168,14 @@ export const getDiaryPostsSharedWithMeAction = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -210,14 +194,14 @@ export const respondToDiaryPostSharedWithMeAction = (responseData) => (dispatch,
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -234,15 +218,13 @@ export const deleteSharedDiaryPostAction = (postData, done) => (dispatch, getSta
             done()
         })
         .catch(err => {
-            console.log(err)
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                DELETE_SHARED_DIARY_POST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: DELETE_SHARED_DIARY_POST_FAIL,
-                payload: err.response.data
-            })
         })
 }

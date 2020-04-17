@@ -1,5 +1,4 @@
 import axios from '../../config/axiosConfig'
-import { returnErrors } from './errorActions'
 import {
     USER_SEARCH_SUCCESS,
     USER_SEARCH_FAIL,
@@ -15,6 +14,7 @@ import {
     UNFRIEND_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
+import { useErrorDispatch } from '../../utils/errorHandler'
 
 export const userSearchAction = (searchString, done) => (dispatch, getState) => {
     axios
@@ -27,15 +27,14 @@ export const userSearchAction = (searchString, done) => (dispatch, getState) => 
             done(res.data.data)
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                USER_SEARCH_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: USER_SEARCH_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -50,17 +49,16 @@ export const issueFriendRequestAction = (recipientData, successCallback, errorCa
             successCallback('Friend request sent.')
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                ISSUE_FRIEND_REQUEST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: ISSUE_FRIEND_REQUEST_FAIL,
-                payload: err.response.data
-            })
 
-            errorCallback(errorMessage)
+            errorCallback(err.response.data.data)
         })
 }
 
@@ -74,15 +72,14 @@ export const getFriendRequestsIssuedToMeAction = () => (dispatch, state) => {
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: GET_FRIEND_REQUESTS_ISSUED_TO_ME_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -97,16 +94,15 @@ export const respondToPendingFriendRequestAction = (friendData, successCallback,
             successCallback('Successfully responded to pending friend request.')
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: RESPOND_TO_PENDING_FRIEND_REQUEST_FAIL,
-                payload: err.response.data
-            })
-            errorCallback(errorMessage)
+            errorCallback(err.response.data.data)
         })
 }
 
@@ -120,15 +116,14 @@ export const getFriendsAction = () => (dispatch, state) => {
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                GET_FRIENDS_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: GET_FRIENDS_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -143,14 +138,13 @@ export const unfriendAction = (friendData, successCallback) => (dispatch, state)
             successCallback()
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                UNFRIEND_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: UNFRIEND_FAIL,
-                payload: err.response.data
-            })
         })
 }

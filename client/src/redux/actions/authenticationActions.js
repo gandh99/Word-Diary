@@ -1,7 +1,7 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT_SUCCESS } from '../actionTypes'
 import axios from '../../config/axiosConfig'
-import { returnErrors } from './errorActions'
 import { history } from '../../config/history'
+import { useErrorDispatch } from '../../utils/errorHandler'
 
 export const loginUserAction = (userData, successCallback, errorCallback) => dispatch => {
     axios
@@ -15,16 +15,15 @@ export const loginUserAction = (userData, successCallback, errorCallback) => dis
             history.push('/')
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            errorCallback(errorMessage)
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            errorCallback(err.response.data.data)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                LOGIN_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: LOGIN_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
@@ -39,16 +38,15 @@ export const registerUserAction = (userData, successCallback, errorCallback) => 
             })
         })
         .catch(err => {
-            const errorMessage = err.response.data.data
-
-            errorCallback(errorMessage)
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            errorCallback(err.response.data.data)
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                REGISTER_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: REGISTER_FAIL,
-                payload: err.response.data
-            })
         })
 }
 
