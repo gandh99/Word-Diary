@@ -128,14 +128,7 @@ module.exports.sharePost = async (req, res, done) => {
     const sharedDiaryPost = await SharedDiaryPost.findOneAndUpdate(
         { post, creator: userId, recipient },
         { post, creator: userId, recipient },
-        { upsert: true, new: true, useFindAndModify: false }, (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    success: false,
-                    data: 'Error sharing post.'
-                })
-            }
-        }
+        { upsert: true, new: true, useFindAndModify: false }
     )
 
     // Create a notification
