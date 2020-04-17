@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@material-ui/core';
 import { Link } from "react-router-dom"

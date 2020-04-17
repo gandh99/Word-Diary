@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
 import DiaryPost from './DiaryPost'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function AllPostsTabPanel(props) {
-    const dispatch = useDispatch()
     const diaryPosts = useSelector(state => state.diary.allDiaryPosts)
 
     // For showing/hiding the CustomSnackbar

@@ -22,28 +22,36 @@ import {
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
+import { useErrorDispatch } from '../../utils/errorHandler'
 
 export const translateAction = (textData, callback) => (dispatch, getState) => {
     axios
         .post('/diary/translate', textData, tokenConfig(getState))
         .then(res => {
             const translatedText = res.data.data
+            useErrorDispatch(1, 1, 'hi', TRANSLATE_FAIL, 'hi')
             dispatch({
                 type: TRANSLATE_SUCCESS,
                 payload: translatedText
             })
             callback(translatedText)
         })
-        .catch(err => {
+        .catch(err => {console.log(err)
             const errorMessage = err.response.data.data
-
-            dispatch(
-                returnErrors(err.response.status, err.response.status, errorMessage)
+            useErrorDispatch(
+                err.response.status,
+                err.response.status,
+                errorMessage,
+                TRANSLATE_FAIL,
+                err.response.data
             )
-            dispatch({
-                type: TRANSLATE_FAIL,
-                payload: err.response.data
-            })
+            // dispatch(
+            //     returnErrors(err.response.status, err.response.status, errorMessage)
+            // )
+            // dispatch({
+            //     type: TRANSLATE_FAIL,
+            //     payload: err.response.data
+            // })
         })
 }
 
@@ -129,7 +137,8 @@ export const deleteDiaryPostAction = (postData, done) => (dispatch, getState) =>
             })
             done()
         })
-        .catch(err => {console.log(err)
+        .catch(err => {
+            console.log(err)
             const errorMessage = err.response.data.data
 
             dispatch(
@@ -224,7 +233,8 @@ export const deleteSharedDiaryPostAction = (postData, done) => (dispatch, getSta
             })
             done()
         })
-        .catch(err => {console.log(err)
+        .catch(err => {
+            console.log(err)
             const errorMessage = err.response.data.data
 
             dispatch(

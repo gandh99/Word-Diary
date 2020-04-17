@@ -127,7 +127,7 @@ export default function UserSearchCard(props) {
         <Card className={classes.root} variant="outlined">
             <CardContent className={classes.cardContent}>
                 <div className={classes.displayPictureArea}>
-                    <img src={AccountCircle} className={classes.displayPicture} />
+                    <img src={AccountCircle} className={classes.displayPicture} alt='Account Icon' />
                 </div>
                 <div className={classes.userDataArea}>
                     <Typography className={classes.username} variant="h5" component="h2">

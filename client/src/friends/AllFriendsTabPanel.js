@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import AcceptedFriendCard from './AcceptedFriendCard'
-import { getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 
 export default function AllFriendsTabPanel() {
-    const dispatch = useDispatch()
     const allFriends = useSelector(state => state.friends.allFriends)
 
     // For showing/hiding the CustomSnackbar

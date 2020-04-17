@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
-import { Grid, Card, CardContent, Tooltip, Divider, Typography, Button } from '@material-ui/core'
+import { Grid, Card, CardContent, Typography, Button } from '@material-ui/core'
 import AccountCircle from '../images/account_circle.png'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
@@ -27,7 +27,7 @@ export default function AcceptedFriendCard(props) {
             <Card className={classes.card} style={cardStyle}>
                 <CardContent className={classes.cardContent}>
                     <div className={classes.displayPictureArea}>
-                        <img src={AccountCircle} className={classes.displayPicture} />
+                        <img src={AccountCircle} className={classes.displayPicture} alt='Account Icon' />
                     </div>
                     <div className={classes.userDataArea}>
                         <Typography className={classes.username} variant="h5" component="h2">
