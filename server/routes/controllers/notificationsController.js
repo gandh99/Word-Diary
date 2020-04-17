@@ -43,7 +43,25 @@ module.exports.deleteReceivedFriendRequests = (req, res, done) => {
         })
 }
 
-module.exports.createSharedDiaryPostNotification = async (sharedDiaryPost, creator, recipient) => {
-    console.log('creating...')
+module.exports.createSharedDiaryPostNotification = (sharedDiaryPost, creator, recipient) => {
     SharedDiaryPostNotification.create({ sharedDiaryPost, creator, recipient })
+}
+
+module.exports.getSharedDiaryPostNotification = (req, res, done) => {
+    const { _id } = req.tokenData.userData
+
+    SharedDiaryPostNotification
+        .find({ recipient: _id }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Unable to get the notifications for the received shared diary posts.'
+                })
+            }
+
+            return res.status(200).json({
+                success: true,
+                data: result
+            })
+        })
 }

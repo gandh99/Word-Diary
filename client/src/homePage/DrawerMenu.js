@@ -20,16 +20,13 @@ export default function DrawerMenu(props) {
     const classes = useStyles()
     const theme = useTheme()
     const notificationsForReceivedFriendRequests = useSelector(state => state.notifications.receivedFriendRequests)
+    const notificationsForReceivedSharedDiaryPosts = useSelector(state => state.notifications.diaryPostsSharedWithMe)
 
     // Utility links (icon + text)
     const utilityLinks = [
         { icon: <SettingsIcon />, text: 'Settings' },
         { icon: <HelpIcon />, text: 'Help' },
     ]
-
-    useEffect(() => {
-        dispatch(getReceivedFriendRequestsAction())
-    }, [])
 
     const handleDrawerToggle = () => {
         props.setDrawerOpen(!props.drawerOpen);
@@ -50,7 +47,7 @@ export default function DrawerMenu(props) {
                     <ListItem button key={'Diary'}>
                         <ListItemIcon>{<MenuBookIcon />}</ListItemIcon>
                         <ListItemText primary={'Diary'} />
-                        {/* <AlertCountBadge count={10} /> */}
+                        <AlertCountBadge count={notificationsForReceivedSharedDiaryPosts.length} />
                     </ListItem>
                 </Link>
                 <Link to={'/friends'} style={{ textDecoration: 'none' }} className={classes.link}>

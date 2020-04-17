@@ -1,9 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Tabs, Tab } from '@material-ui/core'
+import AlertCountBadge from '../reusableComponents/AlertCountBadge'
+import { useSelector } from 'react-redux'
 
 export default function DiaryTabBar(props) {
     const classes = useStyles()
+    const notificationsForReceivedSharedDiaryPosts = useSelector(state => state.notifications.diaryPostsSharedWithMe)
 
     return (
         <Paper className={classes.tabs}>
@@ -15,7 +18,14 @@ export default function DiaryTabBar(props) {
                 centered >
                 <Tab className={classes.tab} label='All' />
                 <Tab className={classes.tab} label='Starred' />
-                <Tab className={classes.tab} label='Shared with Me' />
+                <Tab
+                    className={classes.tab}
+                    label={
+                        <span>
+                            Shared with Me <AlertCountBadge count={notificationsForReceivedSharedDiaryPosts.length} />
+                        </span>
+                    }
+                />
             </Tabs>
         </Paper>
     )

@@ -15,6 +15,7 @@ import { PrivateRoute } from '../reusableComponents/PrivateRoute'
 import { useDispatch } from 'react-redux'
 import { getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 import { getDiaryPostsAction, getDiaryPostsSharedWithMeAction } from '../redux/actions/diaryActions'
+import { getSharedDiaryPostsAction, getReceivedFriendRequestsAction } from '../redux/actions/notificationsActions'
 
 export default function HomePage(props) {
     const classes = useStyles()
@@ -26,8 +27,10 @@ export default function HomePage(props) {
     useEffect(() => {
         dispatch(getFriendsAction())
         dispatch(getFriendRequestsIssuedToMeAction())
+        dispatch(getReceivedFriendRequestsAction())
         dispatch(getDiaryPostsAction())
         dispatch(getDiaryPostsSharedWithMeAction())
+        dispatch(getSharedDiaryPostsAction())
     }, [])
 
     return (
