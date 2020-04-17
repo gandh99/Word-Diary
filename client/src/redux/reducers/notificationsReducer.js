@@ -3,10 +3,10 @@ import {
     GET_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL,
     DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
     DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL,
-    GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS,
-    GET_DIARY_POSTS_SHARED_WITH_ME_FAIL,
     DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,
-    DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL
+    DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL,
+    GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,
+    GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL
 } from '../actionTypes'
 
 const initialState = {
@@ -35,12 +35,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
             }
-        case GET_DIARY_POSTS_SHARED_WITH_ME_SUCCESS:
+        case GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS:
             return {
                 ...state,
                 diaryPostsSharedWithMe: action.payload
             }
-        case GET_DIARY_POSTS_SHARED_WITH_ME_FAIL:
+        case GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL:
             return {
                 ...state,
                 diaryPostsSharedWithMe: []

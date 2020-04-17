@@ -177,8 +177,6 @@ module.exports.getPostsSharedWithMe = (req, res, done) => {
                 data: sharedDiaryPosts
             })
         })
-
-    //TODO: Remove notification
 }
 
 module.exports.respondToPostSharedWithMe = async (req, res, done) => {
