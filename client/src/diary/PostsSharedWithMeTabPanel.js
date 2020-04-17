@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core'
 import SharedDiaryPost from './SharedDiaryPost'
 import { useSelector, useDispatch } from 'react-redux'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
-import { deleteSharedDiaryPostsAction } from '../redux/actions/notificationsActions'
+import { deleteSharedDiaryPostsNotificationsAction } from '../redux/actions/notificationsActions'
 
 export default function PostsSharedWithMeTabPanel() {
     const dispatch = useDispatch()
@@ -21,7 +21,7 @@ export default function PostsSharedWithMeTabPanel() {
     }
 
     useEffect(() => {
-        dispatch(deleteSharedDiaryPostsAction())
+        dispatch(deleteSharedDiaryPostsNotificationsAction())
     }, [])
 
     return (

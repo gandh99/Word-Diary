@@ -12,7 +12,7 @@ import {
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
-export const getReceivedFriendRequestsAction = () => (dispatch, getState) => {
+export const getReceivedFriendRequestsNotificationsAction = () => (dispatch, getState) => {
     axios
         .get('/notifications/get-received-friend-requests-notifications', tokenConfig(getState))
         .then(res => {
@@ -35,7 +35,7 @@ export const getReceivedFriendRequestsAction = () => (dispatch, getState) => {
         })
 }
 
-export const deleteReceivedFriendRequestsAction = () => (dispatch, getState) => {
+export const deleteReceivedFriendRequestsNotificationsAction = () => (dispatch, getState) => {
     axios
         .put('/notifications/delete-received-friend-requests-notifications', tokenConfig(getState))
         .then(res => {
@@ -58,7 +58,7 @@ export const deleteReceivedFriendRequestsAction = () => (dispatch, getState) => 
         })
 }
 
-export const getSharedDiaryPostsAction = () => (dispatch, getState) => {
+export const getSharedDiaryPostsNotificationsAction = () => (dispatch, getState) => {
     axios
         .get('/notifications/get-shared-diary-posts-notifications', tokenConfig(getState))
         .then(res => {
@@ -80,7 +80,7 @@ export const getSharedDiaryPostsAction = () => (dispatch, getState) => {
         })
 }
 
-export const deleteSharedDiaryPostsAction = () => (dispatch, getState) => {
+export const deleteSharedDiaryPostsNotificationsAction = () => (dispatch, getState) => {
     axios
         .put('/notifications/delete-shared-diary-post-notifications', tokenConfig(getState))
         .then(res => {

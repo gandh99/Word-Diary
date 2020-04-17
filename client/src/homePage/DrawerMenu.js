@@ -10,7 +10,6 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import HelpIcon from '@material-ui/icons/Help'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { logoutUserAction } from '../redux/actions/authenticationActions'
-import { getReceivedFriendRequestsAction } from '../redux/actions/notificationsActions'
 import { useDispatch, useSelector } from 'react-redux'
 import AlertCountBadge from '../reusableComponents/AlertCountBadge'
 
