@@ -6,7 +6,9 @@ import {
     DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
     DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_FAIL,
     GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL,
-    GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS
+    GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,
+    DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,
+    DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 
@@ -66,7 +68,6 @@ export const getSharedDiaryPostsAction = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            console.log(err)
             const errorMessage = err.response.data.data
 
             dispatch(
@@ -74,6 +75,28 @@ export const getSharedDiaryPostsAction = () => (dispatch, getState) => {
             )
             dispatch({
                 type: GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL,
+                payload: err.response.data
+            })
+        })
+}
+
+export const deleteSharedDiaryPostsAction = () => (dispatch, getState) => {
+    axios
+        .put('/notifications/delete-shared-diary-post-notifications', tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            const errorMessage = err.response.data.data
+
+            dispatch(
+                returnErrors(err.response.status, err.response.status, errorMessage)
+            )
+            dispatch({
+                type: DELETE_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_FAIL,
                 payload: err.response.data
             })
         })

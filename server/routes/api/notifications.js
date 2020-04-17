@@ -16,6 +16,11 @@ router.put('/delete-received-friend-requests', auth, notificationsController.del
 // @route   GET /notifications/get-shared-diary-posts
 // @desc    For retrieving the diary posts shared with me
 // @access  Private
-router.get('/get-shared-diary-posts', auth, notificationsController.getSharedDiaryPostNotification)
+router.get('/get-shared-diary-posts', auth, notificationsController.getSharedDiaryPostNotifications)
+
+// @route   PUT /notifications/delete-shared-diary-post-notifications
+// @desc    For retrieving the friend requests received
+// @access  Private
+router.put('/delete-shared-diary-post-notifications', auth, notificationsController.deleteSharedDiaryPostNotifications)
 
 module.exports = router

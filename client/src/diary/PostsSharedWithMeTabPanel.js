@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import EmptyContentPlaceholder from '../homePage/EmptyContentPlaceholder'
 import { Grid } from '@material-ui/core'
 import SharedDiaryPost from './SharedDiaryPost'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
+import { deleteSharedDiaryPostsAction } from '../redux/actions/notificationsActions'
 
 export default function PostsSharedWithMeTabPanel() {
+    const dispatch = useDispatch()
     const sharedDiaryPosts = useSelector(state => state.diary.diaryPostsSharedWithMe)
 
     // For showing/hiding the CustomSnackbar
@@ -17,6 +19,10 @@ export default function PostsSharedWithMeTabPanel() {
         setSnackbarMessage(message)
         setShowSnackbar(true)
     }
+
+    useEffect(() => {
+        dispatch(deleteSharedDiaryPostsAction())
+    }, [])
 
     return (
         <div style={gridContentAreaStyle}>

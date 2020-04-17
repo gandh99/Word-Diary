@@ -47,7 +47,7 @@ module.exports.createSharedDiaryPostNotification = (sharedDiaryPost, creator, re
     SharedDiaryPostNotification.create({ sharedDiaryPost, creator, recipient })
 }
 
-module.exports.getSharedDiaryPostNotification = (req, res, done) => {
+module.exports.getSharedDiaryPostNotifications = (req, res, done) => {
     const { _id } = req.tokenData.userData
 
     SharedDiaryPostNotification
@@ -56,6 +56,26 @@ module.exports.getSharedDiaryPostNotification = (req, res, done) => {
                 return res.status(400).json({
                     success: false,
                     data: 'Unable to get the notifications for the received shared diary posts.'
+                })
+            }
+
+            return res.status(200).json({
+                success: true,
+                data: result
+            })
+        })
+}
+
+module.exports.deleteSharedDiaryPostNotifications = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+
+    SharedDiaryPostNotification
+        .deleteMany({ recipient: userId }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Unable to delete the notifications for the shared diary posts.'
                 })
             }
 
