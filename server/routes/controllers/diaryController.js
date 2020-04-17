@@ -178,7 +178,7 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
     const { creator, post } = req.body.sharedPost
 
     // Extract post data
-    const { phrase, translatedPhrase, note, starred } = post
+    const { phrase, translatedPhrase, note } = post
 
     // Add the post to the user's diary
     const affectedPost =
@@ -187,7 +187,6 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
             phrase,
             translatedPhrase,
             note,
-            starred,
             sharedBy: creator._id
         })
             .save()
