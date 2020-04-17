@@ -14,7 +14,7 @@ import { tokenConfig } from './authenticationActions'
 
 export const getReceivedFriendRequestsAction = () => (dispatch, getState) => {
     axios
-        .get('/notifications/get-received-friend-requests', tokenConfig(getState))
+        .get('/notifications/get-received-friend-requests-notifications', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
@@ -37,7 +37,7 @@ export const getReceivedFriendRequestsAction = () => (dispatch, getState) => {
 
 export const deleteReceivedFriendRequestsAction = () => (dispatch, getState) => {
     axios
-        .put('/notifications/delete-received-friend-requests', tokenConfig(getState))
+        .put('/notifications/delete-received-friend-requests-notifications', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: DELETE_NOTIFICATIONS_FOR_RECEIVED_FRIEND_REQUESTS_SUCCESS,
@@ -60,7 +60,7 @@ export const deleteReceivedFriendRequestsAction = () => (dispatch, getState) => 
 
 export const getSharedDiaryPostsAction = () => (dispatch, getState) => {
     axios
-        .get('/notifications/get-shared-diary-posts', tokenConfig(getState))
+        .get('/notifications/get-shared-diary-posts-notifications', tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_NOTIFICATIONS_FOR_SHARED_DIARY_POSTS_SUCCESS,

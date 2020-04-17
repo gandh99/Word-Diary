@@ -5,7 +5,7 @@ module.exports.createFriendRequestNotification = async (friendRequestId, recipie
     FriendsNotification.create({ friends: friendRequestId, recipient: recipientId })
 }
 
-module.exports.getReceivedFriendRequests = (req, res, done) => {
+module.exports.getReceivedFriendRequestsNotifications = (req, res, done) => {
     const { _id } = req.tokenData.userData
 
     FriendsNotification
@@ -24,7 +24,7 @@ module.exports.getReceivedFriendRequests = (req, res, done) => {
         })
 }
 
-module.exports.deleteReceivedFriendRequests = (req, res, done) => {
+module.exports.deleteReceivedFriendRequestsNotifications = (req, res, done) => {
     const { _id } = req.tokenData.userData
 
     FriendsNotification
