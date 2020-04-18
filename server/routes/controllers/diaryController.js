@@ -217,6 +217,27 @@ module.exports.deleteSharedPost = async (req, res, done) => {
     }
 }
 
+module.exports.getFriendsPosts = (req, res, done) => {
+    const { userData } = req.tokenData
+    const userId = userData._id
+    const { friendId } = req.body
+
+    // Get all the posts belonging to the friend
+    DiaryPost.find({ creator: friendId }, (err, result) => {
+        if (err) {
+            return res.status(400).json({
+                success: false,
+                data: 'Error retrieving friend\'s posts.'
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: result
+        })
+    })
+}
+
 // Add the post to the user's diary
 const addDiaryPost = async (creator, phrase, translatedPhrase, note, sharedBy) => {
     const affectedPost =
@@ -244,6 +265,6 @@ const deleteSharedDiaryPost = async (_id, creator, post, recipient) => {
     const deletedSharedDiaryPost =
         SharedDiaryPost
             .findOneAndRemove(query)
-            
+
     return deletedSharedDiaryPost
 }
