@@ -14,10 +14,10 @@ export function initIO(dispatchObject) {
     socket.on('subscribed', msg => console.log(msg))
 
     // Listen for the signal to refresh when the user receives a shared diary post
-    socket.on('sharedDiaryPost', fetchSharedDiaryPostFromServer)
+    socket.on('sharedDiaryPost', () => fetchSharedDiaryPostFromServer())
 
-    // Listen for the signal to refresh when the user receives a shared diary post
-    socket.on('receivedFriendRequest', fetchReceivedFriendRequestFromServer)
+    // Listen for the signal to refresh when the user receives a friend request
+    socket.on('receivedFriendRequest', () => fetchReceivedFriendRequestFromServer())
 }
 
 const fetchSharedDiaryPostFromServer = () => {

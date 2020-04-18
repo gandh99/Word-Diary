@@ -19,8 +19,15 @@ module.exports.init = (ioObject) => {
     })
 }
 
-// Signal to client to refresh
+// Signal to client to refresh for a received shared diary post
 module.exports.receivedSharedDiaryPostSignal = (userId) => {
     const receiverId = userToIOMap[userId]
     io.to(receiverId).emit('sharedDiaryPost')
+}
+
+// Signal to client to refresh for a received friend request
+module.exports.receivedFriendRequestSignal = (userId) => {
+    const receiverId = userToIOMap[userId]
+    console.log(userId, receiverId)
+    io.to(receiverId).emit('receivedFriendRequest')
 }
