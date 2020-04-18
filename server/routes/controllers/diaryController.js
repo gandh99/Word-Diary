@@ -182,17 +182,18 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
         // Add the post to the user's diary and delete the SharedDiaryPost
         newDiaryPost = await addDiaryPost(userId, phrase, translatedPhrase, note, creator._id)
         await deleteSharedDiaryPost(null, creator._id, post._id, userId)
+
+
+        return res.status(200).json({
+            success: true,
+            data: newDiaryPost
+        })
     } catch (error) {
         return res.status(400).json({
             success: false,
             data: 'Error adding shared diary post to user\'s own diary.'
         })
     }
-
-    return res.status(200).json({
-        success: true,
-        data: newDiaryPost
-    })
 }
 
 module.exports.deleteSharedPost = async (req, res, done) => {
@@ -200,10 +201,8 @@ module.exports.deleteSharedPost = async (req, res, done) => {
     const userId = userData._id
     const _id = req.params.id
 
-    //DUP
     // Delete the shared diary post
     try {
-        // Add the post to the user's diary and delete the SharedDiaryPost
         const deletedSharedDiaryPost = await deleteSharedDiaryPost(_id, null, null, userId)
 
         return res.status(200).json({
@@ -216,24 +215,6 @@ module.exports.deleteSharedPost = async (req, res, done) => {
             data: 'Error deleting shared diary post.'
         })
     }
-   
-
-    // SharedDiaryPost
-    //     .findOneAndRemove({ _id, recipient: userId },
-    //         (err, result) => {
-    //             if (err) {
-    //                 return res.status(400).json({
-    //                     success: false,
-    //                     data: 'Unable to delete the shared post.'
-    //                 })
-    //             }
-
-    //             return res.status(200).json({
-    //                 success: true,
-    //                 data: result
-    //             })
-    //         }
-    //     )
 }
 
 // Add the post to the user's diary
@@ -253,16 +234,16 @@ const addDiaryPost = async (creator, phrase, translatedPhrase, note, sharedBy) =
 
 // Delete a particular SharedDiaryPost
 const deleteSharedDiaryPost = async (_id, creator, post, recipient) => {
+    // Manually build the query to check for nulls
+    let query = {}
+    if (_id) query._id = _id
+    if (creator) query.creator = creator
+    if (post) query.post = post
+    if (recipient) query.recipient = recipient
+
     const deletedSharedDiaryPost =
         SharedDiaryPost
-            .findOneAndRemove({
-                _id,
-                creator,
-                post,
-                recipient
-            })
-            .then(deletedSharedDiaryPost => {
-                console.log(deletedSharedDiaryPost)
-                return deletedSharedDiaryPost
-            })
+            .findOneAndRemove(query)
+
+    return deletedSharedDiaryPost
 }
