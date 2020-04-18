@@ -110,9 +110,6 @@ module.exports.deletePost = async (req, res, done) => {
             })
         }
 
-        //test
-        io.sendRefreshSignal(userId)
-
         return res.status(200).json({
             success: true,
             data: deletedPost
@@ -133,7 +130,10 @@ module.exports.sharePost = async (req, res, done) => {
     )
 
     // Create a notification
-    notificationsController.createSharedDiaryPostNotification(sharedDiaryPost, userId, recipient)
+    await notificationsController.createSharedDiaryPostNotification(sharedDiaryPost, userId, recipient)
+
+    // Send a signal to the recipient
+    io.sendRefreshSignal(recipient)
 
     return res.status(200).json({
         success: true,

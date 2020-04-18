@@ -16,11 +16,11 @@ export function initIO(dispatchObject) {
     // Listen for the signal to refresh
     socket.on('refresh', msg => {
         console.log(msg)
-        refreshClient()
+        fetchUpdatesFromServer()
     })
 }
 
-const refreshClient = () => {
+const fetchUpdatesFromServer = () => {
     dispatch(getFriendRequestsIssuedToMeAction())
     dispatch(getReceivedFriendRequestsNotificationsAction())
     dispatch(getDiaryPostsSharedWithMeAction())

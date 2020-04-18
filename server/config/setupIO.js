@@ -13,7 +13,7 @@ module.exports.init = (ioObject) => {
             userToIOMap[userData._id] = client.id
 
             // Subscription successful
-            console.log(`${userData.username} with client id ${client.id} is subscribing to updates.`)
+            console.log(`${userData.username} [userId: ${userData._id}; clientId: ${client.id}] is subscribing to updates.`)
             client.emit('subscribed', 'Successfully subscribed to updates from the server.')
         })
     })
