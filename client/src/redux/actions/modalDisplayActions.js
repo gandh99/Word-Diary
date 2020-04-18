@@ -4,7 +4,9 @@ import {
     SHOW_ADD_DIARY_POST_MODAL,
     HIDE_ADD_DIARY_POST_MODAL,
     SHOW_ADD_FRIEND_MODAL,
-    HIDE_ADD_FRIEND_MODAL
+    HIDE_ADD_FRIEND_MODAL,
+    SHOW_FRIENDS_DIARY_POSTS_MODAL,
+    HIDE_FRIENDS_DIARY_POSTS_MODAL
 } from "../actionTypes"
 
 export const showAddDiaryPostModal = () => dispatch => {
@@ -48,3 +50,17 @@ export const hideAddFriendModal = () => dispatch => {
         payload: null
     })
 }
+
+export const showFriendsDiaryPostsModal = () => dispatch => {
+    dispatch({
+        type: SHOW_FRIENDS_DIARY_POSTS_MODAL,
+        payload: null
+    })
+}
+
+export const hideFriendsDiaryPostsModal = () => dispatch => {
+    dispatch({
+        type: HIDE_FRIENDS_DIARY_POSTS_MODAL,
+        payload: null
+    })
+} 

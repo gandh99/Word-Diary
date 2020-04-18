@@ -8,7 +8,8 @@ import AddFriendModal from './AddFriendModal'
 import FriendsTabBar from './FriendsTabBar'
 import AllFriendsTabPanel from './AllFriendsTabPanel'
 import PendingFriendsTabPanel from './PendingFriendsTabPanel'
-import { showAddFriendModal, hideAddFriendModal } from '../redux/actions/modalDisplayActions'
+import FriendsDiaryPostsModal from '../diary/FriendsDiaryPostsModal'
+import { showAddFriendModal, hideAddFriendModal, hideFriendsDiaryPostsModal } from '../redux/actions/modalDisplayActions'
 
 export default function FriendsPage(props) {
     const classes = useStyles()
@@ -36,6 +37,10 @@ export default function FriendsPage(props) {
                 <AddFriendModal
                     show={useSelector(state => state.modalDisplay.displayAddFriendModal)}
                     onHide={() => dispatch(hideAddFriendModal())}
+                />
+                <FriendsDiaryPostsModal
+                    show={useSelector(state => state.modalDisplay.displayFriendsDiaryPostsModal)}
+                    onHide={() => dispatch(hideFriendsDiaryPostsModal())}
                 />
                 {tabContent[selectedTabIndex]}
                 <Fab

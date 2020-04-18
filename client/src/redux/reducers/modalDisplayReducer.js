@@ -1,17 +1,20 @@
 import {
-    SHOW_SHARE_DIARY_POST_MODAL, 
+    SHOW_SHARE_DIARY_POST_MODAL,
     HIDE_SHARE_DIARY_POST_MODAL,
     SHOW_ADD_DIARY_POST_MODAL,
     HIDE_ADD_DIARY_POST_MODAL,
     SHOW_ADD_FRIEND_MODAL,
-    HIDE_ADD_FRIEND_MODAL
+    HIDE_ADD_FRIEND_MODAL,
+    SHOW_FRIENDS_DIARY_POSTS_MODAL,
+    HIDE_FRIENDS_DIARY_POSTS_MODAL
 } from '../actionTypes'
 
 const initialState = {
     displayShareDiaryPostModal: false,
     postToShare: {},
     displayAddDiaryPostModal: false,
-    displayAddFriendModal: false
+    displayAddFriendModal: false,
+    displayFriendsDiaryPostsModal: false
 }
 
 export default function (state = initialState, action) {
@@ -47,6 +50,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 displayAddFriendModal: false,
+            }
+        case SHOW_FRIENDS_DIARY_POSTS_MODAL:
+            return {
+                ...state,
+                displayFriendsDiaryPostsModal: true,
+            }
+        case HIDE_FRIENDS_DIARY_POSTS_MODAL:
+            return {
+                ...state,
+                displayFriendsDiaryPostsModal: false,
             }
         default:
             return state

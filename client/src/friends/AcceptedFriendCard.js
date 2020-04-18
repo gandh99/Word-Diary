@@ -7,6 +7,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import { unfriendAction } from '../redux/actions/friendsActions'
+import { showFriendsDiaryPostsModal } from '../redux/actions/modalDisplayActions'
 
 export default function AcceptedFriendCard(props) {
     const classes = useStyles()
@@ -40,6 +41,7 @@ export default function AcceptedFriendCard(props) {
                 </CardContent>
                 <div className={classes.footer}>
                     <Button
+                        onClick={() => dispatch(showFriendsDiaryPostsModal())}
                         startIcon={<MenuBookIcon className={classes.footerIcon} />}
                         className={classes.footerButton} >
                         Diary
