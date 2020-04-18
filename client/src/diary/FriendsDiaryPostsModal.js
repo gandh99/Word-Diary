@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import { getFriendsPostsAction } from '../redux/actions/diaryActions'
 import FriendsDiaryPost from './FriendsDiaryPost'
+import AccountCircle from '../images/account_circle.png'
 
 export default function FriendsDiaryPostsModal(props) {
     const classes = useStyles()
@@ -30,21 +31,16 @@ export default function FriendsDiaryPostsModal(props) {
             centered
             className='modal' >
             <Modal.Header>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
+                <div className={classes.modalHeader}>
+                    <div className={classes.displayPictureArea}>
+                        <img src={AccountCircle} className={classes.displayPicture} alt='Account Icon' />
                     </div>
-                    <InputBase
-                        placeholder="Search for a friend…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                    />
+                    <div className={classes.username}>
+                        {friend.username}
+                    </div>
                 </div>
             </Modal.Header>
-            <div className={classes.userResultsArea}>
+            <div className={classes.postsArea}>
                 <Modal.Body className={classes.modalBody}>
                     {
                         friendsPosts.map(post =>
@@ -67,6 +63,22 @@ export default function FriendsDiaryPostsModal(props) {
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
+    },
+    modalHeader: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    displayPictureArea: {
+        minWidth: '40px',
+        maxWidth: '40px',
+    },
+    displayPicture: {
+        width: '100%',
+    },
+    username: {
+        marginLeft: '1rem',
+        fontWeight: 'bold'
     },
     search: {
         position: 'relative',
@@ -105,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
     modalBody: {
         height: '20rem'
     },
-    userResultsArea: {
+    postsArea: {
         maxHeight: '100%',
         overflow: 'auto'
     },
