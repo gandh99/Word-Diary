@@ -2,6 +2,7 @@ const translate = require('@vitalets/google-translate-api')
 const DiaryPost = require('../../models/DiaryPost')
 const SharedDiaryPost = require('../../models/SharedDiaryPost')
 const notificationsController = require('./notificationsController')
+const io = require('../../config/setupIO')
 
 module.exports.translate = (req, res, done) => {
     const { phrase } = req.body
@@ -108,6 +109,9 @@ module.exports.deletePost = async (req, res, done) => {
                 data: 'Error deleting post.'
             })
         }
+
+        //test
+        io.sendRefreshSignal(userId)
 
         return res.status(200).json({
             success: true,

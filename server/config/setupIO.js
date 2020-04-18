@@ -20,13 +20,6 @@ module.exports.init = (ioObject) => {
 
 // Signal to client to refresh
 module.exports.sendRefreshSignal = (userId) => {
-    const receiverId = userToIOMap.userId
-    console.log(receiverId)
-    io.on('connection', client => {
-        client.on('refresh', () => {
-            setInterval(() => {
-                client.broadcast.to(receiverId).emit('refresh', 'Time to refresh!')
-            }, 5000)
-        })
-    })
+    const receiverId = userToIOMap[userId]
+    io.to(receiverId).emit('refresh', 'Time to refresh!')
 }
