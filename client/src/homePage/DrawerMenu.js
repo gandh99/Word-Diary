@@ -12,12 +12,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { logoutUserAction } from '../redux/actions/authenticationActions'
 import { useDispatch, useSelector } from 'react-redux'
 import AlertCountBadge from '../reusableComponents/AlertCountBadge'
+import AccountCircle from '../images/account_circle.png'
+import HeaderBackground from '../images/header.jpg'
 
 export default function DrawerMenu(props) {
     const { container } = props
     const dispatch = useDispatch()
     const classes = useStyles()
     const theme = useTheme()
+    const user = useSelector(state => state.authentication.userData)
     const notificationsForReceivedFriendRequests = useSelector(state => state.notifications.receivedFriendRequests)
     const notificationsForReceivedSharedDiaryPosts = useSelector(state => state.notifications.diaryPostsSharedWithMe)
 
@@ -33,9 +36,18 @@ export default function DrawerMenu(props) {
 
     const drawer = (
         <div>
-            <div className={classes.toolbar} />
+            {/* <div className={classes.toolbar} /> */}
+            <div className={classes.header}>
+                <div className={classes.displayPictureArea}>
+                    <img src={AccountCircle} className={classes.displayPicture} alt='Account Icon' />
+                </div>
+                <div className={classes.username}>
+                    {/* {user && user.username} */}
+                    {'username'}
+                </div>
+            </div>
             <Divider />
-            <List>
+            <List className={classes.body}>
                 <Link to={'/'} style={{ textDecoration: 'none' }} className={classes.link}>
                     <ListItem button key={'Home'}>
                         <ListItemIcon>{<HomeIcon />}</ListItemIcon>
@@ -105,6 +117,7 @@ export default function DrawerMenu(props) {
 }
 
 const drawerWidth = 240
+const headerImage = "url(" + HeaderBackground + ")"
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -120,6 +133,29 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
         width: drawerWidth,
         borderRight: 'solid 1px lightgray'
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: '1.5rem',
+        backgroundImage: headerImage,
+        border: 'none'
+    },
+    displayPictureArea: {
+        minWidth: '50px',
+        maxWidth: '50px',
+    },
+    displayPicture: {
+        width: '100%',
+    },
+    username: {
+        fontSize: '1rem',
+        marginLeft: '1rem',
+        fontWeight: 'bold',
+        color: theme.palette.primary.contrastText
+    },
+    body: {
     },
     link: {
         color: theme.palette.text.primary
