@@ -20,7 +20,7 @@ module.exports.init = (ioObject) => {
 }
 
 // Signal to client to refresh
-module.exports.sendRefreshSignal = (userId) => {
+module.exports.receivedSharedDiaryPostSignal = (userId) => {
     const receiverId = userToIOMap[userId]
-    io.to(receiverId).emit('refresh', 'Time to refresh!')
+    io.to(receiverId).emit('sharedDiaryPost')
 }

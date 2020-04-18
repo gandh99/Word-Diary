@@ -133,7 +133,7 @@ module.exports.sharePost = async (req, res, done) => {
     await notificationsController.createSharedDiaryPostNotification(sharedDiaryPost, userId, recipient)
 
     // Send a signal to the recipient
-    io.sendRefreshSignal(recipient)
+    io.receivedSharedDiaryPostSignal(recipient)
 
     return res.status(200).json({
         success: true,

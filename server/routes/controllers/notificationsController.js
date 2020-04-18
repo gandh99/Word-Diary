@@ -43,7 +43,7 @@ module.exports.deleteReceivedFriendRequestsNotifications = (req, res, done) => {
         })
 }
 
-module.exports.createSharedDiaryPostNotification = (sharedDiaryPost, creator, recipient) => {
+module.exports.createSharedDiaryPostNotification = async (sharedDiaryPost, creator, recipient) => {
     SharedDiaryPostNotification.create({ sharedDiaryPost, creator, recipient })
 }
 
