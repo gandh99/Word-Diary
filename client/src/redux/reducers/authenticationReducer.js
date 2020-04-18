@@ -15,7 +15,7 @@ const initialState = {
     refreshToken: localStorage.getItem('refreshToken'),
     isAuthenticated: false,
     isLoading: false,
-    userData: null
+    userData: JSON.parse(localStorage.getItem('userData'))
 }
 
 export default function (state = initialState, action) {
@@ -36,6 +36,7 @@ export default function (state = initialState, action) {
             const { accessToken, refreshToken, userData } = action.payload.data
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
+            localStorage.setItem('userData', JSON.stringify(userData))
             
             return {
                 ...state,
@@ -63,6 +64,7 @@ export default function (state = initialState, action) {
         case REGISTER_FAIL:
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userData')
 
             return {
                 ...state,
