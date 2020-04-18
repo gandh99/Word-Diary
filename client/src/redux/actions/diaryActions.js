@@ -18,6 +18,8 @@ import {
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
     DELETE_SHARED_DIARY_POST_SUCCESS,
     DELETE_SHARED_DIARY_POST_FAIL,
+    GET_FRIENDS_POSTS_SUCCESS,
+    GET_FRIENDS_POSTS_FAIL,
 } from '../actionTypes'
 import { tokenConfig } from './authenticationActions'
 import { history } from '../../config/history'
@@ -224,6 +226,27 @@ export const deleteSharedDiaryPostAction = (postData, done) => (dispatch, getSta
                 err.response.status,
                 err.response.data.data,
                 DELETE_SHARED_DIARY_POST_FAIL,
+                err.response.data
+            )
+        })
+}
+
+export const getFriendsPostsAction = (friendData) => (dispatch, getState) => {
+    axios
+        .get('/diary/get-friends-posts', friendData, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: GET_FRIENDS_POSTS_SUCCESS,
+                payload: res.data.data
+            })
+        })
+        .catch(err => {
+            useErrorDispatch(
+                dispatch,
+                err.response.status,
+                err.response.status,
+                err.response.data.data,
+                GET_FRIENDS_POSTS_FAIL,
                 err.response.data
             )
         })

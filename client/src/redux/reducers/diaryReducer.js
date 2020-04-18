@@ -17,13 +17,16 @@ import {
     RESPOND_TO_DIARY_POST_SHARED_WITH_ME_FAIL,
     DELETE_SHARED_DIARY_POST_SUCCESS,
     DELETE_SHARED_DIARY_POST_FAIL,
+    GET_FRIENDS_POSTS_SUCCESS,
+    GET_FRIENDS_POSTS_FAIL,
 } from '../actionTypes'
 
 const initialState = {
     translatedText: '',
     affectedDiaryPost: {},
     allDiaryPosts: [],
-    diaryPostsSharedWithMe: []
+    diaryPostsSharedWithMe: [],
+    friendsPosts: []
 }
 
 export default function (state = initialState, action) {
@@ -132,6 +135,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 affectedDiaryPost: {}
+            }
+        case GET_FRIENDS_POSTS_SUCCESS:
+            return {
+                ...state,
+                friendsPosts: action.payload
+            }
+        case GET_FRIENDS_POSTS_FAIL:
+            return {
+                ...state,
+                friendsPosts: []
             }
         default:
             return state

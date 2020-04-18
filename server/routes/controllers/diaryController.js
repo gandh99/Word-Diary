@@ -220,6 +220,7 @@ module.exports.deleteSharedPost = async (req, res, done) => {
 module.exports.getFriendsPosts = (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
+    console.log(req.body)
     const { friendId } = req.body
 
     // Get all the posts belonging to the friend
