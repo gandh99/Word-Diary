@@ -13,7 +13,7 @@ import { history } from './config/history'
 import { subscribeToUpdates } from './utils/socket'
 
 const callback = (timestamp) => { console.log(timestamp) }
-// subscribeToUpdates(callback)
+subscribeToUpdates(callback)
 
 function App() {
   return (
