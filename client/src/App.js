@@ -10,10 +10,10 @@ import Login from './authenticationPage/Login'
 import Register from './authenticationPage/Register'
 import { PrivateRoute } from './reusableComponents/PrivateRoute'
 import { history } from './config/history'
-import { subscribeToTimer } from './utils/socket'
+import { subscribeToUpdates } from './utils/socket'
 
 const callback = (timestamp) => { console.log(timestamp) }
-// subscribeToTimer(5000, callback)
+// subscribeToUpdates(callback)
 
 function App() {
   return (

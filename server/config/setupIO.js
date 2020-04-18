@@ -1,20 +1,19 @@
-const io = require('socket.io')()
+let io
+let userToIOMap = {}
 
 // Setup IO connection
-module.exports.init = () => {
-    // Needs to be same port as the server in server.js
-    const port = process.env.SERVER_PORT || 5000
+module.exports.init = (ioObject) => {
+    // Save the IO object
+    io = ioObject
 
+    // Update the map of users who have connected
     io.on('connection', client => {
-        client.on('subscribeToTimer', (userDataString, interval) => {
+        client.on('subscribeToUpdates', (userDataString) => {
             let userData = JSON.parse(userDataString)
+            userToIOMap[userData._id] = client.id
 
-            console.log(`${userData.username} with id ${client.id} is subscribing to timer with interval ${interval}`)
-            setInterval(() => {
-                client.emit('timer', new Date());
-            }, interval)
+            console.log(`${userData.username} with id ${client.id} is subscribing to updates`)
+            client.emit('timer', new Date())
         })
     })
-
-    io.listen(port)
 }

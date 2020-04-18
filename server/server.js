@@ -3,7 +3,6 @@ const dotenv = require('dotenv')
 const passport = require("passport")
 const setupProxy = require('./config/setupProxy')
 const connectDB = require('./config/db')
-const io = require('./config/setupIO')
 
 // Init
 const app = express()
@@ -29,9 +28,8 @@ app.use('/diary', require('./routes/api/diary'))
 app.use('/friends', require('./routes/api/friends'))
 app.use('/notifications', require('./routes/api/notifications'))
 
-// Setup IO connection
-io.init()
-
-// Start the server
+// Start the server and IO connection
 const port = process.env.SERVER_PORT || 5000
-app.listen(port, () => console.log(`Server started on port ${port}...`))
+const server = app.listen(port, () => console.log(`Server started on port ${port}...`))
+const io = require('socket.io')(server)
+require('./config/setupIO').init(io)
