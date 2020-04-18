@@ -1,9 +1,9 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const passport = require("passport")
-const setupProxy = require('./setupProxy')
+const setupProxy = require('./config/setupProxy')
 const connectDB = require('./config/db')
-const io = require('socket.io')()
+const io = require('./config/setupIO')
 
 // Init
 const app = express()
@@ -30,18 +30,8 @@ app.use('/friends', require('./routes/api/friends'))
 app.use('/notifications', require('./routes/api/notifications'))
 
 // Setup IO connection
-io.on('connection', client => {
-    client.on('subscribeToTimer', (userDataString, interval) => {
-        let userData = JSON.parse(userDataString)
-
-        console.log(`${userData.username} with id ${client.id} is subscribing to timer with interval ${interval}`)
-        setInterval(() => {
-            client.emit('timer', new Date());
-        }, interval)
-    })
-})
+io.init()
 
 // Start the server
 const port = process.env.SERVER_PORT || 5000
-io.listen(port)
 app.listen(port, () => console.log(`Server started on port ${port}...`))
