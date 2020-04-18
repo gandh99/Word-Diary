@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Hidden } from '@material-ui/core';
 import { Link } from "react-router-dom"
@@ -20,6 +20,9 @@ export default function DrawerMenu(props) {
     const dispatch = useDispatch()
     const classes = useStyles()
     const theme = useTheme()
+    const [activeLink, setActiveLink] = useState('')
+
+    // Get the user and notifications data
     const user = useSelector(state => state.authentication.userData)
     const notificationsForReceivedFriendRequests = useSelector(state => state.notifications.receivedFriendRequests)
     const notificationsForReceivedSharedDiaryPosts = useSelector(state => state.notifications.diaryPostsSharedWithMe)
@@ -42,27 +45,38 @@ export default function DrawerMenu(props) {
                     <img src={AccountCircle} className={classes.displayPicture} alt='Account Icon' />
                 </div>
                 <div className={classes.username}>
-                    {/* {user && user.username} */}
-                    {'username'}
+                    {user ? user.username : 'Not logged in'}
                 </div>
             </div>
             <Divider />
             <List className={classes.body}>
                 <Link to={'/'} style={{ textDecoration: 'none' }} className={classes.link}>
-                    <ListItem button key={'Home'}>
+                    <ListItem
+                        selected={activeLink === 'Home'}
+                        onClick={() => setActiveLink('Home')}
+                        button
+                        key={'Home'}>
                         <ListItemIcon>{<HomeIcon />}</ListItemIcon>
                         <ListItemText primary={'Home'} />
                     </ListItem>
                 </Link>
                 <Link to={'/diary'} style={{ textDecoration: 'none' }} className={classes.link}>
-                    <ListItem button key={'Diary'}>
+                    <ListItem
+                        selected={activeLink === 'Diary'}
+                        onClick={() => setActiveLink('Diary')}
+                        button
+                        key={'Diary'}>
                         <ListItemIcon>{<MenuBookIcon />}</ListItemIcon>
                         <ListItemText primary={'Diary'} />
                         <AlertCountBadge count={notificationsForReceivedSharedDiaryPosts.length} />
                     </ListItem>
                 </Link>
                 <Link to={'/friends'} style={{ textDecoration: 'none' }} className={classes.link}>
-                    <ListItem button key={'Friends'}>
+                    <ListItem
+                        selected={activeLink === 'Friends'}
+                        onClick={() => setActiveLink('Friends')}
+                        button
+                        key={'Friends'}>
                         <ListItemIcon>{<PeopleAltIcon />}</ListItemIcon>
                         <ListItemText primary={'Friends'} />
                         <AlertCountBadge count={notificationsForReceivedFriendRequests.length} />
