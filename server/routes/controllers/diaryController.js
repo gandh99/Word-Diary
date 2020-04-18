@@ -23,26 +23,23 @@ module.exports.translate = (req, res, done) => {
         })
 }
 
-module.exports.addPost = (req, res, done) => {
+module.exports.addPost = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
     const { phrase, translatedPhrase, note } = req.body
 
-    // Save this post to the user's diary
-    new DiaryPost({ creator: userId, phrase, translatedPhrase, note })
-        .save()
-        .then(result => {
-            res.status(200).json({
-                success: true,
-                data: result
-            })
+    try {
+        const newDiaryPost = await addDiaryPost(userId, phrase, translatedPhrase, note, null)
+        return res.status(200).json({
+            success: true,
+            data: newDiaryPost
         })
-        .catch(err => {
-            res.status(400).json({
-                success: false,
-                data: 'Error adding diary post.'
-            })
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            data: 'Error adding diary post.'
         })
+    }
 }
 
 module.exports.getPost = (req, res, done) => {
@@ -180,58 +177,92 @@ module.exports.respondToPostSharedWithMe = async (req, res, done) => {
     // Extract post data
     const { phrase, translatedPhrase, note } = post
 
-    // Add the post to the user's diary
-    const affectedPost =
-        await new DiaryPost({
-            creator: userId,
-            phrase,
-            translatedPhrase,
-            note,
-            sharedBy: creator._id
+    let newDiaryPost
+    try {
+        // Add the post to the user's diary and delete the SharedDiaryPost
+        newDiaryPost = await addDiaryPost(userId, phrase, translatedPhrase, note, creator._id)
+        await deleteSharedDiaryPost(null, creator._id, post._id, userId)
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            data: 'Error adding shared diary post to user\'s own diary.'
         })
-            .save()
-
-    // Remove the SharedDiaryPost document
-    await SharedDiaryPost
-        .findOneAndRemove({
-            creator: creator._id,
-            post: post._id,
-            recipient: userId
-        }, (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    success: false,
-                    data: 'Error removing the diary post shared with me.'
-                })
-            }
-        })
+    }
 
     return res.status(200).json({
         success: true,
-        data: affectedPost
+        data: newDiaryPost
     })
 }
 
-module.exports.deleteSharedPost = (req, res, done) => {
+module.exports.deleteSharedPost = async (req, res, done) => {
     const { userData } = req.tokenData
     const userId = userData._id
     const _id = req.params.id
 
-    // Delete any related shared posts
-    SharedDiaryPost
-        .findOneAndRemove({ _id, recipient: userId },
-            (err, result) => {
-                if (err) {
-                    return res.status(400).json({
-                        success: false,
-                        data: 'Unable to delete the shared post.'
-                    })
-                }
+    //DUP
+    // Delete the shared diary post
+    try {
+        // Add the post to the user's diary and delete the SharedDiaryPost
+        const deletedSharedDiaryPost = await deleteSharedDiaryPost(_id, null, null, userId)
 
-                return res.status(200).json({
-                    success: true,
-                    data: result
-                })
-            }
-        )
+        return res.status(200).json({
+            success: true,
+            data: deletedSharedDiaryPost
+        })
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            data: 'Error deleting shared diary post.'
+        })
+    }
+   
+
+    // SharedDiaryPost
+    //     .findOneAndRemove({ _id, recipient: userId },
+    //         (err, result) => {
+    //             if (err) {
+    //                 return res.status(400).json({
+    //                     success: false,
+    //                     data: 'Unable to delete the shared post.'
+    //                 })
+    //             }
+
+    //             return res.status(200).json({
+    //                 success: true,
+    //                 data: result
+    //             })
+    //         }
+    //     )
+}
+
+// Add the post to the user's diary
+const addDiaryPost = async (creator, phrase, translatedPhrase, note, sharedBy) => {
+    const affectedPost =
+        new DiaryPost({
+            creator,
+            phrase,
+            translatedPhrase,
+            note,
+            sharedBy
+        })
+            .save()
+
+    return affectedPost
+}
+
+// Delete a particular SharedDiaryPost
+const deleteSharedDiaryPost = async (_id, creator, post, recipient) => {
+    const deletedSharedDiaryPost =
+        SharedDiaryPost
+            .findOneAndRemove({
+                _id,
+                creator,
+                post,
+                recipient
+            })
+            .then(deletedSharedDiaryPost => {
+                console.log(deletedSharedDiaryPost)
+                return deletedSharedDiaryPost
+            })
 }
