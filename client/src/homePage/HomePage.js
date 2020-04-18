@@ -16,8 +16,9 @@ import { useDispatch } from 'react-redux'
 import { getFriendsAction, getFriendRequestsIssuedToMeAction } from '../redux/actions/friendsActions'
 import { getDiaryPostsAction, getDiaryPostsSharedWithMeAction } from '../redux/actions/diaryActions'
 import { getSharedDiaryPostsNotificationsAction, getReceivedFriendRequestsNotificationsAction } from '../redux/actions/notificationsActions'
+import { initIO } from '../utils/io'
 
-export default function HomePage(props) {
+export default function HomePage() {
     const classes = useStyles()
     const dispatch = useDispatch()
 
@@ -25,6 +26,10 @@ export default function HomePage(props) {
     const [drawerOpen, setDrawerOpen] = useState(false)
 
     useEffect(() => {
+        // Initiate IO connection with the server
+        initIO(dispatch)
+
+        // Fetch all required data
         dispatch(getFriendsAction())
         dispatch(getFriendRequestsIssuedToMeAction())
         dispatch(getReceivedFriendRequestsNotificationsAction())

@@ -6,14 +6,15 @@ module.exports.init = (ioObject) => {
     // Save the IO object
     io = ioObject
 
-    // Update the map of users who have connected
     io.on('connection', client => {
         client.on('subscribeToUpdates', (userDataString) => {
+            // Update the map of users who have connected
             let userData = JSON.parse(userDataString)
             userToIOMap[userData._id] = client.id
 
-            console.log(`${userData.username} with id ${client.id} is subscribing to updates`)
-            client.emit('timer', new Date())
+            // Subscription successful
+            console.log(`${userData.username} with client id ${client.id} is subscribing to updates.`)
+            client.emit('subscribed', 'Successfully subscribed to updates from the server.')
         })
     })
 }
