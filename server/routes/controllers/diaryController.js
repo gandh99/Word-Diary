@@ -234,7 +234,7 @@ const addDiaryPost = async (creator, phrase, translatedPhrase, note, sharedBy) =
 
 // Delete a particular SharedDiaryPost
 const deleteSharedDiaryPost = async (_id, creator, post, recipient) => {
-    // Manually build the query to check for nulls
+    // Manually build the query to remove null arguments
     let query = {}
     if (_id) query._id = _id
     if (creator) query.creator = creator
@@ -244,6 +244,6 @@ const deleteSharedDiaryPost = async (_id, creator, post, recipient) => {
     const deletedSharedDiaryPost =
         SharedDiaryPost
             .findOneAndRemove(query)
-
+            
     return deletedSharedDiaryPost
 }
