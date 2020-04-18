@@ -1,45 +1,24 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
-import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { Modal, Button } from 'react-bootstrap'
 import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
-import { userSearchAction } from '../redux/actions/friendsActions'
-import UserSearchCard from '../friends/UserSearchCard'
+import { getFriendsPostsAction } from '../redux/actions/diaryActions'
+import FriendsDiaryPost from './FriendsDiaryPost'
 
 export default function FriendsDiaryPostsModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const friend = useSelector(state => state.modalDisplay.friend)
+    const friendsPosts = useSelector(state => state.diary.friendsPosts)
 
-    // For showing/hiding the CustomSnackbar
-    const [showSnackbar, setShowSnackbar] = useState(false)
-    const [snackbarMessage, setSnackbarMessage] = useState('')
-    const [snackbarSeverity, setSnackbarSeverity] = useState('')
-
-    const [userList, setUserList] = useState([])
-    const userSearch = (searchString, done) => dispatch(userSearchAction(searchString, done))
-
-    const onSearch = (event, searchString) => {
-        event.preventDefault()
-
-        // Validate input
-        if (!inputIsValid(searchString)) {
-            setUserList([])
-            return
-        }
-
-        // Add the diary entry
-        userSearch(searchString, setUserList)
-    }
+    useEffect(() => {
+        dispatch(getFriendsPostsAction({ friendId: friend._id }))
+    }, [friend])
 
     const onHide = () => {
-        setUserList([])
         props.onHide()
-    }
-
-    const inputIsValid = (inputString) => {
-        return (inputString.length > 0)
     }
 
     return (
@@ -62,23 +41,15 @@ export default function FriendsDiaryPostsModal(props) {
                             input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
-                        onChange={(e) => {
-                            onSearch(e, e.target.value)
-                        }}
                     />
                 </div>
             </Modal.Header>
             <div className={classes.userResultsArea}>
                 <Modal.Body className={classes.modalBody}>
                     {
-                        userList.map(user =>
-                            <UserSearchCard
-                                user={user}
-                                showSnackbar={(message, severity) => {
-                                    setSnackbarMessage(message)
-                                    setSnackbarSeverity(severity)
-                                    setShowSnackbar(true)
-                                }}
+                        friendsPosts.map(post =>
+                            <FriendsDiaryPost
+                                post={post}
                             />
                         )
                     }
@@ -89,12 +60,6 @@ export default function FriendsDiaryPostsModal(props) {
                     Done
                 </Button>
             </Modal.Footer>
-            <CustomSnackbar
-                message={snackbarMessage}
-                show={showSnackbar}
-                setShowSnackbar={setShowSnackbar}
-                severity={snackbarSeverity}
-            />
         </Modal>
     )
 }

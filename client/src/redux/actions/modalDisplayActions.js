@@ -51,10 +51,10 @@ export const hideAddFriendModal = () => dispatch => {
     })
 }
 
-export const showFriendsDiaryPostsModal = () => dispatch => {
+export const showFriendsDiaryPostsModal = (friendData) => dispatch => {
     dispatch({
         type: SHOW_FRIENDS_DIARY_POSTS_MODAL,
-        payload: null
+        payload: friendData
     })
 }
 

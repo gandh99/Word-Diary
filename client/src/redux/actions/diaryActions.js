@@ -233,7 +233,7 @@ export const deleteSharedDiaryPostAction = (postData, done) => (dispatch, getSta
 
 export const getFriendsPostsAction = (friendData) => (dispatch, getState) => {
     axios
-        .get('/diary/get-friends-posts', friendData, tokenConfig(getState))
+        .get(`/diary/get-friends-posts/${friendData.friendId}`, friendData, tokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GET_FRIENDS_POSTS_SUCCESS,

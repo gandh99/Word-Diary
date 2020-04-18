@@ -10,11 +10,17 @@ import {
 } from '../actionTypes'
 
 const initialState = {
+    // For sharing a diary post
     displayShareDiaryPostModal: false,
     postToShare: {},
+
+    // For displaying a friend's diary posts
+    displayFriendsDiaryPostsModal: false,
+    friend: {},
+
+    // The rest
     displayAddDiaryPostModal: false,
     displayAddFriendModal: false,
-    displayFriendsDiaryPostsModal: false
 }
 
 export default function (state = initialState, action) {
@@ -54,6 +60,7 @@ export default function (state = initialState, action) {
         case SHOW_FRIENDS_DIARY_POSTS_MODAL:
             return {
                 ...state,
+                friend: action.payload,
                 displayFriendsDiaryPostsModal: true,
             }
         case HIDE_FRIENDS_DIARY_POSTS_MODAL:

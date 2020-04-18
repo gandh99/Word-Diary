@@ -41,7 +41,7 @@ export default function AcceptedFriendCard(props) {
                 </CardContent>
                 <div className={classes.footer}>
                     <Button
-                        onClick={() => dispatch(showFriendsDiaryPostsModal())}
+                        onClick={() => dispatch(showFriendsDiaryPostsModal(props.friend))}
                         startIcon={<MenuBookIcon className={classes.footerIcon} />}
                         className={classes.footerButton} >
                         Diary
