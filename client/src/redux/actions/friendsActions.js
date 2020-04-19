@@ -16,7 +16,7 @@ import {
 import { tokenConfig } from './authenticationActions'
 import { useErrorDispatch } from '../../utils/errorHandler'
 
-export const userSearchAction = (searchString, done) => (dispatch, getState) => {
+export const userSearchAction = (searchString) => (dispatch, getState) => {
     axios
         .get(`/friends/user-search/${searchString}`, tokenConfig(getState))
         .then(res => {
@@ -24,7 +24,6 @@ export const userSearchAction = (searchString, done) => (dispatch, getState) => 
                 type: USER_SEARCH_SUCCESS,
                 payload: res.data.data
             })
-            done(res.data.data)
         })
         .catch(err => {
             useErrorDispatch(

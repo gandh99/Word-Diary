@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import CustomSnackbar from '../reusableComponents/CustomSnackbar'
 import { Modal, Button } from 'react-bootstrap'
@@ -11,30 +11,26 @@ import UserSearchCard from './UserSearchCard'
 export default function AddFriendModal(props) {
     const classes = useStyles()
     const dispatch = useDispatch()
+    let userList = useSelector(state => state.friends.userSearchResults)
 
     // For showing/hiding the CustomSnackbar
     const [showSnackbar, setShowSnackbar] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('')
     const [snackbarSeverity, setSnackbarSeverity] = useState('')
 
-    const [userList, setUserList] = useState([])
-    const userSearch = (searchString, done) => dispatch(userSearchAction(searchString, done))
-
     const onSearch = (event, searchString) => {
         event.preventDefault()
 
         // Validate input
         if (!inputIsValid(searchString)) {
-            setUserList([])
             return
         }
 
         // Add the diary entry
-        userSearch(searchString, setUserList)
+        dispatch(userSearchAction(searchString))
     }
 
     const onHide = () => {
-        setUserList([])
         props.onHide()
     }
 
