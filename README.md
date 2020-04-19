@@ -46,7 +46,7 @@ A MERN application to record new words that you learn.
 
 **6. Word Diary becomes more interesting when you add your friends. Currently you have none.**
 
-<img src="https://github.com/gandh99/Word-Diary/blob/master/screenshots/friends_page_all.png" alt="alt text" width="100%" height="50%">
+<img src="https://github.com/gandh99/Word-Diary/blob/master/screenshots/friends_page_all_1.png" alt="alt text" width="100%" height="50%">
 
 **7. Use the floating action button on the bottom right hand corner to search for a user and send a friend request.**
 
