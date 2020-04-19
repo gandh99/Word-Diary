@@ -13,7 +13,8 @@ import { logoutUserAction } from '../redux/actions/authenticationActions'
 import { useDispatch, useSelector } from 'react-redux'
 import AlertCountBadge from '../reusableComponents/AlertCountBadge'
 import AccountCircle from '../images/account_circle.png'
-import HeaderBackground from '../images/header.jpg'
+import HeaderBackground from '../images/header.png'
+// import HeaderBackground from '../images/header.jpg'
 
 export default function DrawerMenu(props) {
     const { container } = props
@@ -48,7 +49,7 @@ export default function DrawerMenu(props) {
                     {user ? user.username : 'Not logged in'}
                 </div>
             </div>
-            <Divider />
+            {/* <Divider /> */}
             <List className={classes.body}>
                 <Link to={'/'} style={{ textDecoration: 'none' }} className={classes.link}>
                     <ListItem
@@ -154,6 +155,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         padding: '1.5rem',
         backgroundImage: headerImage,
+        // backgroundSize: 'cover',
         border: 'none'
     },
     displayPictureArea: {
