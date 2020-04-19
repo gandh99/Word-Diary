@@ -8,7 +8,12 @@
     "server": "nodemon server.js",
     "authServer": "nodemon authServer.js",
     "client": "cd ../client/ && npm start",
+<<<<<<< HEAD
     "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run client\""
+=======
+    "dev": "concurrently \"npm run server\" \"npm run authServer\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ../client && npm install && npm run build"
+>>>>>>> e594aeb7bfceb7fd82061575df53198cfad5b23b
   },
   "author": "Gan Ding Han",
   "license": "ISC",
