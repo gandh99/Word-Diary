@@ -30,7 +30,7 @@ A MERN application to record new words that you learn.
 **2. The homepage of Word Diary, available in both Desktop and Mobile versions.**
 
 <img src="https://github.com/gandh99/Word-Diary/blob/master/screenshots/home_desktop.png" alt="alt text" width="100%" height="50%">
-<img src="https://github.com/gandh99/Word-Diary/blob/master/screenshots/home_mobile.png" alt="alt text" width="100%" height="50%">
+<img src="https://github.com/gandh99/Word-Diary/blob/master/screenshots/home_mobile.png" alt="alt text" width="30%" height="50%">
 
 **3. The friends page.**
 
